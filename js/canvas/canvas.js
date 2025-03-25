@@ -17,9 +17,9 @@ class Canvas {
 		const canvas = document.createElement("canvas");
 		
 		canvas.id = GAME_WINDOW_CANVAS_ID;
-		canvas.width = GAME_WIDTH;
-		canvas.height = GAME_HEIGHT;
-		canvas.style.width = (GAME_WIDTH*GAME_SCREEN_SCALE) + "px";
+		canvas.width = BASE_GAME_WINDOW_WIDTH;
+		canvas.height = BASE_GAME_WINDOW_HEIGHT;
+		canvas.style.width = (BASE_GAME_WINDOW_WIDTH*GAME_WINDOW_SCALE) + "px";
 		canvas.style.height = "auto";
 		canvas.style.imageRendering = "pixelated";
 

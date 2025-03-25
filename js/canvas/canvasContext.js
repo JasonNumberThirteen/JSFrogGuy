@@ -5,13 +5,13 @@ class CanvasContext {
 	constructor(canvas) {
 		this.#context = canvas.getContext("2d");
 		this.#context.font = GAME_FONT_SIZE + GAME_FONT_UNIT + " '" + GAME_FONT + "'";
-		this.#creditsText = new TextUI("© JASON 2025", new Point(GAME_WIDTH*0.5, GAME_HEIGHT - 8), BLACK_COLOR, "center");
+		this.#creditsText = new TextUI("© JASON 2025", new Point(BASE_GAME_WINDOW_WIDTH*0.5, BASE_GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, "center");
 	}
 
 	clear() {
-		this.#context.fillStyle = GAME_BACKGROUND_COLOR;
+		this.#context.fillStyle = PALE_YELLOW_COLOR;
 
-		this.#context.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		this.#context.fillRect(0, 0, BASE_GAME_WINDOW_WIDTH, BASE_GAME_WINDOW_HEIGHT);
 		this.drawLabel(this.#creditsText.getLabel());
 	}
 
