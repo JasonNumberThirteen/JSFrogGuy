@@ -1,6 +1,6 @@
 class Game {
 	#canvas;
-	
+
 	constructor() {
 		this.#canvas = new Canvas();
 		
