@@ -1,6 +1,7 @@
 class CanvasContext {
 	#context;
 	#gameLogo;
+	#startGameText;
 	#creditsText;
 
 	constructor(canvas) {
@@ -10,6 +11,7 @@ class CanvasContext {
 		this.#gameLogo = new Image();
 		this.#gameLogo.src = "assets/sprites/gameLogo.png";
 
+		this.#startGameText = new TextUI("START GAME", new Point(BASE_GAME_WINDOW_WIDTH*0.5, BASE_GAME_WINDOW_HEIGHT - 32), BLACK_COLOR, "center");
 		this.#creditsText = new TextUI("© JASON 2025", new Point(BASE_GAME_WINDOW_WIDTH*0.5, BASE_GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, "center");
 	}
 
@@ -18,6 +20,7 @@ class CanvasContext {
 
 		this.#context.fillRect(0, 0, BASE_GAME_WINDOW_WIDTH, BASE_GAME_WINDOW_HEIGHT);
 		this.#context.drawImage(this.#gameLogo, BASE_GAME_WINDOW_WIDTH*0.5 - this.#gameLogo.width*0.5, BASE_GAME_WINDOW_HEIGHT*0.5 - this.#gameLogo.height*0.5);
+		this.drawLabel(this.#startGameText.getLabel());
 		this.drawLabel(this.#creditsText.getLabel());
 	}
 
