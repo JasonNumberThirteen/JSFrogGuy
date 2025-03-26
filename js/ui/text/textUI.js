@@ -27,6 +27,14 @@ class TextUI {
 		this.#alignment = alignment;
 	}
 
+	getPosition() {
+		return this.#position;
+	}
+
+	getWidth() {
+		return this.#text.length*GAME_FONT_SIZE;
+	}
+
 	getFillStyle() {
 		return this.#fillStyle;
 	}

@@ -1,6 +1,7 @@
 class CanvasContext {
 	#context;
 	#gameLogo;
+	#mainMenuCursor;
 	#startGameText;
 	#creditsText;
 
@@ -13,6 +14,8 @@ class CanvasContext {
 		this.#creditsText = new TextUI("© JASON 2025", new Point(BASE_GAME_WINDOW_WIDTH*0.5, BASE_GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, "center");
 
 		this.#gameLogo.setPosition(new Point(BASE_GAME_WINDOW_WIDTH*0.5 - this.#gameLogo.getImage().width*0.5, BASE_GAME_WINDOW_HEIGHT*0.5 - this.#gameLogo.getImage().height*0.5));
+		
+		this.#mainMenuCursor = new SpriteUI("assets/sprites/mainMenuCursor.png", new Point(this.#startGameText.getWidth() - GAME_FONT_SIZE, BASE_GAME_WINDOW_HEIGHT*0.5 + this.#gameLogo.getImage().height));
 	}
 
 	update(dt) {
@@ -24,6 +27,7 @@ class CanvasContext {
 
 		this.#context.fillRect(0, 0, BASE_GAME_WINDOW_WIDTH, BASE_GAME_WINDOW_HEIGHT);
 		this.drawImage(this.#gameLogo);
+		this.drawImage(this.#mainMenuCursor);
 		this.drawLabel(this.#startGameText.getLabel());
 		this.drawLabel(this.#creditsText.getLabel());
 	}
