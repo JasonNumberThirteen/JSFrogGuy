@@ -1,4 +1,6 @@
-# Frogger
+# Frog Guy
+<p align = "center"><img src="./assets/sprites/gameLogo.png?raw=true" alt = "Rumble In The Factory"/></p>
+
 > A clone of popular game written in pure JS using HTML canvas & CSS.
 
 ## Table of Contents
@@ -7,7 +9,7 @@
 * [Credits](#credits)
 
 ## General information
-- This is a simple clone of "Frogger" game originally made by Sega in 1981. It was written in pure JavaScript with a little help of HTML5 and CSS code. It uses HTML canvas for drawing graphics and JS code for mechanics.
+- This is a simple clone of "**Frogger**" game originally made by [Sega](https://en.wikipedia.org/wiki/Sega) in 1981. It was written in pure JavaScript with a little help of HTML5 and CSS code. It uses HTML canvas for drawing graphics and JS code for mechanics.
 - The project presents my programming skills how I do write code taking care of several optimisations.
 - The player controls the frog which must reach the top of the screen crossing the road and the river.
 - Win condition: the player reached the top of the screen.
