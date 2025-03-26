@@ -9,8 +9,9 @@ class Canvas {
 		document.body.appendChild(this.#canvas);
 	}
 
-	update(timeStamp) {
-		this.#context.clear();
+	update(dt) {
+		this.#context.update(dt);
+		this.#context.draw();
 	}
 
 	#createCanvas() {

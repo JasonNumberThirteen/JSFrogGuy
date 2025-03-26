@@ -27,6 +27,10 @@ class TextUI {
 		this.#alignment = alignment;
 	}
 
+	getFillStyle() {
+		return this.#fillStyle;
+	}
+
 	getLabel() {
 		return {text: this.#text, position: this.#position, fillStyle: this.#fillStyle, alignment: this.#alignment};
 	}
