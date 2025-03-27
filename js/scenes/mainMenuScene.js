@@ -1,13 +1,14 @@
 class MainMenuScene extends Scene {
+	gameStartedEvent = new GameEvent();
+	
 	#canvasContext;
 	#gameLogoSpriteUI;
 	#mainMenuCursorSpriteUI;
 	#startGameTextUI;
 	#creditsTextUI;
+	#inputIsLocked = false;
 
-	constructor() {
-		super();
-		
+	init() {
 		this.#gameLogoSpriteUI = new SpriteUI(GAME_LOGO_SPRITE_FILENAME, new Point());
 		this.#startGameTextUI = new StartGameTextUI();
 		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, CENTER_KEY);
@@ -34,9 +35,13 @@ class MainMenuScene extends Scene {
 	}
 
 	processInput(key) {
-		if(key === GAME_START_KEY) {
-			console.log("Game is started!");
+		if(key !== GAME_START_KEY || this.#inputIsLocked) {
+			return;
 		}
+
+		this.#inputIsLocked = true;
+
+		this.gameStartedEvent.invoke();
 	}
 
 	#getCanvasContext() {

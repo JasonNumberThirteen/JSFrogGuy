@@ -1,14 +1,18 @@
 class StartGameTextUI extends TextUI {
 	#initialColor;
+	#colorToBlink;
 	#blinkTimer;
 	
 	constructor() {
 		super(START_GAME_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 32), BLACK_COLOR, CENTER_KEY);
 
 		this.#initialColor = this.getFillStyle();
+		this.#colorToBlink = ORANGE_COLOR;
 		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY);
 
 		this.#blinkTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+
+		Frogger.getSceneManager().getSceneByKey("MAIN_MENU").gameStartedEvent.addListener(this.#onGameStarted.bind(this));
 	}
 
 	update(deltaTime) {
@@ -23,6 +27,12 @@ class StartGameTextUI extends TextUI {
 	#switchColor() {
 		const textHasInitialColor = this.getFillStyle() === this.#initialColor;
 		
-		this.setFillStyle(textHasInitialColor ? ORANGE_COLOR : this.#initialColor);
+		this.setFillStyle(textHasInitialColor ? this.#colorToBlink : this.#initialColor);
+	}
+
+	#onGameStarted() {
+		this.#colorToBlink = RED_COLOR;
+		
+		this.#blinkTimer.startTimerWithSetDuration(START_GAME_TEXT_UI_BLINK_DELAY_ON_GAME_START);
 	}
 }

@@ -4,12 +4,10 @@ class SceneManager {
 		MAIN_MENU: new MainMenuScene()
 	};
 
-	constructor() {
-		this.switchScene("MAIN_MENU");
-	}
-
 	switchScene(key) {
 		this.#currentScene = this.#scenes[key];
+
+		this.#currentScene.init();
 	}
 
 	updateScene(deltaTime) {
@@ -22,5 +20,9 @@ class SceneManager {
 
 	processInputInScene(key) {
 		this.#currentScene.processInput(key);
+	}
+
+	getSceneByKey(key) {
+		return this.#scenes[key];
 	}
 }

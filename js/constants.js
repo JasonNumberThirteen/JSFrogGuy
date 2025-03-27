@@ -20,6 +20,7 @@ const START_GAME_TEXT = "START GAME";
 const CREDITS_TEXT = "© JASON 2025";
 
 // COLOR KEYS
+const RED_COLOR = "#f00";
 const BLACK_COLOR = "#000";
 const ORANGE_COLOR = "#e09000";
 const PALE_YELLOW_COLOR = "#ffefaf";
@@ -33,3 +34,4 @@ const GAME_FPS = 60;
 const CENTER_KEY = "center";
 const PIXELS_UNIT = "px";
 const START_GAME_TEXT_UI_BLINK_DELAY = 1;
+const START_GAME_TEXT_UI_BLINK_DELAY_ON_GAME_START = 0.03125;

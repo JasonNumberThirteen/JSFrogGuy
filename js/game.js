@@ -13,6 +13,10 @@ class Game {
 		this.#refresh();
 	}
 
+	init() {
+		this.#sceneManager.switchScene("MAIN_MENU");
+	}
+
 	getCanvasContext() {
 		return this.#canvas.getContext();
 	}
