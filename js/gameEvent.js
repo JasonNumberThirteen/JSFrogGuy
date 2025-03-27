@@ -5,7 +5,7 @@ class GameEvent {
 		this.#listeners.push(listener);
 	}
 
-	invoke() {
-		this.#listeners.forEach((listener) => listener());
+	invoke(parameters) {
+		this.#listeners.forEach((listener) => listener(parameters));
 	}
 }

@@ -9,6 +9,8 @@ const GAME_FONT_SIZE = 8;
 const GAME_FONT_UNIT = "px";
 const GAME_FONT = "Press Start 2P";
 
+const GAME_START_KEY = "enter";
+
 const BLACK_COLOR = "#000";
 const ORANGE_COLOR = "#e09000";
 const PALE_YELLOW_COLOR = "#ffefaf";

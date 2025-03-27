@@ -1,10 +1,13 @@
 class Game {
 	#canvas;
 	#previousTimeStamp = 0;
+	#input;
 
 	constructor() {
 		this.#canvas = new Canvas();
-		
+		this.#input = new Input();
+
+		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
 	}
 
@@ -24,5 +27,11 @@ class Game {
 
 	#refresh() {
 		window.requestAnimationFrame(this.#update.bind(this));
+	}
+
+	#onKeyPressed(parameters) {
+		if(parameters.key === GAME_START_KEY) {
+			console.log("Game is started!");
+		}
 	}
 }
