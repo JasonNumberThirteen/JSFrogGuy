@@ -1,6 +1,7 @@
 class Canvas {
 	#canvas;
 	#context;
+	#sceneManager;
 
 	constructor() {
 		this.#canvas = this.#createCanvas();
@@ -10,8 +11,14 @@ class Canvas {
 	}
 
 	update(deltaTime) {
-		this.#context.update(deltaTime);
-		this.#context.draw();
+		const sceneManager = this.#getSceneManager();
+		
+		sceneManager.updateScene(deltaTime);
+		sceneManager.drawScene();
+	}
+
+	getContext() {
+		return this.#context.getContext();
 	}
 
 	#createCanvas() {
@@ -25,5 +32,13 @@ class Canvas {
 		canvas.style.imageRendering = GAME_WINDOW_CANVAS_IMAGE_RENDERING;
 
 		return canvas;
+	}
+
+	#getSceneManager() {
+		if(typeof(this.#sceneManager) === "undefined") {
+			this.#sceneManager = Frogger.getSceneManager();
+		}
+
+		return this.#sceneManager;
 	}
 }

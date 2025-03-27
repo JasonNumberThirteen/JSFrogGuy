@@ -2,13 +2,23 @@ class Game {
 	#canvas;
 	#input;
 	#previousTimeStamp = 0;
+	#sceneManager;
 
 	constructor() {
 		this.#canvas = new Canvas();
 		this.#input = new Input();
+		this.#sceneManager = new SceneManager();
 
 		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
+	}
+
+	getCanvasContext() {
+		return this.#canvas.getContext();
+	}
+
+	getSceneManager() {
+		return this.#sceneManager;
 	}
 
 	#update(timeStamp) {
@@ -30,8 +40,6 @@ class Game {
 	}
 
 	#onKeyPressed(parameters) {
-		if(parameters.key === GAME_START_KEY) {
-			console.log("Game is started!");
-		}
+		this.#sceneManager.processInputInScene(parameters.key);
 	}
 }
