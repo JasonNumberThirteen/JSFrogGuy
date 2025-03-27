@@ -6,6 +6,8 @@ class MainMenuScene extends Scene {
 	#mainMenuCursorSpriteUI;
 	#startGameTextUI;
 	#creditsTextUI;
+	#fadeScreenUI;
+	#gameStartTimer;
 	#inputIsLocked = false;
 
 	init() {
@@ -16,10 +18,16 @@ class MainMenuScene extends Scene {
 		this.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - this.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - this.#gameLogoSpriteUI.getImage().height*0.5));
 		
 		this.#mainMenuCursorSpriteUI = new SpriteUI(MAIN_MENU_CURSOR_SPRITE_FILENAME, new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
+		this.#fadeScreenUI = new FadeScreenUI();
+		this.#gameStartTimer = new Timer(1, false);
+
+		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
 
 	update(deltaTime) {
 		this.#startGameTextUI.update(deltaTime);
+		this.#fadeScreenUI.update(deltaTime);
+		this.#gameStartTimer.update(deltaTime);
 	}
 
 	draw() {
@@ -32,6 +40,7 @@ class MainMenuScene extends Scene {
 		this.#drawImage(this.#mainMenuCursorSpriteUI);
 		this.#drawLabel(this.#startGameTextUI.getLabel());
 		this.#drawLabel(this.#creditsTextUI.getLabel());
+		this.#fadeScreenUI.draw();
 	}
 
 	processInput(key) {
@@ -42,6 +51,7 @@ class MainMenuScene extends Scene {
 		this.#inputIsLocked = true;
 
 		this.gameStartedEvent.invoke();
+		this.#gameStartTimer.startTimer();
 	}
 
 	#getCanvasContext() {
@@ -65,5 +75,9 @@ class MainMenuScene extends Scene {
 		canvasContext.textAlign = label.alignment;
 
 		canvasContext.fillText(label.text, label.position.x, label.position.y);
+	}
+
+	#onTimerFinished() {
+		this.#fadeScreenUI.startFading();
 	}
 }

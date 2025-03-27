@@ -2,12 +2,16 @@ class Timer {
 	timerFinishedEvent = new GameEvent();
 	
 	#duration;
-	#currentTime;
-	#timerWasStarted;
-	#timerWasFinished;
+	#currentTime = 0;
+	#timerWasStarted = false;
+	#timerWasFinished = false;
 
-	constructor(duration) {
-		this.startTimerWithSetDuration(duration);
+	constructor(duration, startImmediately) {
+		if(typeof(startImmediately) === "undefined" || startImmediately) {
+			this.startTimerWithSetDuration(duration);
+		} else if(typeof(startImmediately) !== "undefined" && !startImmediately) {
+			this.setDuration(duration);
+		}
 	}
 
 	startTimerWithSetDuration(duration) {
