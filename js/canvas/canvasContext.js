@@ -1,35 +1,35 @@
 class CanvasContext {
 	#context;
-	#gameLogo;
-	#mainMenuCursor;
-	#startGameText;
-	#creditsText;
+	#gameLogoSpriteUI;
+	#mainMenuCursorSpriteUI;
+	#startGameTextUI;
+	#creditsTextUI;
 
 	constructor(canvas) {
 		this.#context = canvas.getContext("2d");
-		this.#context.font = GAME_FONT_SIZE + GAME_FONT_UNIT + " '" + GAME_FONT + "'";
+		this.#context.font = GAME_FONT_SIZE + PIXELS_UNIT + " '" + GAME_FONT_NAME + "'";
 
-		this.#gameLogo = new SpriteUI("assets/sprites/gameLogo.png", new Point());
-		this.#startGameText = new StartGameTextUI();
-		this.#creditsText = new TextUI("© JASON 2025", new Point(BASE_GAME_WINDOW_WIDTH*0.5, BASE_GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, "center");
+		this.#gameLogoSpriteUI = new SpriteUI(GAME_LOGO_SPRITE_FILENAME, new Point());
+		this.#startGameTextUI = new StartGameTextUI();
+		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, CENTER_KEY);
 
-		this.#gameLogo.setPosition(new Point(BASE_GAME_WINDOW_WIDTH*0.5 - this.#gameLogo.getImage().width*0.5, BASE_GAME_WINDOW_HEIGHT*0.5 - this.#gameLogo.getImage().height*0.5));
+		this.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - this.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - this.#gameLogoSpriteUI.getImage().height*0.5));
 		
-		this.#mainMenuCursor = new SpriteUI("assets/sprites/mainMenuCursor.png", new Point(this.#startGameText.getWidth() - GAME_FONT_SIZE, BASE_GAME_WINDOW_HEIGHT*0.5 + this.#gameLogo.getImage().height));
+		this.#mainMenuCursorSpriteUI = new SpriteUI(MAIN_MENU_CURSOR_SPRITE_FILENAME, new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
 	}
 
-	update(dt) {
-		this.#startGameText.update(dt);
+	update(deltaTime) {
+		this.#startGameTextUI.update(deltaTime);
 	}
 
 	draw() {
 		this.#context.fillStyle = PALE_YELLOW_COLOR;
 
-		this.#context.fillRect(0, 0, BASE_GAME_WINDOW_WIDTH, BASE_GAME_WINDOW_HEIGHT);
-		this.drawImage(this.#gameLogo);
-		this.drawImage(this.#mainMenuCursor);
-		this.drawLabel(this.#startGameText.getLabel());
-		this.drawLabel(this.#creditsText.getLabel());
+		this.#context.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+		this.drawImage(this.#gameLogoSpriteUI);
+		this.drawImage(this.#mainMenuCursorSpriteUI);
+		this.drawLabel(this.#startGameTextUI.getLabel());
+		this.drawLabel(this.#creditsTextUI.getLabel());
 	}
 
 	drawImage(image) {

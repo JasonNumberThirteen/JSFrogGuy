@@ -19,13 +19,13 @@ class Timer {
 		this.setAsFinished(false);
 	}
 
-	update(dt) {
+	update(deltaTime) {
 		if(!this.#timerWasStarted) {
 			return;
 		}
 
 		if(this.#currentTime < this.#duration) {
-			this.#currentTime += dt;
+			this.#currentTime += deltaTime;
 		} else if(!this.#timerWasFinished) {
 			this.#finish();
 		}

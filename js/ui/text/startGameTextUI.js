@@ -1,9 +1,9 @@
 class StartGameTextUI extends TextUI {
-	#blinkTimer;
 	#initialColor;
+	#blinkTimer;
 	
 	constructor() {
-		super("START GAME", new Point(BASE_GAME_WINDOW_WIDTH*0.5, BASE_GAME_WINDOW_HEIGHT - 32), BLACK_COLOR, "center");
+		super(START_GAME_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 32), BLACK_COLOR, CENTER_KEY);
 
 		this.#initialColor = this.getFillStyle();
 		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY);
@@ -11,8 +11,8 @@ class StartGameTextUI extends TextUI {
 		this.#blinkTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
 
-	update(dt) {
-		this.#blinkTimer.update(dt);
+	update(deltaTime) {
+		this.#blinkTimer.update(deltaTime);
 	}
 
 	#onTimerFinished() {

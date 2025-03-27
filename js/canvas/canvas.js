@@ -9,8 +9,8 @@ class Canvas {
 		document.body.appendChild(this.#canvas);
 	}
 
-	update(dt) {
-		this.#context.update(dt);
+	update(deltaTime) {
+		this.#context.update(deltaTime);
 		this.#context.draw();
 	}
 
@@ -18,11 +18,11 @@ class Canvas {
 		const canvas = document.createElement("canvas");
 		
 		canvas.id = GAME_WINDOW_CANVAS_ID;
-		canvas.width = BASE_GAME_WINDOW_WIDTH;
-		canvas.height = BASE_GAME_WINDOW_HEIGHT;
-		canvas.style.width = (BASE_GAME_WINDOW_WIDTH*GAME_WINDOW_SCALE) + "px";
+		canvas.width = GAME_WINDOW_WIDTH;
+		canvas.height = GAME_WINDOW_HEIGHT;
+		canvas.style.width = (GAME_WINDOW_WIDTH*GAME_WINDOW_SCALE) + PIXELS_UNIT;
 		canvas.style.height = "auto";
-		canvas.style.imageRendering = "pixelated";
+		canvas.style.imageRendering = GAME_WINDOW_CANVAS_IMAGE_RENDERING;
 
 		return canvas;
 	}

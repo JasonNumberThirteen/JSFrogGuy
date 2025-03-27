@@ -2,7 +2,7 @@ class Input {
 	keyPressedEvent = new GameEvent();
 	
 	constructor() {
-		document.addEventListener("keydown", this.#onKeyDown.bind(this), false);
+		document.addEventListener(KEYDOWN_KEY, this.#onKeyDown.bind(this), false);
 	}
 
 	#onKeyDown(event) {
