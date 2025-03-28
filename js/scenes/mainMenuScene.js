@@ -38,8 +38,8 @@ class MainMenuScene extends Scene {
 		canvasContext.fillStyle = PALE_YELLOW_COLOR;
 
 		canvasContext.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
-		this.#drawImage(this.#gameLogoSpriteUI);
-		this.#drawImage(this.#mainMenuCursorSpriteUI);
+		this.#gameLogoSpriteUI.draw();
+		this.#mainMenuCursorSpriteUI.draw();
 		this.#startGameTextUI.draw();
 		this.#creditsTextUI.draw();
 		this.#fadeScreenUI.draw();
@@ -62,12 +62,6 @@ class MainMenuScene extends Scene {
 		}
 
 		return this.#canvasContext;
-	}
-
-	#drawImage(image) {
-		const position = image.getPosition();
-		
-		this.#getCanvasContext().drawImage(image.getImage(), position.x, position.y);
 	}
 
 	#onTimerFinished() {
