@@ -17,7 +17,7 @@ class MainMenuScene extends Scene {
 
 		this.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - this.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - this.#gameLogoSpriteUI.getImage().height*0.5));
 		
-		this.#mainMenuCursorSpriteUI = new SpriteUI(MAIN_MENU_CURSOR_SPRITE_FILENAME, new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
+		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI(new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
 		this.#fadeScreenUI = new FadeScreenUI();
 		this.#gameStartTimer = new Timer(1, false);
 
@@ -26,6 +26,7 @@ class MainMenuScene extends Scene {
 
 	update(deltaTime) {
 		this.#startGameTextUI.update(deltaTime);
+		this.#mainMenuCursorSpriteUI.update(deltaTime);
 		this.#fadeScreenUI.update(deltaTime);
 		this.#gameStartTimer.update(deltaTime);
 	}

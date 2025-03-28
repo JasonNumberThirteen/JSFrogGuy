@@ -1,6 +1,7 @@
 class Game {
 	#canvas;
 	#input;
+	#currentTimeStamp = 0;
 	#previousTimeStamp = 0;
 	#sceneManager;
 
@@ -17,6 +18,10 @@ class Game {
 		this.#sceneManager.switchScene("MAIN_MENU");
 	}
 
+	getCurrentTime() {
+		return this.#currentTimeStamp*0.001;
+	}
+
 	getCanvasContext() {
 		return this.#canvas.getContext();
 	}
@@ -26,12 +31,14 @@ class Game {
 	}
 
 	#update(timeStamp) {
+		this.#currentTimeStamp = timeStamp;
+		
 		const milliseconds = 1000 / GAME_FPS;
-		const timeStampsDifference = timeStamp - this.#previousTimeStamp;
+		const timeStampsDifference = this.#currentTimeStamp - this.#previousTimeStamp;
 		const deltaTime = timeStampsDifference*0.001;
 
 		if(timeStampsDifference >= milliseconds) {
-			this.#previousTimeStamp = timeStamp;
+			this.#previousTimeStamp = this.#currentTimeStamp;
 
 			this.#canvas.update(deltaTime);
 		}
