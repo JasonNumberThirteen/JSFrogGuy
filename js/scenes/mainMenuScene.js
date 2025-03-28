@@ -4,6 +4,7 @@ class MainMenuScene extends Scene {
 	#gameLogoSpriteUI;
 	#mainMenuCursorSpriteUI;
 	#playerScoreIntCounterGroupUI;
+	#highScoreIntCounterGroupUI;
 	#startGameTextUI;
 	#creditsTextUI;
 	#fadeScreenUI;
@@ -23,6 +24,7 @@ class MainMenuScene extends Scene {
 		
 		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI(new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
+		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		
 		this.#fadeScreenUI = new FadeScreenUI();
 		this.#gameStartTimer = new Timer(1, false);
@@ -43,6 +45,7 @@ class MainMenuScene extends Scene {
 		this.#gameLogoSpriteUI.draw();
 		this.#mainMenuCursorSpriteUI.draw();
 		this.#playerScoreIntCounterGroupUI.draw();
+		this.#highScoreIntCounterGroupUI.draw();
 		this.#startGameTextUI.draw();
 		this.#creditsTextUI.draw();
 		this.#fadeScreenUI.draw();
