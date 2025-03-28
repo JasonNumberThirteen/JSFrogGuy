@@ -7,9 +7,11 @@ class Timer {
 	#timerWasFinished = false;
 
 	constructor(duration, startImmediately) {
-		if(typeof(startImmediately) === "undefined" || startImmediately) {
+		startImmediately = startImmediately || false;
+		
+		if(startImmediately) {
 			this.startTimerWithSetDuration(duration);
-		} else if(typeof(startImmediately) !== "undefined" && !startImmediately) {
+		} else {
 			this.setDuration(duration);
 		}
 	}

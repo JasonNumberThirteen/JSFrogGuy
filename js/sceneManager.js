@@ -1,7 +1,8 @@
 class SceneManager {
 	#currentScene;
 	#scenes = {
-		MAIN_MENU: new MainMenuScene()
+		MAIN_MENU: new MainMenuScene(),
+		GAME: new GameScene()
 	};
 
 	switchScene(key) {

@@ -23,6 +23,7 @@ const CREDITS_TEXT = "© JASON 2025";
 const RED_COLOR = "#f00";
 const BLACK_COLOR = "#000";
 const ORANGE_COLOR = "#e09000";
+const DARK_BLUE_COLOR = "#004";
 const PALE_YELLOW_COLOR = "#ffefaf";
 
 // SPRITE FILENAMES

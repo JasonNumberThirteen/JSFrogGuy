@@ -22,6 +22,7 @@ class MainMenuScene extends Scene {
 		this.#gameStartTimer = new Timer(1, false);
 
 		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		this.#fadeScreenUI.fadeFinishedEvent.addListener(this.#onFadeFinished.bind(this));
 	}
 
 	update(deltaTime) {
@@ -80,5 +81,9 @@ class MainMenuScene extends Scene {
 
 	#onTimerFinished() {
 		this.#fadeScreenUI.startFading();
+	}
+
+	#onFadeFinished() {
+		FrogGuy.getSceneManager().switchScene("GAME");
 	}
 }
