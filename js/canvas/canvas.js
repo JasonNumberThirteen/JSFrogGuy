@@ -36,7 +36,7 @@ class Canvas {
 
 	#getSceneManager() {
 		if(typeof(this.#sceneManager) === "undefined") {
-			this.#sceneManager = Frogger.getSceneManager();
+			this.#sceneManager = FrogGuy.getSceneManager();
 		}
 
 		return this.#sceneManager;

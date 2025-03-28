@@ -12,7 +12,7 @@ class StartGameTextUI extends TextUI {
 
 		this.#blinkTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 
-		Frogger.getSceneManager().getSceneByKey("MAIN_MENU").gameStartedEvent.addListener(this.#onGameStarted.bind(this));
+		FrogGuy.getSceneManager().getSceneByKey("MAIN_MENU").gameStartedEvent.addListener(this.#onGameStarted.bind(this));
 	}
 
 	update(deltaTime) {

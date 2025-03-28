@@ -1,7 +1,7 @@
-let Frogger;
+let FrogGuy;
 
 function initGame() {
-	Frogger = new Game();
+	FrogGuy = new Game();
 
-	Frogger.init();
+	FrogGuy.init();
 }

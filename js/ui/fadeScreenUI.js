@@ -24,7 +24,7 @@ class FadeScreenUI {
 
 	#getCanvasContext() {
 		if(typeof(this.#canvasContext) === "undefined") {
-			this.#canvasContext = Frogger.getCanvasContext();
+			this.#canvasContext = FrogGuy.getCanvasContext();
 		}
 
 		return this.#canvasContext;
