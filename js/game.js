@@ -22,6 +22,10 @@ class Game {
 		return this.#currentTimeStamp*0.001;
 	}
 
+	getCanvas() {
+		return this.#canvas;
+	}
+
 	getCanvasContext() {
 		return this.#canvas.getContext();
 	}

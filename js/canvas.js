@@ -5,7 +5,7 @@ class Canvas {
 
 	constructor() {
 		this.#canvas = this.#createCanvas();
-		this.#context = new CanvasContext(this.#canvas);
+		this.#context = this.#createCanvasContext();
 
 		document.body.appendChild(this.#canvas);
 	}
@@ -17,8 +17,14 @@ class Canvas {
 		sceneManager.drawScene();
 	}
 
+	clearScreen(color) {
+		this.#context.fillStyle = color;
+
+		this.#context.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+	}
+
 	getContext() {
-		return this.#context.getContext();
+		return this.#context;
 	}
 
 	#createCanvas() {
@@ -32,6 +38,14 @@ class Canvas {
 		canvas.style.imageRendering = GAME_WINDOW_CANVAS_IMAGE_RENDERING;
 
 		return canvas;
+	}
+
+	#createCanvasContext() {
+		const context = this.#canvas.getContext("2d");
+
+		context.font = GAME_FONT_SIZE + PIXELS_UNIT + " '" + GAME_FONT_NAME + "'";
+		
+		return context;
 	}
 
 	#getSceneManager() {

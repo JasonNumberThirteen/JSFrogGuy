@@ -1,6 +1,9 @@
 class GameScene extends Scene {
 	#fadeScreenUI;
-	#canvasContext;
+
+	constructor() {
+		super(DARK_BLUE_COLOR);
+	}
 
 	init() {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
@@ -11,19 +14,7 @@ class GameScene extends Scene {
 	}
 
 	draw() {
-		var canvasContext = this.#getCanvasContext();
-		
-		canvasContext.fillStyle = DARK_BLUE_COLOR;
-
-		canvasContext.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+		this.clearScreen();
 		this.#fadeScreenUI.draw();
-	}
-
-	#getCanvasContext() {
-		if(typeof(this.#canvasContext) === "undefined") {
-			this.#canvasContext = FrogGuy.getCanvasContext();
-		}
-
-		return this.#canvasContext;
 	}
 }

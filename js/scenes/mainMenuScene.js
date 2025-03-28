@@ -1,7 +1,6 @@
 class MainMenuScene extends Scene {
 	gameStartedEvent = new GameEvent();
 	
-	#canvasContext;
 	#gameLogoSpriteUI;
 	#mainMenuCursorSpriteUI;
 	#startGameTextUI;
@@ -9,6 +8,10 @@ class MainMenuScene extends Scene {
 	#fadeScreenUI;
 	#gameStartTimer;
 	#inputIsLocked = false;
+
+	constructor() {
+		super(PALE_YELLOW_COLOR);
+	}
 
 	init() {
 		this.#gameLogoSpriteUI = new SpriteUI(GAME_LOGO_SPRITE_FILENAME, new Point());
@@ -33,11 +36,7 @@ class MainMenuScene extends Scene {
 	}
 
 	draw() {
-		var canvasContext = this.#getCanvasContext();
-		
-		canvasContext.fillStyle = PALE_YELLOW_COLOR;
-
-		canvasContext.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+		this.clearScreen();
 		this.#gameLogoSpriteUI.draw();
 		this.#mainMenuCursorSpriteUI.draw();
 		this.#startGameTextUI.draw();
@@ -54,14 +53,6 @@ class MainMenuScene extends Scene {
 
 		this.gameStartedEvent.invoke();
 		this.#gameStartTimer.startTimer();
-	}
-
-	#getCanvasContext() {
-		if(typeof(this.#canvasContext) === "undefined") {
-			this.#canvasContext = FrogGuy.getCanvasContext();
-		}
-
-		return this.#canvasContext;
 	}
 
 	#onTimerFinished() {
