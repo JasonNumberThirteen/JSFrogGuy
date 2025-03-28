@@ -1,4 +1,6 @@
 class GameScene extends Scene {
+	#playerScoreIntCounterGroupUI;
+	#highScoreIntCounterGroupUI;
 	#fadeScreenUI;
 
 	constructor() {
@@ -6,6 +8,8 @@ class GameScene extends Scene {
 	}
 
 	init() {
+		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
+		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 	}
 
@@ -15,6 +19,8 @@ class GameScene extends Scene {
 
 	draw() {
 		this.clearScreen();
+		this.#playerScoreIntCounterGroupUI.draw();
+		this.#highScoreIntCounterGroupUI.draw();
 		this.#fadeScreenUI.draw();
 	}
 }
