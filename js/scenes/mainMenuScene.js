@@ -3,6 +3,7 @@ class MainMenuScene extends Scene {
 	
 	#gameLogoSpriteUI;
 	#mainMenuCursorSpriteUI;
+	#playerScoreIntCounterGroupUI;
 	#startGameTextUI;
 	#creditsTextUI;
 	#fadeScreenUI;
@@ -16,11 +17,13 @@ class MainMenuScene extends Scene {
 	init() {
 		this.#gameLogoSpriteUI = new SpriteUI(GAME_LOGO_SPRITE_FILENAME, new Point());
 		this.#startGameTextUI = new StartGameTextUI();
-		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, CENTER_KEY);
+		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
 
 		this.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - this.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - this.#gameLogoSpriteUI.getImage().height*0.5));
 		
 		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI(new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
+		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
+		
 		this.#fadeScreenUI = new FadeScreenUI();
 		this.#gameStartTimer = new Timer(1, false);
 
@@ -39,6 +42,7 @@ class MainMenuScene extends Scene {
 		this.clearScreen();
 		this.#gameLogoSpriteUI.draw();
 		this.#mainMenuCursorSpriteUI.draw();
+		this.#playerScoreIntCounterGroupUI.draw();
 		this.#startGameTextUI.draw();
 		this.#creditsTextUI.draw();
 		this.#fadeScreenUI.draw();

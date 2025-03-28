@@ -4,7 +4,7 @@ class StartGameTextUI extends TextUI {
 	#blinkTimer;
 	
 	constructor() {
-		super(START_GAME_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 32), BLACK_COLOR, CENTER_KEY);
+		super(START_GAME_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 32), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
 
 		this.#initialColor = this.getFillStyle();
 		this.#colorToBlink = ORANGE_COLOR;
