@@ -3,12 +3,23 @@ class TextUI {
 	#position;
 	#fillStyle;
 	#alignment;
+	#canvasContext;
 
 	constructor(text, position, fillStyle, alignment) {
 		this.setText(text);
 		this.setPosition(position);
 		this.setFillStyle(fillStyle);
 		this.setAlignment(alignment);
+	}
+
+	draw() {
+		var canvasContext = this.#getCanvasContext();
+		var label = this.#getLabel();
+		
+		canvasContext.fillStyle = label.fillStyle;
+		canvasContext.textAlign = label.alignment;
+
+		canvasContext.fillText(label.text, label.position.x, label.position.y);
 	}
 
 	setText(text) {
@@ -39,7 +50,15 @@ class TextUI {
 		return this.#fillStyle;
 	}
 
-	getLabel() {
+	#getLabel() {
 		return {text: this.#text, position: this.#position, fillStyle: this.#fillStyle, alignment: this.#alignment};
+	}
+
+	#getCanvasContext() {
+		if(typeof(this.#canvasContext) === "undefined") {
+			this.#canvasContext = FrogGuy.getCanvasContext();
+		}
+
+		return this.#canvasContext;
 	}
 }

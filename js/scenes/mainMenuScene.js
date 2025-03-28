@@ -40,8 +40,8 @@ class MainMenuScene extends Scene {
 		canvasContext.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
 		this.#drawImage(this.#gameLogoSpriteUI);
 		this.#drawImage(this.#mainMenuCursorSpriteUI);
-		this.#drawLabel(this.#startGameTextUI.getLabel());
-		this.#drawLabel(this.#creditsTextUI.getLabel());
+		this.#startGameTextUI.draw();
+		this.#creditsTextUI.draw();
 		this.#fadeScreenUI.draw();
 	}
 
@@ -68,15 +68,6 @@ class MainMenuScene extends Scene {
 		const position = image.getPosition();
 		
 		this.#getCanvasContext().drawImage(image.getImage(), position.x, position.y);
-	}
-
-	#drawLabel(label) {
-		var canvasContext = this.#getCanvasContext();
-		
-		canvasContext.fillStyle = label.fillStyle;
-		canvasContext.textAlign = label.alignment;
-
-		canvasContext.fillText(label.text, label.position.x, label.position.y);
 	}
 
 	#onTimerFinished() {
