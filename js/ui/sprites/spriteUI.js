@@ -13,7 +13,7 @@ class SpriteUI {
 	draw() {
 		const position = this.#position;
 		
-		this.#getCanvasContext().drawImage(this.#image, position.x, position.y);
+		this.getCanvasContext().drawImage(this.#image, position.x, position.y);
 	}
 
 	setPosition(position) {
@@ -28,7 +28,7 @@ class SpriteUI {
 		return this.#position;
 	}
 
-	#getCanvasContext() {
+	getCanvasContext() {
 		if(typeof(this.#canvasContext) === "undefined") {
 			this.#canvasContext = FrogGuy.getCanvasContext();
 		}

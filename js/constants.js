@@ -29,8 +29,9 @@ const BRIGHT_BLUE_COLOR = "#155fd9";
 const PALE_YELLOW_COLOR = "#ffefaf";
 
 // SPRITE FILENAMES
-const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/gameLogo.png";
-const MAIN_MENU_CURSOR_SPRITE_FILENAME = "assets/sprites/mainMenuCursor.png";
+const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/single/mainMenu/gameLogo.png";
+const MAIN_MENU_CURSOR_SPRITE_FILENAME = "assets/sprites/single/mainMenu/mainMenuCursor.png";
+const PLAYER_SPRITE_FILENAME = "assets/sprites/sheets/game/player.png";
 
 // DURATIONS
 const FADE_SCREEN_FADE_DURATION = 1;
