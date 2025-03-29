@@ -26,4 +26,8 @@ class GameScene extends Scene {
 		this.#playerAnimatedSpriteUI.draw();
 		this.#fadeScreenUI.draw();
 	}
+
+	processInput(key) {
+		this.#playerAnimatedSpriteUI.processInput(key);
+	}
 }

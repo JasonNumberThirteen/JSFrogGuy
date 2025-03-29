@@ -14,6 +14,10 @@ const GAME_FONT_SIZE = 8;
 // INPUT KEYS
 const KEYDOWN_KEY = "keydown";
 const GAME_START_KEY = "enter";
+const PLAYER_UP_MOVEMENT_KEY = "w";
+const PLAYER_DOWN_MOVEMENT_KEY = "s";
+const PLAYER_LEFT_MOVEMENT_KEY = "a";
+const PLAYER_RIGHT_MOVEMENT_KEY = "d";
 
 // STRING LITERALS
 const START_GAME_TEXT = "START GAME";
