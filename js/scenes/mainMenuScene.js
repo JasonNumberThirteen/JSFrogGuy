@@ -16,21 +16,24 @@ class MainMenuScene extends Scene {
 	}
 
 	init() {
+		const that = this;
+		
 		this.#gameLogoSpriteUI = new SpriteUI(GAME_LOGO_SPRITE_FILENAME, new Point());
 		this.#startGameTextUI = new StartGameTextUI();
 		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
-
-		this.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - this.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - this.#gameLogoSpriteUI.getImage().height*0.5));
-		
-		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI(new Point(this.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + this.#gameLogoSpriteUI.getImage().height));
+		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI();
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
-		
 		this.#fadeScreenUI = new FadeScreenUI();
 		this.#gameStartTimer = new Timer(1, false);
 
 		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(this.#onFadeFinished.bind(this));
+		
+		this.#gameLogoSpriteUI.getImage().onload = function() {
+			that.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - that.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - that.#gameLogoSpriteUI.getImage().height*0.5));
+			that.#mainMenuCursorSpriteUI.setPosition(new Point(that.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + that.#gameLogoSpriteUI.getImage().height));
+		};
 	}
 
 	update(deltaTime) {

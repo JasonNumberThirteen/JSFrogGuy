@@ -1,14 +1,18 @@
 class MainMenuCursorSpriteUI extends SpriteUI {
-	#initialX;
+	_initialX;
 	
-	constructor(position) {
-		super(MAIN_MENU_CURSOR_SPRITE_FILENAME, position);
+	constructor() {
+		super(MAIN_MENU_CURSOR_SPRITE_FILENAME, new Point());
+	}
 
-		this.#initialX = position.x;
+	setPosition(position) {
+		super.setPosition(position);
+
+		this._initialX = this.getPosition().x;
 	}
 
 	update(deltaTime) {
-		this.getPosition().x = this.#initialX + this.#getOffset();
+		this.getPosition().x = this._initialX + this.#getOffset();
 	}
 
 	#getOffset() {
