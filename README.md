@@ -1,5 +1,5 @@
 # Frog Guy
-<p align = "center"><img src="./assets/sprites/gameLogo.png?raw=true" alt = "Rumble In The Factory"/></p>
+<p align = "center"><img src="./assets/sprites/single/mainMenu/gameLogo.png?raw=true" alt = "Frog Guy"/></p>
 
 > A clone of popular game written in pure JS using HTML canvas & CSS.
 
