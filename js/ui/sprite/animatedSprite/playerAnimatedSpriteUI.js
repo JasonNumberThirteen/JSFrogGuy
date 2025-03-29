@@ -16,6 +16,7 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 		const newPosition = new Point(currentPosition.x + movementDirection.x*8, currentPosition.y + movementDirection.y*8);
 
 		this.setPosition(newPosition);
+		this.setCurrentColumnIndex(this.#getIndexByMovementDirection(movementDirection));
 	}
 
 	#getMovementDirection(key) {
@@ -31,5 +32,9 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 			default:
 				return new Point();
 		}
+	}
+
+	#getIndexByMovementDirection(movementDirection) {
+		return Object.keys(this.#frameIndexesToDirections).find(key => this.#frameIndexesToDirections[key] === movementDirection);
 	}
 }
