@@ -8,7 +8,7 @@ class StartGameTextUI extends TextUI {
 
 		this.#initialColor = this.getFillStyle();
 		this.#colorToBlink = ORANGE_COLOR;
-		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY);
+		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY, true);
 
 		this.#blinkTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 
