@@ -1,6 +1,7 @@
 class SpriteUI {
 	#image;
 	#position;
+	#isActive = true;
 	#canvasContext;
 
 	constructor(filename, position) {
@@ -10,7 +11,15 @@ class SpriteUI {
 		this.setPosition(position);
 	}
 
+	setActive(active) {
+		this.#isActive = active;
+	}
+
 	draw() {
+		if(!this.#isActive) {
+			return;
+		}
+		
 		const position = this.#position;
 		
 		this.getCanvasContext().drawImage(this.#image, position.x, position.y);
@@ -34,5 +43,9 @@ class SpriteUI {
 		}
 
 		return this.#canvasContext;
+	}
+
+	isActive() {
+		return this.#isActive;
 	}
 }

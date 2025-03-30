@@ -20,6 +20,10 @@ class AnimatedSpriteUI extends SpriteUI {
 	}
 
 	draw() {
+		if(!this.isActive()) {
+			return;
+		}
+		
 		const frameWidth = this.#frameWidth;
 		const frameHeight = this.#frameHeight;
 		const position = this.getPosition();

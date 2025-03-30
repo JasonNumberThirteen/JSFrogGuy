@@ -1,4 +1,6 @@
 class GameScene extends Scene {
+	gameWonEvent = new GameEvent();
+	
 	#fieldSpriteUI;
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
@@ -64,6 +66,10 @@ class GameScene extends Scene {
 
 			if(index !== -1) {
 				this.#availableDestinationPositions.splice(index, 1);
+			}
+			
+			if(this.#availableDestinationPositions.length === 0) {
+				this.gameWonEvent.invoke();
 			}
 		}
 	}

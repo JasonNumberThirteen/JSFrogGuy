@@ -15,13 +15,15 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey("GAME");
+
+		this.#gameScene.gameWonEvent.addListener(this.#onGameWon.bind(this));
 	}
 
 	processInput(key) {
-		if(!this.#pressedAnyInputKey(key)) {
+		if(!this.isActive() || !this.#pressedAnyInputKey(key)) {
 			return;
 		}
-		
+
 		const currentPosition = this.getPosition();
 		const movementDirection = this.#getMovementDirection(key);
 		const newPosition = new Point(currentPosition.x + movementDirection.x*8, currentPosition.y + movementDirection.y*8);
@@ -67,5 +69,9 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 
 	#getIndexByMovementDirection(movementDirection) {
 		return Object.keys(this.#frameIndexesToDirections).find(key => this.#frameIndexesToDirections[key] === movementDirection);
+	}
+
+	#onGameWon() {
+		this.setActive(false);
 	}
 }
