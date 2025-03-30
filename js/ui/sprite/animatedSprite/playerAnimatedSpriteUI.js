@@ -1,4 +1,6 @@
 class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
+	destinationReachedEvent = new GameEvent();
+	
 	#initialPosition;
 	#frameIndexesToDirections = {
 		0: new Point(0, -1),
@@ -26,6 +28,7 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 
 		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(newPosition)) {
 			this.setPosition(this.#initialPosition);
+			this.destinationReachedEvent.invoke(newPosition);
 		} else {
 			this.#setClampedPosition(newPosition);
 		}

@@ -4,7 +4,8 @@ class GameScene extends Scene {
 	#highScoreIntCounterGroupUI;
 	#playerAnimatedSpriteUI;
 	#fadeScreenUI;
-	#destinationPositions;
+	#availableDestinationPositions;
+	#savedFrogs = [];
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -25,8 +26,10 @@ class GameScene extends Scene {
 			
 			that.#fieldSpriteUI.setPosition(new Point(x, y));
 
-			that.#destinationPositions = [new Point(x + 8, y + 8), new Point(x + 32, y + 8), new Point(x + 56, y + 8), new Point(x + 80, y + 8), new Point(x + 104, y + 8)];
+			that.#availableDestinationPositions = [new Point(x + 8, y + 8), new Point(x + 32, y + 8), new Point(x + 56, y + 8), new Point(x + 80, y + 8), new Point(x + 104, y + 8)];
 		};
+
+		this.#playerAnimatedSpriteUI.destinationReachedEvent.addListener((position) => this.#onDestinationReached(position));
 	}
 
 	update(deltaTime) {
@@ -39,6 +42,7 @@ class GameScene extends Scene {
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
 		this.#playerAnimatedSpriteUI.draw();
+		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#fadeScreenUI.draw();
 	}
 
@@ -47,6 +51,20 @@ class GameScene extends Scene {
 	}
 
 	reachedAnyOfLeftDestinationPositions(position) {
-		return this.#destinationPositions.some(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
+		return this.#availableDestinationPositions.some(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
+	}
+
+	#onDestinationReached(position) {
+		const availableDestinationPosition = this.#availableDestinationPositions.find(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
+
+		if(typeof(availableDestinationPosition) !== "undefined") {
+			this.#savedFrogs.push(new SavedFrogSpriteUI(availableDestinationPosition));
+
+			var index = this.#availableDestinationPositions.indexOf(availableDestinationPosition);
+
+			if(index !== -1) {
+				this.#availableDestinationPositions.splice(index, 1);
+			}
+		}
 	}
 }
