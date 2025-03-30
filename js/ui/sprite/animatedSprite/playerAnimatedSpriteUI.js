@@ -1,13 +1,18 @@
 class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
+	#initialPosition;
 	#frameIndexesToDirections = {
 		0: new Point(0, -1),
 		1: new Point(0, 1),
 		2: new Point(-1, 0),
 		3: new Point(1, 0)
 	};
+	#gameScene;
 	
 	constructor() {
 		super(PLAYER_SPRITE_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
+
+		this.#initialPosition = this.getPosition();
+		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey("GAME");
 	}
 
 	processInput(key) {
@@ -17,11 +22,14 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 		
 		const currentPosition = this.getPosition();
 		const movementDirection = this.#getMovementDirection(key);
-		const newX = MathMethods.clamp(currentPosition.x + movementDirection.x*8, 68, 180);
-		const newY = MathMethods.clamp(currentPosition.y + movementDirection.y*8, 32, 120);
-		const newPosition = new Point(newX, newY);
+		const newPosition = new Point(currentPosition.x + movementDirection.x*8, currentPosition.y + movementDirection.y*8);
 
-		this.setPosition(newPosition);
+		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(newPosition)) {
+			this.setPosition(this.#initialPosition);
+		} else {
+			this.#setClampedPosition(newPosition);
+		}
+
 		this.setCurrentColumnIndex(this.#getIndexByMovementDirection(movementDirection));
 	}
 
@@ -44,6 +52,14 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 			default:
 				return new Point();
 		}
+	}
+
+	#setClampedPosition(position) {
+		const clampedX = MathMethods.clamp(position.x, 68, 180);
+		const clampedY = MathMethods.clamp(position.y, 32, 120);
+		const clampedPosition = new Point(clampedX, clampedY);
+		
+		this.setPosition(clampedPosition);
 	}
 
 	#getIndexByMovementDirection(movementDirection) {

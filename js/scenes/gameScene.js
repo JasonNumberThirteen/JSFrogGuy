@@ -4,6 +4,7 @@ class GameScene extends Scene {
 	#highScoreIntCounterGroupUI;
 	#playerAnimatedSpriteUI;
 	#fadeScreenUI;
+	#destinationPositions;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -19,7 +20,12 @@ class GameScene extends Scene {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 
 		this.#fieldSpriteUI.getImage().onload = function() {
-			that.#fieldSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - that.#fieldSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - that.#fieldSpriteUI.getImage().height*0.5));
+			const x = GAME_WINDOW_WIDTH*0.5 - that.#fieldSpriteUI.getImage().width*0.5;
+			const y = GAME_WINDOW_HEIGHT*0.5 - that.#fieldSpriteUI.getImage().height*0.5;
+			
+			that.#fieldSpriteUI.setPosition(new Point(x, y));
+
+			that.#destinationPositions = [new Point(x + 8, y + 8), new Point(x + 32, y + 8), new Point(x + 56, y + 8), new Point(x + 80, y + 8), new Point(x + 104, y + 8)];
 		};
 	}
 
@@ -38,5 +44,9 @@ class GameScene extends Scene {
 
 	processInput(key) {
 		this.#playerAnimatedSpriteUI.processInput(key);
+	}
+
+	reachedAnyOfLeftDestinationPositions(position) {
+		return this.#destinationPositions.some(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
 	}
 }
