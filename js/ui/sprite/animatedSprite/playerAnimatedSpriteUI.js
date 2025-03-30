@@ -7,13 +7,15 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 	};
 	
 	constructor() {
-		super(PLAYER_SPRITE_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 12), 8, 8);
+		super(PLAYER_SPRITE_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
 	}
 
 	processInput(key) {
 		const currentPosition = this.getPosition();
 		const movementDirection = this.#getMovementDirection(key);
-		const newPosition = new Point(currentPosition.x + movementDirection.x*8, currentPosition.y + movementDirection.y*8);
+		const newX = MathMethods.clamp(currentPosition.x + movementDirection.x*8, 68, 180);
+		const newY = MathMethods.clamp(currentPosition.y + movementDirection.y*8, 32, 120);
+		const newPosition = new Point(newX, newY);
 
 		this.setPosition(newPosition);
 		this.setCurrentColumnIndex(this.#getIndexByMovementDirection(movementDirection));
