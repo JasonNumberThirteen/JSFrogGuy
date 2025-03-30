@@ -69,7 +69,9 @@ class MainMenuScene extends Scene {
 		this.#fadeScreenUI.startFading();
 	}
 
-	#onFadeFinished() {
-		FrogGuy.getSceneManager().switchScene("GAME");
+	#onFadeFinished(fadeOut) {
+		if(!fadeOut) {
+			FrogGuy.getSceneManager().switchScene("GAME");
+		}
 	}
 }

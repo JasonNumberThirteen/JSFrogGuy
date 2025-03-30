@@ -12,6 +12,10 @@ class FadeScreenUI {
 		this.#fadeTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
 
+	setFadeOut(fadeOut) {
+		this.#fadeOut = fadeOut;
+	}
+
 	startFading() {
 		this.#fadeTimer.startTimer();
 	}
@@ -44,6 +48,6 @@ class FadeScreenUI {
 	}
 
 	#onTimerFinished() {
-		this.fadeFinishedEvent.invoke();
+		this.fadeFinishedEvent.invoke(this.#fadeOut);
 	}
 }

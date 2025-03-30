@@ -7,7 +7,8 @@ class GameScene extends Scene {
 	#playerAnimatedSpriteUI;
 	#fadeScreenUI;
 	#availableDestinationPositions;
-	#savedFrogs = [];
+	#savedFrogs;
+	#nextLevelTimer;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -21,6 +22,7 @@ class GameScene extends Scene {
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#playerAnimatedSpriteUI = new PlayerAnimatedSpriteUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
+		this.#savedFrogs = [];
 
 		this.#fieldSpriteUI.getImage().onload = function() {
 			const x = GAME_WINDOW_WIDTH*0.5 - that.#fieldSpriteUI.getImage().width*0.5;
@@ -32,9 +34,15 @@ class GameScene extends Scene {
 		};
 
 		this.#playerAnimatedSpriteUI.destinationReachedEvent.addListener((position) => this.#onDestinationReached(position));
+
+		this.#nextLevelTimer = new Timer(1, false);
+
+		this.#nextLevelTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		this.#fadeScreenUI.fadeFinishedEvent.addListener((fadeOut) => this.#onFadeFinished(fadeOut));
 	}
 
 	update(deltaTime) {
+		this.#nextLevelTimer.update(deltaTime);
 		this.#fadeScreenUI.update(deltaTime);
 	}
 
@@ -70,7 +78,19 @@ class GameScene extends Scene {
 			
 			if(this.#availableDestinationPositions.length === 0) {
 				this.gameWonEvent.invoke();
+				this.#nextLevelTimer.startTimer();
 			}
+		}
+	}
+
+	#onTimerFinished() {
+		this.#fadeScreenUI.setFadeOut(false);
+		this.#fadeScreenUI.startFading();
+	}
+
+	#onFadeFinished(fadeOut) {
+		if(!fadeOut) {
+			FrogGuy.getSceneManager().switchScene("GAME");
 		}
 	}
 }
