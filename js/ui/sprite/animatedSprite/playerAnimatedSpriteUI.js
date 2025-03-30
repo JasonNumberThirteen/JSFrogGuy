@@ -11,6 +11,10 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 	}
 
 	processInput(key) {
+		if(!this.#pressedAnyInputKey(key)) {
+			return;
+		}
+		
 		const currentPosition = this.getPosition();
 		const movementDirection = this.#getMovementDirection(key);
 		const newX = MathMethods.clamp(currentPosition.x + movementDirection.x*8, 68, 180);
@@ -19,6 +23,12 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 
 		this.setPosition(newPosition);
 		this.setCurrentColumnIndex(this.#getIndexByMovementDirection(movementDirection));
+	}
+
+	#pressedAnyInputKey(key) {
+		const inputKeys = [PLAYER_UP_MOVEMENT_KEY, PLAYER_DOWN_MOVEMENT_KEY, PLAYER_LEFT_MOVEMENT_KEY, PLAYER_RIGHT_MOVEMENT_KEY];
+		
+		return inputKeys.some(inputKey => inputKey === key);
 	}
 
 	#getMovementDirection(key) {
