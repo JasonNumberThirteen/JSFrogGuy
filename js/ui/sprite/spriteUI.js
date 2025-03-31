@@ -5,28 +5,18 @@ class SpriteUI {
 	#canvasContext;
 
 	constructor(filename, position) {
-		this.#image = new Image();
-		this.#image.src = filename;
-		
+		this.setImage(filename);
 		this.setPosition(position);
 	}
 
-	setActive(active) {
-		this.#isActive = active;
-	}
-
 	draw() {
-		if(!this.#isActive) {
+		if(!this.#isActive()) {
 			return;
 		}
 		
 		const position = this.#position;
 		
 		this.getCanvasContext().drawImage(this.#image, position.x, position.y);
-	}
-
-	setPosition(position) {
-		this.#position = position;
 	}
 
 	getImage() {
@@ -37,15 +27,26 @@ class SpriteUI {
 		return this.#position;
 	}
 
+	isActive() {
+		return this.#isActive;
+	}
+
 	getCanvasContext() {
-		if(typeof(this.#canvasContext) === "undefined") {
-			this.#canvasContext = FrogGuy.getCanvasContext();
-		}
+		this.#canvasContext = this.#canvasContext || FrogGuy.getCanvasContext();
 
 		return this.#canvasContext;
 	}
 
-	isActive() {
-		return this.#isActive;
+	setImage(filename) {
+		this.#image = new Image();
+		this.#image.src = filename;
+	}
+
+	setPosition(position) {
+		this.#position = position;
+	}
+
+	setActive(active) {
+		this.#isActive = active;
 	}
 }
