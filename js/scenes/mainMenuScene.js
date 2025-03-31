@@ -27,6 +27,11 @@ class MainMenuScene extends Scene {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#gameStartTimer = new Timer(1, false);
 
+		const gameData = FrogGuy.getData();
+
+		this.#playerScoreIntCounterGroupUI.setCounterValue(gameData.getPlayerScore());
+		this.#highScoreIntCounterGroupUI.setCounterValue(gameData.getHighScore());
+
 		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(this.#onFadeFinished.bind(this));
 		

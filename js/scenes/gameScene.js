@@ -44,8 +44,9 @@ class GameScene extends Scene {
 
 		this.#nextLevelTimer = new Timer(1, false);
 
-		this.#nextLevelTimer.timerFinishedEvent.addListener(this.#startFading.bind(this));
+		this.#nextLevelTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener((fadeOut) => this.#onFadeFinished(fadeOut));
+		this.#highScoreIntCounterGroupUI.setCounterValue(FrogGuy.getData().getHighScore());
 	}
 
 	update(deltaTime) {
@@ -122,6 +123,18 @@ class GameScene extends Scene {
 		this.#nextSceneKey = "MAIN_MENU";
 
 		this.#nextLevelTimer.startTimer();
+	}
+
+	#onTimerFinished() {
+		this.#updateGameData();
+		this.#startFading();
+	}
+
+	#updateGameData() {
+		const gameData = FrogGuy.getData();
+
+		gameData.setPlayerScore(this.#playerScoreIntCounterGroupUI.getCounterValue());
+		gameData.setHighScore(this.#highScoreIntCounterGroupUI.getCounterValue());
 	}
 
 	#startFading() {

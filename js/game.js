@@ -4,11 +4,13 @@ class Game {
 	#currentTimeStamp = 0;
 	#previousTimeStamp = 0;
 	#sceneManager;
+	#gameData;
 
 	constructor() {
 		this.#canvas = new Canvas();
 		this.#input = new Input();
 		this.#sceneManager = new SceneManager();
+		this.#gameData = new GameData();
 
 		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
@@ -32,6 +34,10 @@ class Game {
 
 	getSceneManager() {
 		return this.#sceneManager;
+	}
+
+	getData() {
+		return this.#gameData;
 	}
 
 	#update(timeStamp) {
