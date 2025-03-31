@@ -11,14 +11,12 @@ class IntCounterTextUI extends TextUI {
 		return this.#value;
 	}
 
-	setTo(value) {
-		this.#value = value;
-
-		this.setText(this.#value.toString());
+	increaseBy(value) {
+		this.setTo(this.#value + value);
 	}
 
-	increaseBy(value) {
-		this.#value += value;
+	setTo(value) {
+		this.#value = value;
 
 		this.setText(this.#value.toString());
 	}
