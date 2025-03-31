@@ -1,6 +1,7 @@
 class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 	destinationReachedEvent = new GameEvent();
 	livesChangedEvent = new GameEvent();
+	positionChangedEvent = new GameEvent();
 	
 	#initialPosition;
 	#frameIndexesToDirections = {
@@ -48,6 +49,7 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 			this.livesChangedEvent.invoke(this.#lives);
 		} else {
 			this.#setClampedPosition(newPosition);
+			this.positionChangedEvent.invoke(newPosition);
 		}
 
 		this.setCurrentColumnIndex(this.#getIndexByMovementDirection(movementDirection));

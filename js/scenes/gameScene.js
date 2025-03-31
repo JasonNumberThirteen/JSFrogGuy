@@ -11,6 +11,7 @@ class GameScene extends Scene {
 	#savedFrogs;
 	#nextLevelTimer;
 	#nextSceneKey = "GAME";
+	#closestYToDestinationPoints;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -26,6 +27,7 @@ class GameScene extends Scene {
 		this.#playerLivesSpritesUIGroup = new PlayerLivesSpritesUIGroup(this.#playerAnimatedSpriteUI.getLives());
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
+		this.#closestYToDestinationPoints = this.#playerAnimatedSpriteUI.getPosition().y;
 
 		this.#fieldSpriteUI.getImage().onload = function() {
 			const x = GAME_WINDOW_WIDTH*0.5 - that.#fieldSpriteUI.getImage().width*0.5;
@@ -38,6 +40,7 @@ class GameScene extends Scene {
 
 		this.#playerAnimatedSpriteUI.destinationReachedEvent.addListener((position) => this.#onDestinationReached(position));
 		this.#playerAnimatedSpriteUI.livesChangedEvent.addListener((lives) => this.#onLivesChanged(lives));
+		this.#playerAnimatedSpriteUI.positionChangedEvent.addListener((position) => this.#onPositionChanged(position));
 
 		this.#nextLevelTimer = new Timer(1, false);
 
@@ -97,6 +100,14 @@ class GameScene extends Scene {
 	
 		if(lives <= 0) {
 			this.#setGameAsOver();
+		}
+	}
+
+	#onPositionChanged(position) {
+		if(position.y < this.#closestYToDestinationPoints) {
+			this.#closestYToDestinationPoints = position.y;
+			
+			this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_DESTINATION_POSITIONS);
 		}
 	}
 
