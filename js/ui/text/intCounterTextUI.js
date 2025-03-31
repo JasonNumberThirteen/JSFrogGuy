@@ -7,6 +7,16 @@ class IntCounterTextUI extends TextUI {
 		this.#value = initialValue;
 	}
 
+	getValue() {
+		return this.#value;
+	}
+
+	setTo(value) {
+		this.#value = value;
+
+		this.setText(this.#value.toString());
+	}
+
 	increaseBy(value) {
 		this.#value += value;
 

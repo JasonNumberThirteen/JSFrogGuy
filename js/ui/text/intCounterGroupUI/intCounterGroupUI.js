@@ -12,6 +12,14 @@ class IntCounterGroupUI {
 		this.#intCounterTextUI.draw();
 	}
 
+	getCounterValue() {
+		return this.#intCounterTextUI.getValue();
+	}
+
+	setCounterValue(value) {
+		this.#intCounterTextUI.setTo(value);
+	}
+
 	increaseCounterValue(value) {
 		this.#intCounterTextUI.increaseBy(value);
 	}

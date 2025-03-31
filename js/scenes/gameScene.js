@@ -109,6 +109,12 @@ class GameScene extends Scene {
 			this.#closestYToDestinationPoints = position.y;
 			
 			this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_DESTINATION_POSITIONS);
+
+			const currentPlayerScore = this.#playerScoreIntCounterGroupUI.getCounterValue();
+
+			if(this.#highScoreIntCounterGroupUI.getCounterValue() < currentPlayerScore) {
+				this.#highScoreIntCounterGroupUI.setCounterValue(currentPlayerScore);
+			}
 		}
 	}
 
