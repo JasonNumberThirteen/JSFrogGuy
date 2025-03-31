@@ -81,6 +81,7 @@ class GameScene extends Scene {
 
 		if(typeof(availableDestinationPosition) !== "undefined") {
 			this.#savedFrogs.push(new SavedFrogSpriteUI(availableDestinationPosition));
+			this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_REACHING_DESTINATION_POINT);
 
 			var index = this.#availableDestinationPositions.indexOf(availableDestinationPosition);
 
