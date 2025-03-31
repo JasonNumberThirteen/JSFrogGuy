@@ -11,7 +11,6 @@ class StartGameTextUI extends TextUI {
 		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY, true);
 
 		this.#blinkTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
-
 		FrogGuy.getSceneManager().getSceneByKey(MAIN_MENU_SCENE_NAME_KEY).gameStartedEvent.addListener(this.#onGameStarted.bind(this));
 	}
 
@@ -26,8 +25,9 @@ class StartGameTextUI extends TextUI {
 
 	#switchColor() {
 		const textHasInitialColor = this.getFillStyle() === this.#initialColor;
+		const colorToSwitch = textHasInitialColor ? this.#colorToBlink : this.#initialColor;
 		
-		this.setFillStyle(textHasInitialColor ? this.#colorToBlink : this.#initialColor);
+		this.setFillStyle(colorToSwitch);
 	}
 
 	#onGameStarted() {
