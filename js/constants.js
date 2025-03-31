@@ -37,7 +37,8 @@ const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/single/mainMenu/gameLogo.png";
 const MAIN_MENU_CURSOR_SPRITE_FILENAME = "assets/sprites/single/mainMenu/mainMenuCursor.png";
 const FIELD_SPRITE_FILENAME = "assets/sprites/single/game/field.png";
 const SAVED_FROG_SPRITE_FILENAME = "assets/sprites/single/game/savedFrog.png";
-const PLAYER_SPRITE_FILENAME = "assets/sprites/sheets/game/player.png";
+const PLAYER_LIFE_SPRITE_FILENAME = "assets/sprites/single/game/playerLife.png";
+const PLAYER_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/player.png";
 
 // DURATIONS
 const FADE_SCREEN_FADE_DURATION = 1;

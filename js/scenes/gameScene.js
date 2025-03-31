@@ -5,6 +5,7 @@ class GameScene extends Scene {
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
 	#playerAnimatedSpriteUI;
+	#playerLivesSpritesUIGroup;
 	#fadeScreenUI;
 	#availableDestinationPositions;
 	#savedFrogs;
@@ -22,6 +23,7 @@ class GameScene extends Scene {
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#playerAnimatedSpriteUI = new PlayerAnimatedSpriteUI();
+		this.#playerLivesSpritesUIGroup = new PlayerLivesSpritesUIGroup(this.#playerAnimatedSpriteUI.getLives());
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 
@@ -54,6 +56,7 @@ class GameScene extends Scene {
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
 		this.#playerAnimatedSpriteUI.draw();
+		this.#playerLivesSpritesUIGroup.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#fadeScreenUI.draw();
 	}
@@ -90,10 +93,14 @@ class GameScene extends Scene {
 	}
 
 	#onLivesChanged(lives) {
-		if(lives > 0) {
-			return;
+		this.#playerLivesSpritesUIGroup.setNumberOfSprites(lives);
+	
+		if(lives <= 0) {
+			this.#setGameAsOver();
 		}
+	}
 
+	#setGameAsOver() {
 		this.#nextSceneKey = "MAIN_MENU";
 
 		this.#nextLevelTimer.startTimer();
