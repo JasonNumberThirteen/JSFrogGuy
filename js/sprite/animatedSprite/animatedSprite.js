@@ -26,8 +26,10 @@ class AnimatedSprite extends Sprite {
 		
 		const frameWidth = this.#frameWidth;
 		const frameHeight = this.#frameHeight;
+		const offsetX = this.#currentColumnIndex*frameWidth;
+		const offsetY = this.#currentRowIndex*frameHeight;
 		const position = this.getPosition();
 
-		this.getCanvasContext().drawImage(this.getImage(), this.#currentColumnIndex*frameWidth, this.#currentRowIndex*frameHeight, frameWidth, frameHeight, position.x, position.y, frameWidth, frameHeight);
+		this.getCanvasContext().drawImage(this.getImage(), offsetX, offsetY, frameWidth, frameHeight, position.x, position.y, frameWidth, frameHeight);
 	}
 }
