@@ -10,7 +10,7 @@ class SpriteUI {
 	}
 
 	draw() {
-		if(!this.#isActive()) {
+		if(!this.isActive()) {
 			return;
 		}
 		
