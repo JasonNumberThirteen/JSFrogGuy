@@ -1,4 +1,4 @@
-class MainMenuCursorSpriteUI extends SpriteUI {
+class MainMenuCursorSprite extends Sprite {
 	_initialX;
 	
 	constructor() {

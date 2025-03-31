@@ -1,4 +1,4 @@
-class PlayerLivesSpritesUIGroup {
+class PlayerLivesSpritesGroup {
 	#group = [];
 	
 	constructor(numberOfSprites) {
@@ -23,8 +23,8 @@ class PlayerLivesSpritesUIGroup {
 		const x = 12*(ordinalNumber - 1) + 4;
 		const y = GAME_WINDOW_HEIGHT - 12;
 		const position = new Point(x, y);
-		const sprite = new SpriteUI(PLAYER_LIFE_SPRITE_FILENAME, position);
-			
+		const sprite = new Sprite(PLAYER_LIFE_SPRITE_FILENAME, position);
+		
 		this.#group.push(sprite);
 	}
 }

@@ -1,11 +1,11 @@
 class GameScene extends Scene {
 	gameWonEvent = new GameEvent();
 	
-	#fieldSpriteUI;
+	#fieldSprite;
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
-	#playerAnimatedSpriteUI;
-	#playerLivesSpritesUIGroup;
+	#playerAnimatedSprite;
+	#playerLivesSpritesGroup;
 	#fadeScreenUI;
 	#availableDestinationPositions;
 	#savedFrogs;
@@ -20,27 +20,27 @@ class GameScene extends Scene {
 	init() {
 		const that = this;
 		
-		this.#fieldSpriteUI = new SpriteUI(FIELD_SPRITE_FILENAME, new Point());
+		this.#fieldSprite = new Sprite(FIELD_SPRITE_FILENAME, new Point());
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
-		this.#playerAnimatedSpriteUI = new PlayerAnimatedSpriteUI();
-		this.#playerLivesSpritesUIGroup = new PlayerLivesSpritesUIGroup(this.#playerAnimatedSpriteUI.getLives());
+		this.#playerAnimatedSprite = new PlayerAnimatedSprite();
+		this.#playerLivesSpritesGroup = new PlayerLivesSpritesGroup(this.#playerAnimatedSprite.getLives());
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
-		this.#closestYToDestinationPoints = this.#playerAnimatedSpriteUI.getPosition().y;
+		this.#closestYToDestinationPoints = this.#playerAnimatedSprite.getPosition().y;
 
-		this.#fieldSpriteUI.getImage().onload = function() {
-			const x = GAME_WINDOW_WIDTH*0.5 - that.#fieldSpriteUI.getImage().width*0.5;
-			const y = GAME_WINDOW_HEIGHT*0.5 - that.#fieldSpriteUI.getImage().height*0.5;
+		this.#fieldSprite.getImage().onload = function() {
+			const x = GAME_WINDOW_WIDTH*0.5 - that.#fieldSprite.getImage().width*0.5;
+			const y = GAME_WINDOW_HEIGHT*0.5 - that.#fieldSprite.getImage().height*0.5;
 			
-			that.#fieldSpriteUI.setPosition(new Point(x, y));
+			that.#fieldSprite.setPosition(new Point(x, y));
 
 			that.#availableDestinationPositions = [new Point(x + 8, y + 8), new Point(x + 32, y + 8), new Point(x + 56, y + 8), new Point(x + 80, y + 8), new Point(x + 104, y + 8)];
 		};
 
-		this.#playerAnimatedSpriteUI.destinationReachedEvent.addListener((position) => this.#onDestinationReached(position));
-		this.#playerAnimatedSpriteUI.livesChangedEvent.addListener((lives) => this.#onLivesChanged(lives));
-		this.#playerAnimatedSpriteUI.positionChangedEvent.addListener((position) => this.#onPositionChanged(position));
+		this.#playerAnimatedSprite.destinationReachedEvent.addListener((position) => this.#onDestinationReached(position));
+		this.#playerAnimatedSprite.livesChangedEvent.addListener((lives) => this.#onLivesChanged(lives));
+		this.#playerAnimatedSprite.positionChangedEvent.addListener((position) => this.#onPositionChanged(position));
 
 		this.#nextLevelTimer = new Timer(1, false);
 
@@ -56,17 +56,17 @@ class GameScene extends Scene {
 
 	draw() {
 		this.clearScreen();
-		this.#fieldSpriteUI.draw();
+		this.#fieldSprite.draw();
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
-		this.#playerAnimatedSpriteUI.draw();
-		this.#playerLivesSpritesUIGroup.draw();
+		this.#playerAnimatedSprite.draw();
+		this.#playerLivesSpritesGroup.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#fadeScreenUI.draw();
 	}
 
 	processInput(key) {
-		this.#playerAnimatedSpriteUI.processInput(key);
+		this.#playerAnimatedSprite.processInput(key);
 	}
 
 	reachedAnyOfLeftDestinationPositions(position) {
@@ -81,7 +81,7 @@ class GameScene extends Scene {
 		const availableDestinationPosition = this.#availableDestinationPositions.find(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
 
 		if(typeof(availableDestinationPosition) !== "undefined") {
-			this.#savedFrogs.push(new SavedFrogSpriteUI(availableDestinationPosition));
+			this.#savedFrogs.push(new SavedFrogSprite(availableDestinationPosition));
 			this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_REACHING_DESTINATION_POINT);
 
 			var index = this.#availableDestinationPositions.indexOf(availableDestinationPosition);
@@ -98,7 +98,7 @@ class GameScene extends Scene {
 	}
 
 	#onLivesChanged(lives) {
-		this.#playerLivesSpritesUIGroup.setNumberOfSprites(lives);
+		this.#playerLivesSpritesGroup.setNumberOfSprites(lives);
 	
 		if(lives <= 0) {
 			this.#setGameAsOver();

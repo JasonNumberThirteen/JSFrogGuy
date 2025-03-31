@@ -1,4 +1,4 @@
-class SpriteUI {
+class Sprite {
 	#image;
 	#position;
 	#isActive = true;

@@ -1,4 +1,4 @@
-class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
+class PlayerAnimatedSprite extends AnimatedSprite {
 	destinationReachedEvent = new GameEvent();
 	livesChangedEvent = new GameEvent();
 	positionChangedEvent = new GameEvent();

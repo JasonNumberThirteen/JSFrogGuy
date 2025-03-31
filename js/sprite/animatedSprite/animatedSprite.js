@@ -1,4 +1,4 @@
-class AnimatedSpriteUI extends SpriteUI {
+class AnimatedSprite extends Sprite {
 	#frameWidth;
 	#frameHeight;
 	#currentRowIndex = 0;

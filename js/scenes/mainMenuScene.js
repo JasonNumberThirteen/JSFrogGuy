@@ -1,8 +1,8 @@
 class MainMenuScene extends Scene {
 	gameStartedEvent = new GameEvent();
 	
-	#gameLogoSpriteUI;
-	#mainMenuCursorSpriteUI;
+	#gameLogoSprite;
+	#mainMenuCursorSprite;
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
 	#startGameTextUI;
@@ -18,10 +18,10 @@ class MainMenuScene extends Scene {
 	init() {
 		const that = this;
 		
-		this.#gameLogoSpriteUI = new SpriteUI(GAME_LOGO_SPRITE_FILENAME, new Point());
+		this.#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, new Point());
 		this.#startGameTextUI = new StartGameTextUI();
 		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
-		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI();
+		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
@@ -35,23 +35,23 @@ class MainMenuScene extends Scene {
 		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(this.#onFadeFinished.bind(this));
 		
-		this.#gameLogoSpriteUI.getImage().onload = function() {
-			that.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - that.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - that.#gameLogoSpriteUI.getImage().height*0.5));
-			that.#mainMenuCursorSpriteUI.setPosition(new Point(that.#startGameTextUI.getTextWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + that.#gameLogoSpriteUI.getImage().height));
+		this.#gameLogoSprite.getImage().onload = function() {
+			that.#gameLogoSprite.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - that.#gameLogoSprite.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - that.#gameLogoSprite.getImage().height*0.5));
+			that.#mainMenuCursorSprite.setPosition(new Point(that.#startGameTextUI.getTextWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + that.#gameLogoSprite.getImage().height));
 		};
 	}
 
 	update(deltaTime) {
 		this.#startGameTextUI.update(deltaTime);
-		this.#mainMenuCursorSpriteUI.update(deltaTime);
+		this.#mainMenuCursorSprite.update(deltaTime);
 		this.#fadeScreenUI.update(deltaTime);
 		this.#gameStartTimer.update(deltaTime);
 	}
 
 	draw() {
 		this.clearScreen();
-		this.#gameLogoSpriteUI.draw();
-		this.#mainMenuCursorSpriteUI.draw();
+		this.#gameLogoSprite.draw();
+		this.#mainMenuCursorSprite.draw();
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
 		this.#startGameTextUI.draw();
