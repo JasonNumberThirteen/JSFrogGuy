@@ -12,10 +12,10 @@ class Scene {
 	processInput(key) {}
 
 	clearScreen() {
-		this.#getCanvasContext().clearScreen(this.#backgroundColor);
+		this.#getCanvas().clearScreen(this.#backgroundColor);
 	}
 
-	#getCanvasContext() {
+	#getCanvas() {
 		this.#canvas = this.#canvas || FrogGuy.getCanvas();
 
 		return this.#canvas;
