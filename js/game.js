@@ -1,16 +1,16 @@
 class Game {
 	#canvas;
 	#input;
+	#gameData;
+	#sceneManager;
 	#currentTimeStamp = 0;
 	#previousTimeStamp = 0;
-	#sceneManager;
-	#gameData;
 
 	constructor() {
 		this.#canvas = new Canvas();
 		this.#input = new Input();
-		this.#sceneManager = new SceneManager();
 		this.#gameData = new GameData();
+		this.#sceneManager = new SceneManager();
 
 		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
@@ -21,7 +21,7 @@ class Game {
 	}
 
 	getCurrentTime() {
-		return this.#currentTimeStamp*0.001;
+		return TimeMethods.millisecondsToSeconds(this.#currentTimeStamp);
 	}
 
 	getCanvas() {
@@ -32,28 +32,34 @@ class Game {
 		return this.#canvas.getContext();
 	}
 
-	getSceneManager() {
-		return this.#sceneManager;
-	}
-
 	getData() {
 		return this.#gameData;
+	}
+
+	getSceneManager() {
+		return this.#sceneManager;
 	}
 
 	#update(timeStamp) {
 		this.#currentTimeStamp = timeStamp;
 		
-		const milliseconds = 1000 / GAME_FPS;
+		this.#updateCanvasIfPossible();
+		this.#refresh();
+	}
+
+	#updateCanvasIfPossible() {
 		const timeStampsDifference = this.#currentTimeStamp - this.#previousTimeStamp;
-		const deltaTime = timeStampsDifference*0.001;
+		const milliseconds = 1000 / GAME_FPS;
 
-		if(timeStampsDifference >= milliseconds) {
-			this.#previousTimeStamp = this.#currentTimeStamp;
-
-			this.#canvas.update(deltaTime);
+		if(timeStampsDifference < milliseconds) {
+			return;
 		}
 
-		this.#refresh();
+		const deltaTime = TimeMethods.millisecondsToSeconds(timeStampsDifference);
+
+		this.#previousTimeStamp = this.#currentTimeStamp;
+
+		this.#canvas.update(deltaTime);
 	}
 
 	#refresh() {
