@@ -10,6 +10,10 @@ class Canvas {
 		document.body.appendChild(this.#canvas);
 	}
 
+	getContext() {
+		return this.#context;
+	}
+
 	update(deltaTime) {
 		const sceneManager = this.#getSceneManager();
 		
@@ -23,17 +27,14 @@ class Canvas {
 		this.#context.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
 	}
 
-	getContext() {
-		return this.#context;
-	}
-
 	#createCanvas() {
 		const canvas = document.createElement("canvas");
+		const scaledWindowWidth = GAME_WINDOW_WIDTH*GAME_WINDOW_SCALE;
 		
 		canvas.id = GAME_WINDOW_CANVAS_ID;
 		canvas.width = GAME_WINDOW_WIDTH;
 		canvas.height = GAME_WINDOW_HEIGHT;
-		canvas.style.width = (GAME_WINDOW_WIDTH*GAME_WINDOW_SCALE) + PIXELS_UNIT;
+		canvas.style.width = scaledWindowWidth + PIXELS_UNIT;
 		canvas.style.height = "auto";
 		canvas.style.imageRendering = GAME_WINDOW_CANVAS_IMAGE_RENDERING;
 
@@ -49,9 +50,7 @@ class Canvas {
 	}
 
 	#getSceneManager() {
-		if(typeof(this.#sceneManager) === "undefined") {
-			this.#sceneManager = FrogGuy.getSceneManager();
-		}
+		this.#sceneManager = this.#sceneManager || FrogGuy.getSceneManager();
 
 		return this.#sceneManager;
 	}
