@@ -16,9 +16,7 @@ class Scene {
 	}
 
 	#getCanvasContext() {
-		if(typeof(this.#canvas) === "undefined") {
-			this.#canvas = FrogGuy.getCanvas();
-		}
+		this.#canvas = this.#canvas || FrogGuy.getCanvas();
 
 		return this.#canvas;
 	}
