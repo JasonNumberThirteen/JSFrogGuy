@@ -2,10 +2,8 @@ class PlayerLivesSpritesUIGroup {
 	#group = [];
 	
 	constructor(numberOfSprites) {
-		for (let i = numberOfSprites - 1; i >= 0; --i) {
-			const sprite = new SpriteUI(PLAYER_LIFE_SPRITE_FILENAME, new Point(4 + 12*i, GAME_WINDOW_HEIGHT - 12));
-			
-			this.#group.push(sprite);
+		for (let i = numberOfSprites; i >= 1; --i) {
+			this.#addSpriteToGroup(i);
 		}
 	}
 
@@ -19,5 +17,14 @@ class PlayerLivesSpritesUIGroup {
 		if(difference > 0) {
 			this.#group.splice(difference - 1, difference);
 		}
+	}
+
+	#addSpriteToGroup(ordinalNumber) {
+		const x = 12*(ordinalNumber - 1) + 4;
+		const y = GAME_WINDOW_HEIGHT - 12;
+		const position = new Point(x, y);
+		const sprite = new SpriteUI(PLAYER_LIFE_SPRITE_FILENAME, position);
+			
+		this.#group.push(sprite);
 	}
 }
