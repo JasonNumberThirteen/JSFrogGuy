@@ -1,5 +1,6 @@
 class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 	destinationReachedEvent = new GameEvent();
+	livesChangedEvent = new GameEvent();
 	
 	#initialPosition;
 	#frameIndexesToDirections = {
@@ -9,12 +10,14 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 		3: new Point(1, 0)
 	};
 	#gameScene;
+	#lives;
 	
 	constructor() {
 		super(PLAYER_SPRITE_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey("GAME");
+		this.#lives = PLAYER_INITIAL_LIVES;
 
 		this.#gameScene.gameWonEvent.addListener(this.#onGameWon.bind(this));
 	}
@@ -31,6 +34,14 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(newPosition)) {
 			this.setPosition(this.#initialPosition);
 			this.destinationReachedEvent.invoke(newPosition);
+		} else if(this.#gameScene.positionIsHazardous(newPosition)) {
+			if(--this.#lives > 0) {
+				this.setPosition(this.#initialPosition);
+			} else {
+				this.setActive(false);
+			}
+
+			this.livesChangedEvent.invoke(this.#lives);
 		} else {
 			this.#setClampedPosition(newPosition);
 		}

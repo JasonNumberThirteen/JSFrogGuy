@@ -9,6 +9,7 @@ class GameScene extends Scene {
 	#availableDestinationPositions;
 	#savedFrogs;
 	#nextLevelTimer;
+	#nextSceneKey = "GAME";
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -34,10 +35,11 @@ class GameScene extends Scene {
 		};
 
 		this.#playerAnimatedSpriteUI.destinationReachedEvent.addListener((position) => this.#onDestinationReached(position));
+		this.#playerAnimatedSpriteUI.livesChangedEvent.addListener((lives) => this.#onLivesChanged(lives));
 
 		this.#nextLevelTimer = new Timer(1, false);
 
-		this.#nextLevelTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		this.#nextLevelTimer.timerFinishedEvent.addListener(this.#startFading.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener((fadeOut) => this.#onFadeFinished(fadeOut));
 	}
 
@@ -64,6 +66,10 @@ class GameScene extends Scene {
 		return this.#availableDestinationPositions.some(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
 	}
 
+	positionIsHazardous(position) {
+		return position.y >= 32 && position.y <= 64;
+	}
+
 	#onDestinationReached(position) {
 		const availableDestinationPosition = this.#availableDestinationPositions.find(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
 
@@ -83,14 +89,24 @@ class GameScene extends Scene {
 		}
 	}
 
-	#onTimerFinished() {
+	#onLivesChanged(lives) {
+		if(lives > 0) {
+			return;
+		}
+
+		this.#nextSceneKey = "MAIN_MENU";
+
+		this.#nextLevelTimer.startTimer();
+	}
+
+	#startFading() {
 		this.#fadeScreenUI.setFadeOut(false);
 		this.#fadeScreenUI.startFading();
 	}
 
 	#onFadeFinished(fadeOut) {
 		if(!fadeOut) {
-			FrogGuy.getSceneManager().switchScene("GAME");
+			FrogGuy.getSceneManager().switchScene(this.#nextSceneKey);
 		}
 	}
 }
