@@ -31,7 +31,7 @@ class Timer {
 		}
 
 		if(this.#currentTime < this.#duration) {
-			this.#currentTime += deltaTime;
+			this.#currentTime = MathMethods.clamp(this.#currentTime + deltaTime, 0, this.#duration);
 		} else if(!this.#timerWasFinished) {
 			this.#finish();
 		}
