@@ -37,7 +37,7 @@ class MainMenuScene extends Scene {
 		
 		this.#gameLogoSpriteUI.getImage().onload = function() {
 			that.#gameLogoSpriteUI.setPosition(new Point(GAME_WINDOW_WIDTH*0.5 - that.#gameLogoSpriteUI.getImage().width*0.5, GAME_WINDOW_HEIGHT*0.5 - that.#gameLogoSpriteUI.getImage().height*0.5));
-			that.#mainMenuCursorSpriteUI.setPosition(new Point(that.#startGameTextUI.getWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + that.#gameLogoSpriteUI.getImage().height));
+			that.#mainMenuCursorSpriteUI.setPosition(new Point(that.#startGameTextUI.getTextWidth() - GAME_FONT_SIZE, GAME_WINDOW_HEIGHT*0.5 + that.#gameLogoSpriteUI.getImage().height));
 		};
 	}
 

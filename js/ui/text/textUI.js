@@ -14,12 +14,28 @@ class TextUI {
 
 	draw() {
 		var canvasContext = this.#getCanvasContext();
-		var label = this.#getLabel();
+		var position = this.#position;
 		
-		canvasContext.fillStyle = label.fillStyle;
-		canvasContext.textAlign = label.alignment;
+		canvasContext.fillStyle = this.#fillStyle;
+		canvasContext.textAlign = this.#alignment;
 
-		canvasContext.fillText(label.text, label.position.x, label.position.y);
+		canvasContext.fillText(this.#text, position.x, position.y);
+	}
+
+	getTextWidth() {
+		return this.#text.length*GAME_FONT_SIZE;
+	}
+
+	getPosition() {
+		return this.#position;
+	}
+
+	getFillStyle() {
+		return this.#fillStyle;
+	}
+
+	getAlignment() {
+		return this.#alignment;
 	}
 
 	setText(text) {
@@ -38,26 +54,8 @@ class TextUI {
 		this.#alignment = alignment;
 	}
 
-	getPosition() {
-		return this.#position;
-	}
-
-	getWidth() {
-		return this.#text.length*GAME_FONT_SIZE;
-	}
-
-	getFillStyle() {
-		return this.#fillStyle;
-	}
-
-	#getLabel() {
-		return {text: this.#text, position: this.#position, fillStyle: this.#fillStyle, alignment: this.#alignment};
-	}
-
 	#getCanvasContext() {
-		if(typeof(this.#canvasContext) === "undefined") {
-			this.#canvasContext = FrogGuy.getCanvasContext();
-		}
+		this.#canvasContext = this.#canvasContext || FrogGuy.getCanvasContext();
 
 		return this.#canvasContext;
 	}
