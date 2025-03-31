@@ -9,7 +9,7 @@ class MainMenuScene extends Scene {
 	#creditsTextUI;
 	#fadeScreenUI;
 	#gameStartTimer;
-	#inputIsLocked = false;
+	#inputIsLocked = true;
 
 	constructor() {
 		super(PALE_YELLOW_COLOR);
@@ -24,7 +24,7 @@ class MainMenuScene extends Scene {
 		this.#mainMenuCursorSpriteUI = new MainMenuCursorSpriteUI();
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
-		this.#fadeScreenUI = new FadeScreenUI();
+		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#gameStartTimer = new Timer(1, false);
 
 		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
@@ -66,12 +66,15 @@ class MainMenuScene extends Scene {
 	}
 
 	#onTimerFinished() {
+		this.#fadeScreenUI.setFadeOut(false);
 		this.#fadeScreenUI.startFading();
 	}
 
 	#onFadeFinished(fadeOut) {
 		if(!fadeOut) {
 			FrogGuy.getSceneManager().switchScene("GAME");
+		} else {
+			this.#inputIsLocked = false;
 		}
 	}
 }
