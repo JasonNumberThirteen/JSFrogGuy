@@ -2,9 +2,9 @@ class IntCounterGroupUI {
 	#headerTextUI;
 	#intCounterTextUI;
 
-	constructor(headerText, counterValue, headerPosition, alignment) {
+	constructor(headerText, headerPosition, alignment) {
 		this.#headerTextUI = new TextUI(headerText, new Point(headerPosition.x, headerPosition.y + 8), BRIGHT_RED_COLOR, alignment);
-		this.#intCounterTextUI = new IntCounterTextUI(counterValue, new Point(headerPosition.x + this.#getIntCounterTextUIPositionOffset(alignment), headerPosition.y + 16), BRIGHT_BLUE_COLOR, alignment);
+		this.#intCounterTextUI = new IntCounterTextUI(new Point(headerPosition.x + this.#getIntCounterTextUIPositionOffset(alignment), headerPosition.y + 16), BRIGHT_BLUE_COLOR, alignment);
 	}
 
 	draw() {

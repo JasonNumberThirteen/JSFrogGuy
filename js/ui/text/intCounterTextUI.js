@@ -1,10 +1,8 @@
 class IntCounterTextUI extends TextUI {
 	#value = 0;
 	
-	constructor(initialValue, position, fillStyle, alignment) {
-		super(initialValue.toString(), position, fillStyle, alignment);
-
-		this.#value = initialValue;
+	constructor(position, fillStyle, alignment) {
+		super((0).toString(), position, fillStyle, alignment);
 	}
 
 	getValue() {
