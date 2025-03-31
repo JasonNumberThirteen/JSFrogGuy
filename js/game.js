@@ -17,7 +17,7 @@ class Game {
 	}
 
 	init() {
-		this.#sceneManager.switchScene("MAIN_MENU");
+		this.#sceneManager.switchScene(MAIN_MENU_SCENE_NAME_KEY);
 	}
 
 	getCurrentTime() {

@@ -10,7 +10,7 @@ class GameScene extends Scene {
 	#availableDestinationPositions;
 	#savedFrogs;
 	#nextLevelTimer;
-	#nextSceneKey = "GAME";
+	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToDestinationPoints;
 
 	constructor() {
@@ -120,7 +120,7 @@ class GameScene extends Scene {
 	}
 
 	#setGameAsOver() {
-		this.#nextSceneKey = "MAIN_MENU";
+		this.#nextSceneKey = MAIN_MENU_SCENE_NAME_KEY;
 
 		this.#nextLevelTimer.startTimer();
 	}

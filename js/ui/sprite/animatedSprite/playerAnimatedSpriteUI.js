@@ -17,7 +17,7 @@ class PlayerAnimatedSpriteUI extends AnimatedSpriteUI {
 		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
 
 		this.#initialPosition = this.getPosition();
-		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey("GAME");
+		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 		this.#lives = PLAYER_INITIAL_LIVES;
 
 		this.#gameScene.gameWonEvent.addListener(this.#onGameWon.bind(this));

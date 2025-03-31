@@ -77,7 +77,7 @@ class MainMenuScene extends Scene {
 
 	#onFadeFinished(fadeOut) {
 		if(!fadeOut) {
-			FrogGuy.getSceneManager().switchScene("GAME");
+			FrogGuy.getSceneManager().switchScene(GAME_SCENE_NAME_KEY);
 		} else {
 			this.#inputIsLocked = false;
 		}
