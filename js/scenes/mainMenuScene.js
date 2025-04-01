@@ -57,6 +57,7 @@ class MainMenuScene extends Scene {
 
 		this.gameStartedEvent.invoke();
 		this.#gameStartTimer.startTimer();
+		FrogGuy.getData().setPlayerScore(0);
 	}
 
 	#onGameLogoSpriteLoad(image) {
