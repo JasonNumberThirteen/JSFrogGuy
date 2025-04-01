@@ -11,6 +11,7 @@ class GameScene extends Scene {
 	#availableDestinationPositions;
 	#savedFrogs;
 	#vehicles;
+	#fieldEdgesCover;
 	#nextSceneLoadTimer;
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
@@ -32,6 +33,7 @@ class GameScene extends Scene {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
+		this.#fieldEdgesCover = new FieldEdgesCover();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		
@@ -63,6 +65,7 @@ class GameScene extends Scene {
 		this.#remainingTimePanelUI.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#vehicles.forEach(vehicle => vehicle.draw());
+		this.#fieldEdgesCover.draw();
 		this.#fadeScreenUI.draw();
 	}
 
