@@ -3,13 +3,13 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	livesChangedEvent = new GameEvent();
 	positionChangedEvent = new GameEvent();
 	
+	#inputKeyData = [
+		new PlayerInputKeyData(PLAYER_UP_MOVEMENT_KEY, new Point(0, -1), 0),
+		new PlayerInputKeyData(PLAYER_DOWN_MOVEMENT_KEY, new Point(0, 1), 1),
+		new PlayerInputKeyData(PLAYER_LEFT_MOVEMENT_KEY, new Point(-1, 0), 2),
+		new PlayerInputKeyData(PLAYER_RIGHT_MOVEMENT_KEY, new Point(1, 0), 3)
+	];
 	#initialPosition;
-	#frameIndexesToDirections = {
-		0: new Point(0, -1),
-		1: new Point(0, 1),
-		2: new Point(-1, 0),
-		3: new Point(1, 0)
-	};
 	#gameScene;
 	#lives;
 	
@@ -20,7 +20,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 		this.#lives = PLAYER_INITIAL_LIVES;
 
-		this.#gameScene.gameWonEvent.addListener(this.#onGameWon.bind(this));
+		this.#gameScene.gameWonEvent.addListener(this.#deactivate.bind(this));
 	}
 
 	getLives() {
@@ -28,67 +28,73 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	}
 
 	processInput(key) {
-		if(!this.isActive() || !this.#pressedAnyInputKey(key)) {
+		if(!this.isActive()) {
 			return;
 		}
 
-		const currentPosition = this.getPosition();
-		const movementDirection = this.#getMovementDirection(key);
-		const newPosition = new Point(currentPosition.x + movementDirection.x*8, currentPosition.y + movementDirection.y*8);
+		const inputKeyData = this.#inputKeyData.find(inputKeyData => inputKeyData.getInputKey() === key);
 
-		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(newPosition)) {
-			this.setPosition(this.#initialPosition);
-			this.destinationReachedEvent.invoke(newPosition);
-		} else if(this.#gameScene.positionIsHazardous(newPosition)) {
-			if(--this.#lives > 0) {
-				this.setPosition(this.#initialPosition);
-			} else {
-				this.setActive(false);
-			}
+		this.#operateOnInputKeyData(inputKeyData);
+	}
 
-			this.livesChangedEvent.invoke(this.#lives);
+	#operateOnInputKeyData(inputKeyData) {
+		if(typeof(inputKeyData) === "undefined") {
+			return;
+		}
+		
+		this.#operateOnNextPosition(inputKeyData);
+		this.setCurrentColumnIndex(inputKeyData.getAnimationIndex());
+	}
+
+	#operateOnNextPosition(inputKeyData) {
+		const nextPosition = this.#getNextPosition(inputKeyData);
+
+		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(nextPosition)) {
+			this.#onReachedDestinationPosition(nextPosition);
+		} else if(this.#gameScene.positionIsHazardous(nextPosition)) {
+			this.#onReachedHazardousPosition();
 		} else {
-			this.#setClampedPosition(newPosition);
-			this.positionChangedEvent.invoke(newPosition);
-		}
-
-		this.setCurrentColumnIndex(this.#getIndexByMovementDirection(movementDirection));
-	}
-
-	#pressedAnyInputKey(key) {
-		const inputKeys = [PLAYER_UP_MOVEMENT_KEY, PLAYER_DOWN_MOVEMENT_KEY, PLAYER_LEFT_MOVEMENT_KEY, PLAYER_RIGHT_MOVEMENT_KEY];
-		
-		return inputKeys.some(inputKey => inputKey === key);
-	}
-
-	#getMovementDirection(key) {
-		switch (key) {
-			case PLAYER_UP_MOVEMENT_KEY:
-				return this.#frameIndexesToDirections[0];
-			case PLAYER_DOWN_MOVEMENT_KEY:
-				return this.#frameIndexesToDirections[1];
-			case PLAYER_LEFT_MOVEMENT_KEY:
-				return this.#frameIndexesToDirections[2];
-			case PLAYER_RIGHT_MOVEMENT_KEY:
-				return this.#frameIndexesToDirections[3];
-			default:
-				return new Point();
+			this.#setPositionWithinField(nextPosition);
 		}
 	}
 
-	#setClampedPosition(position) {
-		const clampedX = MathMethods.clamp(position.x, 68, 180);
-		const clampedY = MathMethods.clamp(position.y, 32, 120);
-		const clampedPosition = new Point(clampedX, clampedY);
-		
-		this.setPosition(clampedPosition);
+	#getNextPosition(inputKeyData) {
+		const currentPosition = this.getPosition();
+		const movementDirection = inputKeyData.getMovementDirection();
+		const x = currentPosition.x + movementDirection.x*8;
+		const y = currentPosition.y + movementDirection.y*8;
+
+		return new Point(x, y);
 	}
 
-	#getIndexByMovementDirection(movementDirection) {
-		return Object.keys(this.#frameIndexesToDirections).find(key => this.#frameIndexesToDirections[key] === movementDirection);
+	#onReachedDestinationPosition(position) {
+		this.#respawn();
+		this.destinationReachedEvent.invoke(position);
 	}
 
-	#onGameWon() {
+	#onReachedHazardousPosition() {
+		if(--this.#lives > 0) {
+			this.#respawn();
+		} else {
+			this.#deactivate();
+		}
+
+		this.livesChangedEvent.invoke(this.#lives);
+	}
+
+	#respawn() {
+		this.setPosition(this.#initialPosition);
+	}
+
+	#deactivate() {
 		this.setActive(false);
+	}
+
+	#setPositionWithinField(position) {
+		const minPosition = new Point(68, 32);
+		const maxPosition = new Point(180, 120);
+		
+		this.setPosition(PositionMethods.clamp(position, minPosition, maxPosition));
+		this.positionChangedEvent.invoke(position);
 	}
 }
