@@ -10,6 +10,7 @@ class GameScene extends Scene {
 	#fadeScreenUI;
 	#availableDestinationPositions;
 	#savedFrogs;
+	#vehicles;
 	#nextSceneLoadTimer;
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
@@ -20,6 +21,8 @@ class GameScene extends Scene {
 	}
 
 	init() {
+		const objectsGenerator = new ObjectsGenerator();
+		
 		this.#fieldSprite = new Sprite(FIELD_SPRITE_FILENAME, new Point(), this.#onFieldSpriteLoad.bind(this));
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
@@ -28,6 +31,7 @@ class GameScene extends Scene {
 		this.#remainingTimePanelUI = new RemainingTimePanelUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
+		this.#vehicles = objectsGenerator.createVehicles();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		
@@ -44,6 +48,7 @@ class GameScene extends Scene {
 	update(deltaTime) {
 		this.#nextSceneLoadTimer.update(deltaTime);
 		this.#remainingTimeTimer.update(deltaTime);
+		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
 		this.#fadeScreenUI.update(deltaTime);
 		this.#remainingTimePanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
 	}
@@ -57,6 +62,7 @@ class GameScene extends Scene {
 		this.#playerLivesSpritesGroup.draw();
 		this.#remainingTimePanelUI.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
+		this.#vehicles.forEach(vehicle => vehicle.draw());
 		this.#fadeScreenUI.draw();
 	}
 
