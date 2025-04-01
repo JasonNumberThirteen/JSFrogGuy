@@ -4,8 +4,8 @@ class Sprite {
 	#isActive = true;
 	#canvasContext;
 
-	constructor(filename, position) {
-		this.setImage(filename);
+	constructor(filename, position, onload) {
+		this.setImage(filename, onload);
 		this.setPosition(position);
 	}
 
@@ -37,9 +37,13 @@ class Sprite {
 		return this.#canvasContext;
 	}
 
-	setImage(filename) {
+	setImage(filename, onload) {
 		this.#image = new Image();
 		this.#image.src = filename;
+
+		if(onload) {
+			this.#image.onload = () => onload(this.#image);
+		}
 	}
 
 	setPosition(position) {
