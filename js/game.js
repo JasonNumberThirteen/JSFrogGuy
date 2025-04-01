@@ -66,7 +66,7 @@ class Game {
 		window.requestAnimationFrame(this.#update.bind(this));
 	}
 
-	#onKeyPressed(parameters) {
-		this.#sceneManager.processInputInScene(parameters.key);
+	#onKeyPressed(key) {
+		this.#sceneManager.processInputInScene(key);
 	}
 }

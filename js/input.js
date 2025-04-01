@@ -6,6 +6,6 @@ class Input {
 	}
 
 	#onKeyDown(event) {
-		this.keyPressedEvent.invoke({key : event.key.toLowerCase()});
+		this.keyPressedEvent.invoke(event.key.toLowerCase());
 	}
 }
