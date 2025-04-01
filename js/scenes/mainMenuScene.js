@@ -23,7 +23,7 @@ class MainMenuScene extends Scene {
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
-		this.#gameStartTimer = new Timer(GAME_START_DELAY, false);
+		this.#gameStartTimer = new Timer(GAME_START_DELAY);
 
 		this.#setCounterValues();
 		this.#gameStartTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));

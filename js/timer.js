@@ -51,6 +51,10 @@ class Timer {
 		return this.#duration;
 	}
 
+	getCurrentTime() {
+		return this.#currentTime;
+	}
+
 	getProgressPercent() {
 		return this.#duration > 0 ? this.#currentTime / this.#duration : 0;
 	}

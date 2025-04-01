@@ -6,10 +6,12 @@ class GameScene extends Scene {
 	#highScoreIntCounterGroupUI;
 	#playerAnimatedSprite;
 	#playerLivesSpritesGroup;
+	#remainingTimePanelUI;
 	#fadeScreenUI;
 	#availableDestinationPositions;
 	#savedFrogs;
 	#nextSceneLoadTimer;
+	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToDestinationPoints;
 
@@ -23,22 +25,27 @@ class GameScene extends Scene {
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#playerAnimatedSprite = new PlayerAnimatedSprite();
 		this.#playerLivesSpritesGroup = new PlayerLivesSpritesGroup(this.#playerAnimatedSprite.getLives());
+		this.#remainingTimePanelUI = new RemainingTimePanelUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
-		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY, false);
+		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
+		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		
 		this.#setCounterValues();
 		this.#playerAnimatedSprite.destinationReachedEvent.addListener(position => this.#onDestinationReached(position));
 		this.#playerAnimatedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
 		this.#playerAnimatedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
-		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
+		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOver.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#resetClosestYToDestinationPoints();
 	}
 
 	update(deltaTime) {
 		this.#nextSceneLoadTimer.update(deltaTime);
+		this.#remainingTimeTimer.update(deltaTime);
 		this.#fadeScreenUI.update(deltaTime);
+		this.#remainingTimePanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
 	}
 
 	draw() {
@@ -48,6 +55,7 @@ class GameScene extends Scene {
 		this.#highScoreIntCounterGroupUI.draw();
 		this.#playerAnimatedSprite.draw();
 		this.#playerLivesSpritesGroup.draw();
+		this.#remainingTimePanelUI.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#fadeScreenUI.draw();
 	}
@@ -141,7 +149,7 @@ class GameScene extends Scene {
 		this.#nextSceneLoadTimer.startTimer();
 	}
 
-	#onTimerFinished() {
+	#onNextSceneLoadTimerFinished() {
 		this.#updateGameData();
 		this.#startFading();
 	}
