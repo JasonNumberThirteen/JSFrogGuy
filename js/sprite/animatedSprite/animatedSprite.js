@@ -11,6 +11,10 @@ class AnimatedSprite extends Sprite {
 		this.#frameHeight = frameHeight;
 	}
 
+	getFrameWidth() {
+		return this.#frameWidth;
+	}
+
 	setCurrentRowIndex(index) {
 		this.#currentRowIndex = index;
 	}
