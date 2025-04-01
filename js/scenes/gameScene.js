@@ -26,14 +26,14 @@ class GameScene extends Scene {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY, false);
-		this.#closestYToDestinationPoints = this.#playerAnimatedSprite.getPosition().y;
-
+		
 		this.#playerAnimatedSprite.destinationReachedEvent.addListener(position => this.#onDestinationReached(position));
 		this.#playerAnimatedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
 		this.#playerAnimatedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#highScoreIntCounterGroupUI.setCounterValue(FrogGuy.getData().getHighScore());
+		this.#resetClosestYToDestinationPoints();
 	}
 
 	update(deltaTime) {
@@ -83,7 +83,12 @@ class GameScene extends Scene {
 		this.#savedFrogs.push(new SavedFrogSprite(availableDestinationPosition));
 		this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_REACHING_DESTINATION_POINT);
 		ListMethods.removeElementByReferenceIfPossible(this.#availableDestinationPositions, availableDestinationPosition);
+		this.#resetClosestYToDestinationPoints();
 		this.#checkIfWonGame();
+	}
+
+	#resetClosestYToDestinationPoints() {
+		this.#closestYToDestinationPoints = this.#playerAnimatedSprite.getPosition().y;
 	}
 
 	#checkIfWonGame() {
