@@ -117,6 +117,7 @@ class GameScene extends Scene {
 		this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_REACHING_DESTINATION_POINT);
 		ListMethods.removeElementByReferenceIfPossible(this.#availableDestinationPositions, availableDestinationPosition);
 		this.#resetClosestYToDestinationPoints();
+		this.#remainingTimeTimer.startTimer();
 		this.#checkIfWonGame();
 	}
 
