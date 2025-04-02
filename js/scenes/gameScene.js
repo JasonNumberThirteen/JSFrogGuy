@@ -82,16 +82,20 @@ class GameScene extends Scene {
 		return this.#availableDestinationPositions.some(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
 	}
 
-	positionIsHazardous(position) {
-		return this.playerIntersectsWithAnyVehicle() || this.#positionIntersectsWithRiver(position);
+	playerIsStandingOnHazardousPosition() {
+		const playerPosition = this.#playerAnimatedSprite.getPosition();
+		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
+		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLog();
+
+		return this.playerIntersectsWithAnyVehicle() || playerIsStandingOnRiver;
 	}
 
 	playerIntersectsWithAnyVehicle() {
 		return this.#vehicles.some(vehicle => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), vehicle.getRectangle()));
 	}
 
-	#positionIntersectsWithRiver(position) {
-		return position.y >= 32 && position.y <= 64;
+	playerIntersectsWithAnyWoodenLog() {
+		return this.#woodenLogs.some(woodenLog => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), woodenLog.getRectangle()));
 	}
 
 	#onFieldSpriteLoad(image) {

@@ -24,7 +24,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	}
 
 	update(deltaTime) {
-		if(this.#gameScene.playerIntersectsWithAnyVehicle()) {
+		if(this.#gameScene.playerIsStandingOnHazardousPosition()) {
 			this.#onReachedHazardousPosition();
 		}
 	}
@@ -64,8 +64,6 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 
 		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(nextPosition)) {
 			this.#onReachedDestinationPosition(nextPosition);
-		} else if(this.#gameScene.positionIsHazardous(nextPosition)) {
-			this.#onReachedHazardousPosition();
 		} else {
 			this.#setPositionWithinField(nextPosition);
 		}
