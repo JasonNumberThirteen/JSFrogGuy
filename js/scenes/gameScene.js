@@ -62,15 +62,15 @@ class GameScene extends Scene {
 	draw() {
 		this.clearScreen();
 		this.#fieldSprite.draw();
+		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
+		this.#woodenLogs.forEach(woodenLog => woodenLog.draw());
+		this.#playerAnimatedSprite.draw();
+		this.#vehicles.forEach(vehicle => vehicle.draw());
+		this.#fieldEdgesCover.draw();
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
-		this.#playerAnimatedSprite.draw();
 		this.#playerLivesSpritesGroup.draw();
 		this.#remainingTimePanelUI.draw();
-		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
-		this.#vehicles.forEach(vehicle => vehicle.draw());
-		this.#woodenLogs.forEach(woodenLog => woodenLog.draw());
-		this.#fieldEdgesCover.draw();
 		this.#fadeScreenUI.draw();
 	}
 
