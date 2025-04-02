@@ -23,8 +23,21 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 		this.#gameScene.gameWonEvent.addListener(this.#deactivate.bind(this));
 	}
 
+	update(deltaTime) {
+		if(this.#gameScene.playerIntersectsWithAnyVehicle()) {
+			this.#onReachedHazardousPosition();
+		}
+	}
+
 	getLives() {
 		return this.#lives;
+	}
+
+	getRectangle() {
+		const position = this.getPosition();
+		const size = this.getSize();
+		
+		return new Rectangle(new Point(position.x + 1, position.y + 1), new Point(size.x - 2, size.y - 2));
 	}
 
 	processInput(key) {

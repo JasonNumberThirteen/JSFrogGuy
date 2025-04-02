@@ -27,6 +27,16 @@ class Sprite {
 		return this.#position;
 	}
 
+	getSize() {
+		const image = this.#image;
+		
+		return new Point(image.width, image.height);
+	}
+
+	getRectangle() {
+		return new Rectangle(this.getPosition(), this.getSize());
+	}
+
 	isActive() {
 		return this.#isActive;
 	}

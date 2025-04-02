@@ -48,6 +48,7 @@ class GameScene extends Scene {
 	}
 
 	update(deltaTime) {
+		this.#playerAnimatedSprite.update(deltaTime);
 		this.#nextSceneLoadTimer.update(deltaTime);
 		this.#remainingTimeTimer.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
@@ -78,6 +79,14 @@ class GameScene extends Scene {
 	}
 
 	positionIsHazardous(position) {
+		return this.playerIntersectsWithAnyVehicle() || this.#positionIntersectsWithRiver(position);
+	}
+
+	playerIntersectsWithAnyVehicle() {
+		return this.#vehicles.some(vehicle => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), vehicle.getRectangle()));
+	}
+
+	#positionIntersectsWithRiver(position) {
 		return position.y >= 32 && position.y <= 64;
 	}
 
