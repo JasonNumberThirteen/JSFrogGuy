@@ -24,4 +24,14 @@ class ObjectsGenerator {
 
 		return vehicles;
 	}
+
+	createWoodenLogs() {
+		const woodenLogs = [];
+
+		woodenLogs.push(new WoodenLogSprite(new Point(128, 56), 10));
+		woodenLogs.push(new WoodenLogSprite(new Point(128, 48), 16));
+		woodenLogs.push(new WoodenLogSprite(new Point(128, 32), 18));
+
+		return woodenLogs;
+	}
 }

@@ -11,6 +11,7 @@ class GameScene extends Scene {
 	#availableDestinationPositions;
 	#savedFrogs;
 	#vehicles;
+	#woodenLogs;
 	#fieldEdgesCover;
 	#nextSceneLoadTimer;
 	#remainingTimeTimer;
@@ -33,6 +34,7 @@ class GameScene extends Scene {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
+		this.#woodenLogs = objectsGenerator.createWoodenLogs();
 		this.#fieldEdgesCover = new FieldEdgesCover();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
@@ -52,6 +54,7 @@ class GameScene extends Scene {
 		this.#nextSceneLoadTimer.update(deltaTime);
 		this.#remainingTimeTimer.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
+		this.#woodenLogs.forEach(woodenLog => woodenLog.update(deltaTime));
 		this.#fadeScreenUI.update(deltaTime);
 		this.#remainingTimePanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
 	}
@@ -66,6 +69,7 @@ class GameScene extends Scene {
 		this.#remainingTimePanelUI.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#vehicles.forEach(vehicle => vehicle.draw());
+		this.#woodenLogs.forEach(woodenLog => woodenLog.draw());
 		this.#fieldEdgesCover.draw();
 		this.#fadeScreenUI.draw();
 	}
