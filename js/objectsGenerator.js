@@ -35,12 +35,12 @@ class ObjectsGenerator {
 		return woodenLogs;
 	}
 
-	createTurtles() {
-		const turtles = [];
+	createTurtleGroups() {
+		const turtleGroups = [];
 
-		turtles.push(new TurtleAnimatedSprite(new Point(128, 64), 20));
-		turtles.push(new TurtleAnimatedSprite(new Point(128, 40), 30));
+		turtleGroups.push(new TurtlesAnimatedSpritesGroup(new Point(128, 64), 20));
+		turtleGroups.push(new TurtlesAnimatedSpritesGroup(new Point(128, 40), 30));
 
-		return turtles;
+		return turtleGroups;
 	}
 }
