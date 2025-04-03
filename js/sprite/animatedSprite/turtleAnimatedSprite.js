@@ -1,9 +1,9 @@
-class WoodenLogSprite extends Sprite {
+class TurtleAnimatedSprite extends AnimatedSprite {
 	#movementSpeed;
-	#movementDirection = 1;
+	#movementDirection = -1;
 	
 	constructor(position, movementSpeed) {
-		super(WOODEN_LOG_SPRITE_SHEET_FILENAME, position);
+		super(TURTLE_SPRITE_SHEET_FILENAME, position, 8, 8);
 
 		this.#movementSpeed = movementSpeed;
 	}
@@ -12,12 +12,12 @@ class WoodenLogSprite extends Sprite {
 		const position = this.getPosition();
 		const leftSide = 68;
 		const rightSide = 188;
-		const width = this.getSize().x;
+		const frameWidth = this.getFrameWidth();
 
 		position.x += this.#movementSpeed*this.#movementDirection*deltaTime;
 
-		if(position.x > rightSide) {
-			position.x = leftSide - width*2;
+		if(position.x < leftSide - frameWidth) {
+			position.x = rightSide + frameWidth;
 		}
 
 		this.setPosition(position);

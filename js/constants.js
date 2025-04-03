@@ -37,12 +37,15 @@ const BRIGHT_BLUE_COLOR = "#155fd9";
 const PALE_YELLOW_COLOR = "#ffefaf";
 
 // SPRITE FILENAMES
-const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/single/mainMenu/gameLogo.png";
-const MAIN_MENU_CURSOR_SPRITE_FILENAME = "assets/sprites/single/mainMenu/mainMenuCursor.png";
 const FIELD_SPRITE_FILENAME = "assets/sprites/single/game/field.png";
+const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/single/mainMenu/gameLogo.png";
 const SAVED_FROG_SPRITE_FILENAME = "assets/sprites/single/game/savedFrog.png";
 const PLAYER_LIFE_SPRITE_FILENAME = "assets/sprites/single/game/playerLife.png";
+const MAIN_MENU_CURSOR_SPRITE_FILENAME = "assets/sprites/single/mainMenu/mainMenuCursor.png";
+
+// SPRITE SHEET FILENAMES
 const PLAYER_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/player.png";
+const TURTLE_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/turtle.png";
 const VEHICLES_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/vehicles.png";
 const WOODEN_LOG_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/woodenLog.png";
 

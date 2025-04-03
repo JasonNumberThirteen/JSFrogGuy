@@ -32,7 +32,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 		if(typeof(this.#parentObject) !== "undefined") {
 			var x = this.getPosition().x;
 			
-			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*deltaTime, 68, 180);
+			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, 68, 180);
 			this.getPosition().x = x;
 		}
 	}
@@ -75,7 +75,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 		} else {
 			this.#setPositionWithinField(nextPosition);
 
-			this.#parentObject = this.#gameScene.getWoodenLogOnPlayerPositionIfPossible();
+			this.#parentObject = this.#gameScene.getObjectOnRiverOnPlayerPositionIfPossible();
 		}
 	}
 
