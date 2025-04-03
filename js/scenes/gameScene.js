@@ -83,7 +83,7 @@ class GameScene extends Scene {
 	}
 
 	reachedAnyOfLeftDestinationPositions(position) {
-		return this.#availableDestinationPositions.some(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
+		return this.#availableDestinationPositions.some(destinationPosition => this.#positionIsSufficientlyCloseToDestinationPosition(destinationPosition, position));
 	}
 
 	playerIsStandingOnHazardousPosition() {
@@ -131,7 +131,7 @@ class GameScene extends Scene {
 	}
 
 	#onDestinationReached(position) {
-		const availableDestinationPosition = this.#availableDestinationPositions.find(destinationPosition => destinationPosition.x == position.x && destinationPosition.y == position.y);
+		const availableDestinationPosition = this.#availableDestinationPositions.find(destinationPosition => this.#positionIsSufficientlyCloseToDestinationPosition(destinationPosition, position));
 
 		if(typeof(availableDestinationPosition) === "undefined") {
 			return;
@@ -143,6 +143,12 @@ class GameScene extends Scene {
 		this.#resetClosestYToDestinationPoints();
 		this.#remainingTimeTimer.startTimer();
 		this.#checkIfWonGame();
+	}
+
+	#positionIsSufficientlyCloseToDestinationPosition(destinationPosition, position) {
+		const differenceInPositionXIsSufficientlySmall = Math.abs(destinationPosition.x - position.x) <= DESTINATION_POSITION_X_THRESHOLD;
+
+		return differenceInPositionXIsSufficientlySmall && destinationPosition.y == position.y;
 	}
 
 	#resetClosestYToDestinationPoints() {
