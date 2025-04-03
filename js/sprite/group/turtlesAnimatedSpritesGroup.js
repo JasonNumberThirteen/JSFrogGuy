@@ -19,6 +19,10 @@ class TurtlesAnimatedSpritesGroup {
 		this.#turtles.forEach(turtle => turtle.draw());
 	}
 
+	isHidden() {
+		return this.#turtles.some(turtle => turtle.isHidden());
+	}
+
 	getPosition() {
 		return this.#turtles[0].getPosition();
 	}

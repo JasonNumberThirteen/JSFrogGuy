@@ -1,11 +1,22 @@
 class TurtleAnimatedSprite extends AnimatedSprite {
 	#movementSpeed;
 	#movementDirection = -1;
+	#animationTimer;
+	#animationFrames = [0, 1, 2, 3, 4, -1, 4, 3, 2, 1];
+	#currentAnimationFrame = 0;
 	
 	constructor(position, movementSpeed) {
 		super(TURTLE_SPRITE_SHEET_FILENAME, position, 8, 8);
 
 		this.#movementSpeed = movementSpeed;
+		this.#animationTimer = new Timer(0.25, true);
+
+		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);
+		this.#animationTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+	}
+
+	isHidden() {
+		return this.getCurrentColumnIndex() === -1;
 	}
 
 	update(deltaTime) {
@@ -21,6 +32,7 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		}
 
 		this.setPosition(position);
+		this.#animationTimer.update(deltaTime);
 	}
 
 	getMovementSpeed() {
@@ -29,5 +41,12 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 
 	getMovementDirection() {
 		return this.#movementDirection;
+	}
+
+	#onTimerFinished() {
+		this.#currentAnimationFrame = (this.#currentAnimationFrame + 1) % this.#animationFrames.length;
+
+		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);
+		this.#animationTimer.startTimer();
 	}
 }

@@ -103,7 +103,7 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyTurtlesGroup() {
-		return this.#turtleGroups.some(turtleGroup => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), turtleGroup.getRectangle()));
+		return this.#turtleGroups.some(turtleGroup => !turtleGroup.isHidden() && CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), turtleGroup.getRectangle()));
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {

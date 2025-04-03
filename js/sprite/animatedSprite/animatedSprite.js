@@ -19,6 +19,10 @@ class AnimatedSprite extends Sprite {
 		return new Point(this.#frameWidth, this.#frameHeight);
 	}
 
+	getCurrentColumnIndex() {
+		return this.#currentColumnIndex;
+	}
+
 	setCurrentRowIndex(index) {
 		this.#currentRowIndex = index;
 	}
