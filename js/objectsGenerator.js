@@ -28,9 +28,17 @@ class ObjectsGenerator {
 	createWoodenLogs() {
 		const woodenLogs = [];
 
-		woodenLogs.push(new WoodenLogSprite(new Point(128, 56), 10));
-		woodenLogs.push(new WoodenLogSprite(new Point(128, 48), 16));
-		woodenLogs.push(new WoodenLogSprite(new Point(128, 32), 18));
+		for (let i = 0; i < 3; ++i) {
+			woodenLogs.push(new WoodenLogSprite(new Point(8 + 48*i, 56), 10));
+		}
+
+		for (let i = 0; i < 2; ++i) {
+			woodenLogs.push(new WoodenLogSprite(new Point(24 + 48*i, 48), 16));
+		}
+
+		for (let i = 0; i < 3; ++i) {
+			woodenLogs.push(new WoodenLogSprite(new Point(24 + 48*i, 32), 18));
+		}
 
 		return woodenLogs;
 	}
