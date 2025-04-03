@@ -12,6 +12,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	#initialPosition;
 	#gameScene;
 	#lives;
+	#parentObject;
 	
 	constructor() {
 		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
@@ -26,6 +27,13 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	update(deltaTime) {
 		if(this.#gameScene.playerIsStandingOnHazardousPosition()) {
 			this.#onReachedHazardousPosition();
+		}
+
+		if(typeof(this.#parentObject) !== "undefined") {
+			var x = this.getPosition().x;
+			
+			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*deltaTime, 68, 180);
+			this.getPosition().x = x;
 		}
 	}
 
@@ -66,6 +74,8 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 			this.#onReachedDestinationPosition(nextPosition);
 		} else {
 			this.#setPositionWithinField(nextPosition);
+
+			this.#parentObject = this.#gameScene.getWoodenLogOnPlayerPositionIfPossible();
 		}
 	}
 
@@ -95,6 +105,8 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 
 	#respawn() {
 		this.setPosition(this.#initialPosition);
+
+		this.#parentObject = undefined;
 	}
 
 	#deactivate() {

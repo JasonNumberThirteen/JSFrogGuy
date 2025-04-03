@@ -98,6 +98,10 @@ class GameScene extends Scene {
 		return this.#woodenLogs.some(woodenLog => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), woodenLog.getRectangle()));
 	}
 
+	getWoodenLogOnPlayerPositionIfPossible() {
+		return this.#woodenLogs.find(woodenLog => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), woodenLog.getRectangle()));
+	}
+
 	#onFieldSpriteLoad(image) {
 		const x = GAME_WINDOW_WIDTH*0.5 - image.width*0.5;
 		const y = GAME_WINDOW_HEIGHT*0.5 - image.height*0.5;

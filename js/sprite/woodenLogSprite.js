@@ -21,4 +21,8 @@ class WoodenLogSprite extends Sprite {
 
 		this.setPosition(position);
 	}
+
+	getMovementSpeed() {
+		return this.#movementSpeed;
+	}
 }
