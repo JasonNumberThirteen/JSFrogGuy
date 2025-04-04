@@ -35,6 +35,13 @@ class WoodenLogSprite extends Sprite {
 		return this.#movementDirection;
 	}
 
+	getRectangle() {
+		const position = this.getPosition();
+		const size = this.getSize();
+		
+		return new Rectangle(new Point(position.x + 1, position.y + 1), new Point(size.x - 4, size.y - 1));
+	}
+
 	#onFrogSaved() {
 		this.#movementSpeed += this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_SAVED_FROG;
 	}

@@ -31,6 +31,13 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		this.#animationTimer.update(deltaTime);
 	}
 
+	getRectangle() {
+		const position = this.getPosition();
+		const size = this.getSize();
+		
+		return new Rectangle(new Point(position.x + 1, position.y + 1), new Point(size.x - 2, size.y - 2));
+	}
+
 	getMovementSpeed() {
 		return this.#movementSpeed;
 	}

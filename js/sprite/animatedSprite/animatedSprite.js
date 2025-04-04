@@ -41,7 +41,7 @@ class AnimatedSprite extends Sprite {
 		const offsetX = this.#currentColumnIndex*frameWidth;
 		const offsetY = this.#currentRowIndex*frameHeight;
 		const position = this.getPosition();
-
+		
 		this.getCanvasContext().drawImage(this.getImage(), offsetX, offsetY, frameWidth, frameHeight, position.x, position.y, frameWidth, frameHeight);
 	}
 }

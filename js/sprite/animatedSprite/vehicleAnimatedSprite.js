@@ -18,6 +18,13 @@ class VehicleAnimatedSprite extends AnimatedSprite {
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
 
+	getRectangle() {
+		const position = this.getPosition();
+		const size = this.getSize();
+		
+		return new Rectangle(new Point(position.x, position.y + 1), new Point(size.x, size.y - 2));
+	}
+
 	update(deltaTime) {
 		const position = this.getPosition();
 		const movementDirection = this.#moveToRight ? 1 : -1;
