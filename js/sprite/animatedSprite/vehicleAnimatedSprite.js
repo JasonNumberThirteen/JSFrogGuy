@@ -7,9 +7,12 @@ class VehicleAnimatedSprite extends AnimatedSprite {
 		super(filename, position, frameWidth, frameHeight);
 		this.setCurrentColumnIndex(columnIndex);
 
-		this.#movementSpeed = movementSpeed;
+		this.#initialMovementSpeed = movementSpeed;
+		this.#movementSpeed = this.#initialMovementSpeed + (this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		this.#moveToRight = moveToRight;
-		this.#initialMovementSpeed = this.#movementSpeed;
+
+		console.log(this.#initialMovementSpeed);
+		console.log(this.#movementSpeed);
 
 		if(this.#moveToRight) {
 			this.setCurrentRowIndex(1);

@@ -9,8 +9,8 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 	constructor(position, movementSpeed) {
 		super(TURTLE_SPRITE_SHEET_FILENAME, position, 8, 8);
 
-		this.#movementSpeed = movementSpeed;
-		this.#initialMovementSpeed = this.#movementSpeed;
+		this.#initialMovementSpeed = movementSpeed;
+		this.#movementSpeed = this.#initialMovementSpeed + (this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		this.#animationTimer = new Timer(0.25, true);
 
 		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);

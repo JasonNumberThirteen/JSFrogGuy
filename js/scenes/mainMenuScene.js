@@ -57,7 +57,14 @@ class MainMenuScene extends Scene {
 
 		this.gameStartedEvent.invoke();
 		this.#gameStartTimer.startTimer();
-		FrogGuy.getData().setPlayerScore(0);
+		this.#resetGameData();
+	}
+
+	#resetGameData() {
+		var gameData = FrogGuy.getData();
+
+		gameData.resetPlayerScore();
+		gameData.resetCurrentLevelNumber();
 	}
 
 	#onGameLogoSpriteLoad(image) {

@@ -6,8 +6,8 @@ class WoodenLogSprite extends Sprite {
 	constructor(position, movementSpeed) {
 		super(WOODEN_LOG_SPRITE_SHEET_FILENAME, position);
 
-		this.#movementSpeed = movementSpeed;
-		this.#initialMovementSpeed = this.#movementSpeed;
+		this.#initialMovementSpeed = movementSpeed;
+		this.#movementSpeed = this.#initialMovementSpeed + (this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}

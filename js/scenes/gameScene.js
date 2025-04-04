@@ -164,6 +164,7 @@ class GameScene extends Scene {
 
 		this.gameWonEvent.invoke();
 		this.#nextSceneLoadTimer.startTimer();
+		FrogGuy.getData().increaseCurrentLevelNumberBy(1);
 	}
 
 	#onLivesChanged(lives) {
