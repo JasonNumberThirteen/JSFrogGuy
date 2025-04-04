@@ -115,6 +115,10 @@ class GameScene extends Scene {
 		return objectsOnRiver.find(objectOnRiver => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), objectOnRiver.getRectangle()));
 	}
 
+	getFieldSprite() {
+		return this.#fieldSprite;
+	}
+
 	#onFieldSpriteLoad(image) {
 		const x = HALF_OF_GAME_WINDOW_WIDTH - image.width*0.5;
 		const y = HALF_OF_GAME_WINDOW_HEIGHT - image.height*0.5;
