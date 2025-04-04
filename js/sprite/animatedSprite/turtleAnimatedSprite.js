@@ -24,15 +24,8 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 
 	update(deltaTime) {
 		const position = this.getPosition();
-		const leftSide = 68;
-		const rightSide = 188;
-		const frameWidth = this.getFrameWidth();
-
+		
 		position.x += this.#movementSpeed*this.#movementDirection*deltaTime;
-
-		if(position.x < leftSide - frameWidth) {
-			position.x = rightSide + frameWidth;
-		}
 
 		this.setPosition(position);
 		this.#animationTimer.update(deltaTime);

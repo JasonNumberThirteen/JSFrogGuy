@@ -13,6 +13,19 @@ class TurtlesAnimatedSpritesGroup {
 
 	update(deltaTime) {
 		this.#turtles.forEach(turtle => turtle.update(deltaTime));
+
+		const position = this.getPosition();
+		const leftSide = 68;
+		const rightSide = 188;
+		const frameWidth = this.getSize().x;
+
+		if(position.x < leftSide - frameWidth) {
+			position.x = rightSide + frameWidth;
+
+			for (let i = 0; i < 3; ++i) {
+				this.#turtles[i].getPosition().x = position.x + i*8;
+			}
+		}
 	}
 
 	draw() {
