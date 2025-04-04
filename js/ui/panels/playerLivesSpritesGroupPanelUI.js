@@ -20,11 +20,14 @@ class PlayerLivesSpritesGroupPanelUI {
 	}
 
 	#addSpriteToGroup(ordinalNumber) {
-		const x = 12*(ordinalNumber - 1) + 4;
-		const y = GAME_WINDOW_HEIGHT - 12;
-		const position = new Point(x, y);
-		const sprite = new Sprite(PLAYER_LIFE_SPRITE_FILENAME, position);
-		
+		const sprite = new Sprite(PLAYER_LIFE_SPRITE_FILENAME, new Point(), image => {
+			const offsetBetweenSprites = image.width + PLAYER_LIVES_SPRITES_GROUP_PANEL_UI_OFFSET_BETWEEN_SPRITES;
+			const x = PLAYER_LIVES_SPRITES_GROUP_PANEL_UI_OFFSET_FROM_EDGES + offsetBetweenSprites*(ordinalNumber - 1);
+			const y = GAME_WINDOW_HEIGHT - image.height - PLAYER_LIVES_SPRITES_GROUP_PANEL_UI_OFFSET_FROM_EDGES;
+			
+			sprite.setPosition(new Point(x, y));
+		});
+
 		this.#group.push(sprite);
 	}
 }
