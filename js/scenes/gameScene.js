@@ -116,8 +116,8 @@ class GameScene extends Scene {
 	}
 
 	#onFieldSpriteLoad(image) {
-		const x = GAME_WINDOW_WIDTH*0.5 - image.width*0.5;
-		const y = GAME_WINDOW_HEIGHT*0.5 - image.height*0.5;
+		const x = HALF_OF_GAME_WINDOW_WIDTH - image.width*0.5;
+		const y = HALF_OF_GAME_WINDOW_HEIGHT - image.height*0.5;
 		
 		this.#fieldSprite.setPosition(new Point(x, y));
 

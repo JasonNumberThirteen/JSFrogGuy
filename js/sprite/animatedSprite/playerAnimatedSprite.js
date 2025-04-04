@@ -15,7 +15,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	#parentObject;
 	
 	constructor() {
-		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(GAME_WINDOW_WIDTH*0.5 - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
+		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);

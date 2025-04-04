@@ -18,7 +18,7 @@ class MainMenuScene extends Scene {
 	init() {
 		this.#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, new Point(), this.#onGameLogoSpriteLoad.bind(this));
 		this.#startGameTextUI = new StartGameTextUI();
-		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(GAME_WINDOW_WIDTH*0.5, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
+		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(HALF_OF_GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
 		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
@@ -73,15 +73,15 @@ class MainMenuScene extends Scene {
 	}
 
 	#setPositionOfGameLogoSprite(image) {
-		const x = GAME_WINDOW_WIDTH*0.5 - image.width*0.5;
-		const y = GAME_WINDOW_HEIGHT*0.5 - image.height*0.5;
+		const x = HALF_OF_GAME_WINDOW_WIDTH - image.width*0.5;
+		const y = HALF_OF_GAME_WINDOW_HEIGHT - image.height*0.5;
 		
 		this.#gameLogoSprite.setPosition(new Point(x, y));
 	}
 
 	#setPositionOfMainMenuCursorSprite(image) {
 		const x = this.#startGameTextUI.getTextWidth() - GAME_FONT_SIZE;
-		const y = GAME_WINDOW_HEIGHT*0.5 + image.height;
+		const y = HALF_OF_GAME_WINDOW_HEIGHT + image.height;
 		
 		this.#mainMenuCursorSprite.setPosition(new Point(x, y));
 	}

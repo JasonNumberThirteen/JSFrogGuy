@@ -3,7 +3,7 @@ class RemainingTimePanelUI {
 	#progressBarUI;
 
 	constructor() {
-		const position = new Point(GAME_WINDOW_WIDTH*0.5 + 8, GAME_WINDOW_HEIGHT - 12);
+		const position = new Point(HALF_OF_GAME_WINDOW_WIDTH + 8, GAME_WINDOW_HEIGHT - 12);
 		const size = new Point(80, 8);
 		
 		this.#progressBarUI = new ProgressBarUI(position, size, YELLOW_COLOR, LEVEL_TIME, LEVEL_TIME);
