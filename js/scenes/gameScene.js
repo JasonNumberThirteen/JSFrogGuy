@@ -96,15 +96,15 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyVehicle() {
-		return this.#vehicles.some(vehicle => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), vehicle.getRectangle()));
+		return this.#vehicles.some(vehicle => this.#playerAnimatedSprite.getRectangle().intersectsWith(vehicle.getRectangle()));
 	}
 
 	playerIntersectsWithAnyWoodenLog() {
-		return this.#woodenLogs.some(woodenLog => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), woodenLog.getRectangle()));
+		return this.#woodenLogs.some(woodenLog => this.#playerAnimatedSprite.getRectangle().intersectsWith(woodenLog.getRectangle()));
 	}
 
 	playerIntersectsWithAnyTurtlesGroup() {
-		return this.#turtleGroups.some(turtleGroup => !turtleGroup.isHidden() && CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), turtleGroup.getRectangle()));
+		return this.#turtleGroups.some(turtleGroup => !turtleGroup.isHidden() && this.#playerAnimatedSprite.getRectangle().intersectsWith(turtleGroup.getRectangle()));
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {
@@ -112,7 +112,7 @@ class GameScene extends Scene {
 
 		this.#turtleGroups.forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
 		
-		return objectsOnRiver.find(objectOnRiver => CollisionMethods.rectanglesIntersectWithEachOther(this.#playerAnimatedSprite.getRectangle(), objectOnRiver.getRectangle()));
+		return objectsOnRiver.find(objectOnRiver => this.#playerAnimatedSprite.getRectangle().intersectsWith(objectOnRiver.getRectangle()));
 	}
 
 	getFieldSprite() {
