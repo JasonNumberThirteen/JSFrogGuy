@@ -1,6 +1,7 @@
 class VehicleAnimatedSprite extends AnimatedSprite {
 	#movementSpeed;
 	#moveToRight;
+	#initialMovementSpeed;
 	
 	constructor(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight) {
 		super(filename, position, frameWidth, frameHeight);
@@ -8,10 +9,13 @@ class VehicleAnimatedSprite extends AnimatedSprite {
 
 		this.#movementSpeed = movementSpeed;
 		this.#moveToRight = moveToRight;
+		this.#initialMovementSpeed = this.#movementSpeed;
 
 		if(this.#moveToRight) {
 			this.setCurrentRowIndex(1);
 		}
+
+		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
 
 	update(deltaTime) {
@@ -30,5 +34,9 @@ class VehicleAnimatedSprite extends AnimatedSprite {
 		}
 
 		this.setPosition(position);
+	}
+
+	#onFrogSaved() {
+		this.#movementSpeed += this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_SAVED_FROG;
 	}
 }

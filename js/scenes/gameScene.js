@@ -1,4 +1,5 @@
 class GameScene extends Scene {
+	frogSavedEvent = new GameEvent();
 	gameWonEvent = new GameEvent();
 	
 	#fieldSprite;
@@ -138,6 +139,7 @@ class GameScene extends Scene {
 		}
 
 		this.#savedFrogs.push(new SavedFrogSprite(availableDestinationPosition));
+		this.frogSavedEvent.invoke();
 		this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_REACHING_DESTINATION_POINT);
 		ListMethods.removeElementByReferenceIfPossible(this.#availableDestinationPositions, availableDestinationPosition);
 		this.#resetClosestYToDestinationPoints();
