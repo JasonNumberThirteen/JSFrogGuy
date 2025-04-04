@@ -1,4 +1,4 @@
-class PlayerLivesSpritesGroup {
+class PlayerLivesSpritesGroupPanelUI {
 	#group = [];
 	
 	constructor(numberOfSprites) {
