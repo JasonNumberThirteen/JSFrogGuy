@@ -19,6 +19,7 @@ class GameScene extends Scene {
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToDestinationPoints;
+	#gameIsOver = false;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -55,7 +56,11 @@ class GameScene extends Scene {
 	update(deltaTime) {
 		this.#playerAnimatedSprite.update(deltaTime);
 		this.#nextSceneLoadTimer.update(deltaTime);
-		this.#remainingTimeTimer.update(deltaTime);
+
+		if(!this.#gameIsOver) {
+			this.#remainingTimeTimer.update(deltaTime);
+		}
+		
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
 		this.#woodenLogs.forEach(woodenLog => woodenLog.update(deltaTime));
 		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
@@ -205,6 +210,7 @@ class GameScene extends Scene {
 
 	#setGameAsOver() {
 		this.#nextSceneKey = MAIN_MENU_SCENE_NAME_KEY;
+		this.#gameIsOver = true;
 
 		this.#nextSceneLoadTimer.startTimer();
 	}
