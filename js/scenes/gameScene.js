@@ -83,6 +83,10 @@ class GameScene extends Scene {
 		this.#playerAnimatedSprite.processInput(key);
 	}
 
+	timeIsUp() {
+		return this.#remainingTimeTimer.timerWasFinished();
+	}
+
 	reachedAnyOfLeftDestinationPositions(position) {
 		return this.#availableDestinationPositions.some(destinationPosition => this.#positionIsSufficientlyCloseToDestinationPosition(destinationPosition, position));
 	}
