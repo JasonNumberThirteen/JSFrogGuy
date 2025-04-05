@@ -8,6 +8,7 @@ class GameScene extends Scene {
 	#playerAnimatedSprite;
 	#playerLivesSpritesGroupPanelUI;
 	#remainingTimePanelUI;
+	#currentLevelTextUI;
 	#gameOverTextUI;
 	#fadeScreenUI;
 	#availableDestinationPositions;
@@ -35,6 +36,7 @@ class GameScene extends Scene {
 		this.#playerAnimatedSprite = new PlayerAnimatedSprite();
 		this.#playerLivesSpritesGroupPanelUI = new PlayerLivesSpritesGroupPanelUI(this.#playerAnimatedSprite.getLives());
 		this.#remainingTimePanelUI = new RemainingTimePanelUI();
+		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#gameOverTextUI = new GameOverTextUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
@@ -86,6 +88,8 @@ class GameScene extends Scene {
 
 		if(this.#gameIsOver) {
 			this.#gameOverTextUI.draw();
+		} else {
+			this.#currentLevelTextUI.draw();
 		}
 		
 		this.#fadeScreenUI.draw();

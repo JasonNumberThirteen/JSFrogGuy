@@ -23,6 +23,7 @@ const PLAYER_RIGHT_MOVEMENT_KEY = "d";
 
 // STRING LITERALS
 const TIME_TEXT = "TIME";
+const LEVEL_TEXT = "LEVEL";
 const CREDITS_TEXT = "© JASON 2025";
 const GAME_OVER_TEXT = "GAME OVER";
 const START_GAME_TEXT = "START GAME";
@@ -35,6 +36,7 @@ const BLACK_COLOR = "#000";
 const ORANGE_COLOR = "#e09000";
 const YELLOW_COLOR = "#ff0";
 const DARK_BLUE_COLOR = "#004";
+const SEA_GREEN_COLOR = "#03fcca";
 const BRIGHT_RED_COLOR = "#b53120";
 const BRIGHT_BLUE_COLOR = "#155fd9";
 const PALE_YELLOW_COLOR = "#ffefaf";
