@@ -21,7 +21,7 @@ class GameScene extends Scene {
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToDestinationPoints;
-	#gameIsOver = false;
+	#gameIsOver;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -46,6 +46,7 @@ class GameScene extends Scene {
 		this.#fieldEdgesCover = new FieldEdgesCover();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
+		this.#gameIsOver = false;
 		
 		this.#setCounterValues();
 		this.#playerAnimatedSprite.destinationReachedEvent.addListener(position => this.#onDestinationReached(position));
