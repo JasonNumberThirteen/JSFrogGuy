@@ -4,8 +4,10 @@ class TurtlesAnimatedSpritesGroup {
 	#movementDirection = -1;
 
 	constructor(position, movementSpeed) {
+		const isHiding = Math.random() < CHANCE_FOR_HIDING_TURTLES_GROUP;
+		
 		for (let i = 0; i < 3; ++i) {
-			this.#turtles.push(new TurtleAnimatedSprite(new Point(position.x + i*8, position.y), movementSpeed));
+			this.#turtles.push(new TurtleAnimatedSprite(new Point(position.x + i*8, position.y), movementSpeed, isHiding));
 		}
 
 		this.#movementSpeed = movementSpeed;

@@ -6,15 +6,19 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 	#currentAnimationFrame = 0;
 	#initialMovementSpeed;
 	
-	constructor(position, movementSpeed) {
+	constructor(position, movementSpeed, isHiding) {
 		super(TURTLE_SPRITE_SHEET_FILENAME, position, 8, 8);
 
 		this.#initialMovementSpeed = movementSpeed;
 		this.#movementSpeed = this.#initialMovementSpeed;
-		this.#animationTimer = new Timer(0.25, true);
 
+		if(isHiding) {
+			this.#animationTimer = new Timer(0.25, true);
+
+			this.#animationTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		}
+		
 		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);
-		this.#animationTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
@@ -29,7 +33,10 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		position.x += this.#movementSpeed*this.#movementDirection*deltaTime;
 
 		this.setPosition(position);
-		this.#animationTimer.update(deltaTime);
+
+		if(typeof(this.#animationTimer) !== "undefined") {
+			this.#animationTimer.update(deltaTime);
+		}
 	}
 
 	getRectangle() {
@@ -51,7 +58,10 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		this.#currentAnimationFrame = (this.#currentAnimationFrame + 1) % this.#animationFrames.length;
 
 		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);
-		this.#animationTimer.startTimer();
+
+		if(typeof(this.#animationTimer) !== "undefined") {
+			this.#animationTimer.startTimer();
+		}
 	}
 
 	#onFrogSaved() {
