@@ -65,7 +65,8 @@ class GameScene extends Scene {
 		if(!this.#gameIsOver) {
 			this.#remainingTimeTimer.update(deltaTime);
 		}
-		
+
+		this.#currentLevelTextUI.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
 		this.#woodenLogs.forEach(woodenLog => woodenLog.update(deltaTime));
 		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
