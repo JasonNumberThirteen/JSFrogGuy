@@ -17,7 +17,7 @@ class IntCounterGroupUI {
 	}
 
 	setCounterValue(value) {
-		this.#intCounterTextUI.setTo(value === 0 ? "00" : value);
+		this.#intCounterTextUI.setTo(value);
 	}
 
 	increaseCounterValue(value) {

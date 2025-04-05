@@ -16,6 +16,10 @@ class IntCounterTextUI extends TextUI {
 	setTo(value) {
 		this.#value = value;
 
-		this.setText(this.#value.toString());
+		this.setText(this.#getFormattedText());
+	}
+
+	#getFormattedText() {
+		return this.#value === 0 ? "00" : this.#value.toString();
 	}
 }
