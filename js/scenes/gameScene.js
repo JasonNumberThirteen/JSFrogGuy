@@ -238,6 +238,7 @@ class GameScene extends Scene {
 
 		gameData.setPlayerScore(this.#playerScoreIntCounterGroupUI.getCounterValue());
 		gameData.setHighScore(this.#highScoreIntCounterGroupUI.getCounterValue());
+		gameData.saveValues();
 	}
 
 	#startFading() {

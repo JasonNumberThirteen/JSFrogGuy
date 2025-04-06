@@ -1,10 +1,14 @@
 class GameData {
-	#playerScore = 0;
-	#highScore = 0;
-	#currentLevelNumber = 1;
+	#playerScore;
+	#highScore;
+	#currentLevelNumber;
 
 	constructor() {
-		this.#highScore = INITIAL_HIGH_SCORE;
+		const savedPlayerScore = localStorage.getItem(PLAYER_SCORE_VALUE_KEY);
+		const savedHighScore = localStorage.getItem(HIGH_SCORE_VALUE_KEY);
+
+		this.#playerScore = savedPlayerScore ? parseInt(savedPlayerScore) : 0;
+		this.#highScore = savedHighScore ? parseInt(savedHighScore) : INITIAL_HIGH_SCORE;
 	}
 
 	resetPlayerScore() {
@@ -25,6 +29,11 @@ class GameData {
 
 	increaseCurrentLevelNumberBy(value) {
 		this.#currentLevelNumber += value;
+	}
+
+	saveValues() {
+		localStorage.setItem(PLAYER_SCORE_VALUE_KEY, this.#playerScore);
+		localStorage.setItem(HIGH_SCORE_VALUE_KEY, this.#highScore);
 	}
 
 	getPlayerScore() {
