@@ -11,6 +11,7 @@ class GameScene extends Scene {
 	#remainingTimePanelUI;
 	#currentLevelTextUI;
 	#gameOverTextUI;
+	#bonusPointsTextUI;
 	#fadeScreenUI;
 	#availableDestinations;
 	#savedFrogs;
@@ -40,6 +41,7 @@ class GameScene extends Scene {
 		this.#remainingTimePanelUI = new RemainingTimePanelUI();
 		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#gameOverTextUI = new GameOverTextUI();
+		this.#bonusPointsTextUI = new BonusPointsTextUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
@@ -70,6 +72,7 @@ class GameScene extends Scene {
 		}
 
 		this.#currentLevelTextUI.update(deltaTime);
+		this.#bonusPointsTextUI.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
 		this.#woodenLogs.forEach(woodenLog => woodenLog.update(deltaTime));
 		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
@@ -98,6 +101,7 @@ class GameScene extends Scene {
 			this.#currentLevelTextUI.draw();
 		}
 		
+		this.#bonusPointsTextUI.draw();
 		this.#fadeScreenUI.draw();
 	}
 
@@ -174,11 +178,16 @@ class GameScene extends Scene {
 			return;
 		}
 
-		const playerIntersectsWithFly = availableDestination.getRectangle().intersectsWith(this.#flySprite.getRectangle());
+		const availableDestinationRectangle = availableDestination.getRectangle();
+		const playerIntersectsWithFly = availableDestinationRectangle.intersectsWith(this.#flySprite.getRectangle());
 		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_DESTINATION_POINT + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_DESTINATION_POINT;
 
 		if(playerIntersectsWithFly) {
+			const availableDestinationPosition = availableDestinationRectangle.getPosition();
+			const availableDestinationSize = availableDestinationRectangle.getSize();
+			
 			this.#flySprite.setActive(false);
+			this.#bonusPointsTextUI.display(new Point(availableDestinationPosition.x + availableDestinationSize.x*0.5, availableDestinationPosition.y + availableDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
 		}
 
 		this.#savedFrogs.push(new SavedFrogSprite(availableDestination.getPosition()));

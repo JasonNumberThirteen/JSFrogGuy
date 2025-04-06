@@ -3,6 +3,7 @@ class TextUI {
 	#position;
 	#fillStyle;
 	#alignment;
+	#isActive = true;
 	#canvasContext;
 
 	constructor(text, position, fillStyle, alignment) {
@@ -13,6 +14,10 @@ class TextUI {
 	}
 
 	draw() {
+		if(!this.isActive()) {
+			return;
+		}
+		
 		var canvasContext = this.#getCanvasContext();
 		var position = this.#position;
 		
@@ -38,6 +43,10 @@ class TextUI {
 		return this.#alignment;
 	}
 
+	isActive() {
+		return this.#isActive;
+	}
+
 	setText(text) {
 		this.#text = text;
 	}
@@ -52,6 +61,10 @@ class TextUI {
 
 	setAlignment(alignment) {
 		this.#alignment = alignment;
+	}
+
+	setActive(active) {
+		this.#isActive = active;
 	}
 
 	#getCanvasContext() {
