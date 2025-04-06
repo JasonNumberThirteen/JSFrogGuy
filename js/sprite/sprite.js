@@ -1,4 +1,6 @@
 class Sprite {
+	activeStateChangedEvent = new GameEvent();
+	
 	#image;
 	#position;
 	#isActive = true;
@@ -62,5 +64,7 @@ class Sprite {
 
 	setActive(active) {
 		this.#isActive = active;
+
+		this.activeStateChangedEvent.invoke(this.#isActive);
 	}
 }

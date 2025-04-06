@@ -42,6 +42,7 @@ const BRIGHT_BLUE_COLOR = "#155fd9";
 const PALE_YELLOW_COLOR = "#ffefaf";
 
 // SPRITE FILENAMES
+const FLY_SPRITE_FILENAME = "assets/sprites/single/game/fly.png";
 const FIELD_SPRITE_FILENAME = "assets/sprites/single/game/field.png";
 const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/single/mainMenu/gameLogo.png";
 const SAVED_FROG_SPRITE_FILENAME = "assets/sprites/single/game/savedFrog.png";
@@ -63,6 +64,8 @@ const CURRENT_LEVEL_TEXT_UI_FADE_START_DELAY = 1;
 const CURRENT_LEVEL_TEXT_UI_FADE_DURATION = 0.5;
 const GAME_START_DELAY = 1;
 const NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY = 1;
+const FLY_APPEARANCE_DURATION = 10;
+const FLY_DISAPPEARANCE_DURATION = 15;
 const LEVEL_TIME = 60;
 
 // TEXT ALIGNMENT KEYS
@@ -81,6 +84,7 @@ const HIGH_SCORE_VALUE_KEY = "highScore";
 // POINTS
 const POINTS_FOR_STEP_CLOSER_TO_DESTINATION_POSITIONS = 10;
 const POINTS_FOR_REACHING_DESTINATION_POINT = 200;
+const POINTS_FOR_EATING_FLY = 200;
 
 // OBJECTS
 const OBJECTS_MOVEMENT_SPEED_UPPER_BOUND = 50;

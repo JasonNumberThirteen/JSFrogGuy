@@ -70,7 +70,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	#operateOnNextPosition(inputKeyData) {
 		const nextPosition = this.#getNextPosition(inputKeyData);
 
-		if(this.#gameScene.reachedAnyOfLeftDestinationPositions(nextPosition)) {
+		if(this.#gameScene.reachedAnyOfLeftDestinations(nextPosition)) {
 			this.#onReachedDestinationPosition(nextPosition);
 		} else {
 			this.#setPositionWithinField(nextPosition);
@@ -89,8 +89,8 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	}
 
 	#onReachedDestinationPosition(position) {
-		this.#respawn();
 		this.destinationReachedEvent.invoke(position);
+		this.#respawn();
 	}
 
 	#onReachedHazardousPosition() {
