@@ -13,6 +13,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	#gameScene;
 	#lives;
 	#parentObject;
+	#hazardousPositionCheckTimer;
 	
 	constructor() {
 		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
@@ -20,14 +21,14 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 		this.#lives = PLAYER_INITIAL_LIVES;
+		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY, true);
 
 		this.#gameScene.gameWonEvent.addListener(this.#deactivate.bind(this));
+		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
 
 	update(deltaTime) {
-		if(this.#gameScene.playerIsStandingOnHazardousPosition()) {
-			this.#onReachedHazardousPosition();
-		}
+		this.#hazardousPositionCheckTimer.update(deltaTime);
 
 		if(typeof(this.#parentObject) !== "undefined") {
 			var x = this.getPosition().x;
@@ -126,6 +127,16 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 
 		if(previousPosition.x !== currentPosition.x || previousPosition.y !== currentPosition.y) {
 			this.positionChangedEvent.invoke(position);
+		}
+	}
+
+	#onTimerFinished() {
+		if(this.#gameScene.playerIsStandingOnHazardousPosition()) {
+			this.#onReachedHazardousPosition();
+		}
+
+		if(this.isActive()) {
+			this.#hazardousPositionCheckTimer.startTimer();
 		}
 	}
 }
