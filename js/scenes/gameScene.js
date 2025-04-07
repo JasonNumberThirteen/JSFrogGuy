@@ -123,24 +123,45 @@ class GameScene extends Scene {
 		return this.#availableDestinations.some(destination => this.#positionIsSufficientlyCloseToDestination(destination, position));
 	}
 
-	playerIsStandingOnHazardousPosition() {
-		const playerPosition = this.#playerAnimatedSprite.getPosition();
+	playerIsStandingOnHazardousPosition(position) {
+		const playerPosition = position || this.#playerAnimatedSprite.getPosition();
 		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
-		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup() && !this.playerIntersectsWithAnyTurtlesGroup();
+		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
 
-		return this.playerIntersectsWithAnyVehicle() || playerIsStandingOnRiver;
+		return this.playerIntersectsWithAnyVehicle(position) || playerIsStandingOnRiver;
 	}
 
-	playerIntersectsWithAnyVehicle() {
-		return this.#vehicles.some(vehicle => this.#playerAnimatedSprite.getRectangle().intersectsWith(vehicle.getRectangle()));
+	playerIntersectsWithAnyVehicle(position) {
+		const rectangle = this.#playerAnimatedSprite.getRectangle();
+
+		if(typeof(position) !== "undefined") {
+			rectangle.getPosition().x = position.x;
+			rectangle.getPosition().y = position.y;
+		}
+		
+		return this.#vehicles.some(vehicle => rectangle.intersectsWith(vehicle.getRectangle()));
 	}
 
-	playerIntersectsWithAnyWoodenLogGroup() {
-		return this.#woodenLogGroups.some(woodenLogGroup => this.#playerAnimatedSprite.getRectangle().intersectsWith(woodenLogGroup.getRectangle()));
+	playerIntersectsWithAnyWoodenLogGroup(position) {
+		const rectangle = this.#playerAnimatedSprite.getRectangle();
+
+		if(typeof(position) !== "undefined") {
+			rectangle.getPosition().x = position.x;
+			rectangle.getPosition().y = position.y;
+		}
+		
+		return this.#woodenLogGroups.some(woodenLogGroup => rectangle.intersectsWith(woodenLogGroup.getRectangle()));
 	}
 
-	playerIntersectsWithAnyTurtlesGroup() {
-		return this.#turtleGroups.some(turtleGroup => !turtleGroup.isHidden() && this.#playerAnimatedSprite.getRectangle().intersectsWith(turtleGroup.getRectangle()));
+	playerIntersectsWithAnyTurtlesGroup(position) {
+		const rectangle = this.#playerAnimatedSprite.getRectangle();
+
+		if(typeof(position) !== "undefined") {
+			rectangle.getPosition().x = position.x;
+			rectangle.getPosition().y = position.y;
+		}
+		
+		return this.#turtleGroups.some(turtleGroup => !turtleGroup.isHidden() && rectangle.intersectsWith(turtleGroup.getRectangle()));
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {

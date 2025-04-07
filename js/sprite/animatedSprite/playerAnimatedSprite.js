@@ -72,6 +72,8 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 
 		if(this.#gameScene.reachedAnyOfLeftDestinations(nextPosition)) {
 			this.#onReachedDestinationPosition(nextPosition);
+		} else if(this.#gameScene.playerIsStandingOnHazardousPosition(nextPosition)) {
+			this.#onReachedHazardousPosition();
 		} else {
 			this.#setPositionWithinField(nextPosition);
 
