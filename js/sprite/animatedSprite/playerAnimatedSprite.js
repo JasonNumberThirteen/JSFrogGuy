@@ -118,8 +118,14 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	#setPositionWithinField(position) {
 		const minPosition = new Point(68, 32);
 		const maxPosition = new Point(180, 120);
+		const previousPosition = this.getPosition();
 		
 		this.setPosition(PositionMethods.clamp(position, minPosition, maxPosition));
-		this.positionChangedEvent.invoke(position);
+
+		const currentPosition = this.getPosition();
+
+		if(previousPosition.x !== currentPosition.x || previousPosition.y !== currentPosition.y) {
+			this.positionChangedEvent.invoke(position);
+		}
 	}
 }
