@@ -1,31 +1,21 @@
-class WoodenLogSprite extends Sprite {
+class WoodenLogAnimatedSprite extends AnimatedSprite {
 	#movementSpeed;
 	#movementDirection = 1;
 	#initialMovementSpeed;
 	
-	constructor(position, movementSpeed) {
-		super(WOODEN_LOG_SPRITE_SHEET_FILENAME, position);
+	constructor(position, movementSpeed, frameIndex) {
+		super(WOODEN_LOG_SPRITE_SHEET_FILENAME, position, 8, 8);
 
 		this.#initialMovementSpeed = movementSpeed;
 		this.#movementSpeed = this.#initialMovementSpeed;
 
+		this.setCurrentColumnIndex(frameIndex);
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
 
 	update(deltaTime) {
-		const position = this.getPosition();
-		const leftSide = 68;
-		const rightSide = 188;
-		const width = this.getSize().x;
-
-		position.x += this.#movementSpeed*this.#movementDirection*deltaTime;
-
-		if(position.x > rightSide) {
-			position.x = leftSide - width*2;
-		}
-
-		this.setPosition(position);
+		this.getPosition().x += this.#movementSpeed*this.#movementDirection*deltaTime;
 	}
 
 	getMovementSpeed() {

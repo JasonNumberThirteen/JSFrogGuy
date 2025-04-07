@@ -25,22 +25,22 @@ class ObjectsGenerator {
 		return vehicles;
 	}
 
-	createWoodenLogs() {
-		const woodenLogs = [];
+	createWoodenLogGroups() {
+		const woodenLogGroups = [];
 
 		for (let i = 0; i < 3; ++i) {
-			woodenLogs.push(new WoodenLogSprite(new Point(8 + 48*i, 56), 10));
+			woodenLogGroups.push(new WoodenLogAnimatedSpritesGroup(new Point(8 + 48*i, 56), 10, 1));
 		}
 
-		for (let i = 0; i < 2; ++i) {
-			woodenLogs.push(new WoodenLogSprite(new Point(24 + 48*i, 48), 16));
+		for (let i = 0; i < 1; ++i) {
+			woodenLogGroups.push(new WoodenLogAnimatedSpritesGroup(new Point(24 + 48*i, 48), 20, 3));
 		}
 
 		for (let i = 0; i < 3; ++i) {
-			woodenLogs.push(new WoodenLogSprite(new Point(24 + 48*i, 32), 18));
+			woodenLogGroups.push(new WoodenLogAnimatedSpritesGroup(new Point(24 + 48*i, 32), 18, 2));
 		}
 
-		return woodenLogs;
+		return woodenLogGroups;
 	}
 
 	createTurtleGroups() {

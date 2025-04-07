@@ -16,7 +16,7 @@ class GameScene extends Scene {
 	#availableDestinations;
 	#savedFrogs;
 	#vehicles;
-	#woodenLogs;
+	#woodenLogGroups;
 	#turtleGroups;
 	#fieldEdgesCover;
 	#nextSceneLoadTimer;
@@ -45,7 +45,7 @@ class GameScene extends Scene {
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
-		this.#woodenLogs = objectsGenerator.createWoodenLogs();
+		this.#woodenLogGroups = objectsGenerator.createWoodenLogGroups();
 		this.#turtleGroups = objectsGenerator.createTurtleGroups();
 		this.#fieldEdgesCover = new FieldEdgesCover();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
@@ -74,7 +74,7 @@ class GameScene extends Scene {
 		this.#currentLevelTextUI.update(deltaTime);
 		this.#bonusPointsTextUI.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
-		this.#woodenLogs.forEach(woodenLog => woodenLog.update(deltaTime));
+		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.update(deltaTime));
 		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
 		this.#fadeScreenUI.update(deltaTime);
 		this.#remainingTimePanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
@@ -84,7 +84,7 @@ class GameScene extends Scene {
 		this.clearScreen();
 		this.#fieldSprite.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
-		this.#woodenLogs.forEach(woodenLog => woodenLog.draw());
+		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.draw());
 		this.#turtleGroups.forEach(turtle => turtle.draw());
 		this.#playerAnimatedSprite.draw();
 		this.#flySprite.draw();
@@ -126,7 +126,7 @@ class GameScene extends Scene {
 	playerIsStandingOnHazardousPosition() {
 		const playerPosition = this.#playerAnimatedSprite.getPosition();
 		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
-		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLog() && !this.playerIntersectsWithAnyTurtlesGroup();
+		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup() && !this.playerIntersectsWithAnyTurtlesGroup();
 
 		return this.playerIntersectsWithAnyVehicle() || playerIsStandingOnRiver;
 	}
@@ -135,8 +135,8 @@ class GameScene extends Scene {
 		return this.#vehicles.some(vehicle => this.#playerAnimatedSprite.getRectangle().intersectsWith(vehicle.getRectangle()));
 	}
 
-	playerIntersectsWithAnyWoodenLog() {
-		return this.#woodenLogs.some(woodenLog => this.#playerAnimatedSprite.getRectangle().intersectsWith(woodenLog.getRectangle()));
+	playerIntersectsWithAnyWoodenLogGroup() {
+		return this.#woodenLogGroups.some(woodenLogGroup => this.#playerAnimatedSprite.getRectangle().intersectsWith(woodenLogGroup.getRectangle()));
 	}
 
 	playerIntersectsWithAnyTurtlesGroup() {
@@ -144,7 +144,7 @@ class GameScene extends Scene {
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {
-		const objectsOnRiver = this.#woodenLogs.slice();
+		const objectsOnRiver = this.#woodenLogGroups.slice();
 
 		this.#turtleGroups.forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
 		
