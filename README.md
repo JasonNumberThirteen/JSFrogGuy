@@ -48,10 +48,10 @@ A scene wherein the game is played.
 
 ## Project status
 <p align = "center"><b>IN PROGRESS</b></p>
-<p align = "center"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Gasr90percent.png"/></p>
+<p align = "center"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Gasr95percent.png"/></p>
 
 ---
-<p align = "center"><b>The project is completed in ~90%</b>. It still requires fixes, optimisations and upgrades.</p>
+<p align = "center"><b>The project is completed in ~95%</b>. It still requires fixes, optimisations and upgrades.</p>
 
 ## Credits
 This project was made **entirely** by [Stanisław "Jason" Popowski](https://jasonxiii.pl "Jason. Cała informatyka w jednym miejscu! Oficjalna strona internetowa! Setki artykułów na różne tematy! Wszystko stworzone przez jedną osobę!").
