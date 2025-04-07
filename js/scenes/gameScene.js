@@ -57,7 +57,7 @@ class GameScene extends Scene {
 		this.#playerAnimatedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
 		this.#playerAnimatedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
-		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOver.bind(this));
+		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#resetClosestYToDestinationPoints();
 	}
@@ -109,8 +109,8 @@ class GameScene extends Scene {
 		this.#playerAnimatedSprite.processInput(key);
 	}
 
-	timeIsUp() {
-		return this.#remainingTimeTimer.timerWasFinished();
+	gameIsOver() {
+		return this.#gameIsOver;
 	}
 
 	getRandomAvailableDestination() {
@@ -224,7 +224,7 @@ class GameScene extends Scene {
 		this.#playerLivesSpritesGroupPanelUI.setNumberOfSprites(lives);
 	
 		if(lives <= 0) {
-			this.#setGameAsOver();
+			this.#setGameAsOverIfNeeded();
 		}
 	}
 
@@ -248,7 +248,11 @@ class GameScene extends Scene {
 		}
 	}
 
-	#setGameAsOver() {
+	#setGameAsOverIfNeeded() {
+		if(this.#gameIsOver) {
+			return;
+		}
+		
 		this.#nextSceneKey = MAIN_MENU_SCENE_NAME_KEY;
 		this.#gameIsOver = true;
 

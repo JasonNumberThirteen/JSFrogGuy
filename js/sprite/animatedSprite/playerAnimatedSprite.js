@@ -49,7 +49,7 @@ class PlayerAnimatedSprite extends AnimatedSprite {
 	}
 
 	processInput(key) {
-		if(!this.isActive() || this.#gameScene.timeIsUp()) {
+		if(!this.isActive() || this.#gameScene.gameIsOver()) {
 			return;
 		}
 
