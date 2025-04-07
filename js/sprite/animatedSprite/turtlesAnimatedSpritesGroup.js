@@ -2,6 +2,7 @@ class TurtlesAnimatedSpritesGroup {
 	#turtles = [];
 	#movementSpeed;
 	#movementDirection = -1;
+	#initialMovementSpeed;
 
 	constructor(position, movementSpeed) {
 		const isHiding = Math.random() < CHANCE_FOR_HIDING_TURTLES_GROUP;
@@ -10,7 +11,11 @@ class TurtlesAnimatedSpritesGroup {
 			this.#turtles.push(new TurtleAnimatedSprite(new Point(position.x + i*8, position.y), movementSpeed, isHiding));
 		}
 
-		this.#movementSpeed = movementSpeed;
+		this.#initialMovementSpeed = movementSpeed;
+		this.#movementSpeed = this.#initialMovementSpeed;
+
+		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber()));
+		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
 
 	update(deltaTime) {
@@ -59,5 +64,15 @@ class TurtlesAnimatedSpritesGroup {
 
 	getMovementDirection() {
 		return this.#movementDirection;
+	}
+
+	#onFrogSaved() {
+		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_SAVED_FROG);
+	}
+
+	#increaseMovementSpeedIfPossibleBy(value) {
+		this.#movementSpeed = MathMethods.clamp(this.#movementSpeed + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND);
+
+		this.#turtles.forEach(turtle => turtle.setMovementSpeed(this.#movementSpeed));
 	}
 }

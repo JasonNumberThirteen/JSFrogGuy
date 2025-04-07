@@ -2,6 +2,7 @@ class WoodenLogAnimatedSpritesGroup {
 	#segments = [];
 	#movementSpeed;
 	#movementDirection = 1;
+	#initialMovementSpeed;
 
 	constructor(position, movementSpeed, numberOfMiddleSegments) {
 		this.#createAndAddSegment(position, movementSpeed, 0);
@@ -12,7 +13,11 @@ class WoodenLogAnimatedSpritesGroup {
 
 		this.#createAndAddSegment(new Point(position.x + 8*(numberOfMiddleSegments + 1), position.y), movementSpeed, 2);
 
-		this.#movementSpeed = movementSpeed;
+		this.#initialMovementSpeed = movementSpeed;
+		this.#movementSpeed = this.#initialMovementSpeed;
+
+		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber()));
+		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
 
 	update(deltaTime) {
@@ -63,5 +68,15 @@ class WoodenLogAnimatedSpritesGroup {
 		const segment = new WoodenLogAnimatedSprite(position, movementSpeed, frameIndex);
 
 		this.#segments.push(segment);
+	}
+
+	#onFrogSaved() {
+		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_SAVED_FROG);
+	}
+
+	#increaseMovementSpeedIfPossibleBy(value) {
+		this.#movementSpeed = MathMethods.clamp(this.#movementSpeed + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND);
+
+		this.#segments.forEach(segment => segment.setMovementSpeed(this.#movementSpeed));
 	}
 }

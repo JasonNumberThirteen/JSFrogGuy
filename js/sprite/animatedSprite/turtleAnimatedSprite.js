@@ -4,13 +4,11 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 	#animationTimer;
 	#animationFrames = [0, 1, 2, 3, 4, -1, 4, 3, 2, 1];
 	#currentAnimationFrame = 0;
-	#initialMovementSpeed;
 	
 	constructor(position, movementSpeed, isHiding) {
 		super(TURTLE_SPRITE_SHEET_FILENAME, position, 8, 8);
 
-		this.#initialMovementSpeed = movementSpeed;
-		this.#movementSpeed = this.#initialMovementSpeed;
+		this.#movementSpeed = movementSpeed;
 
 		if(isHiding) {
 			this.#animationTimer = new Timer(0.25, true);
@@ -19,8 +17,6 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		}
 		
 		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);
-		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
-		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 	}
 
 	isHidden() {
@@ -37,6 +33,10 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		if(typeof(this.#animationTimer) !== "undefined") {
 			this.#animationTimer.update(deltaTime);
 		}
+	}
+
+	setMovementSpeed(movementSpeed) {
+		this.#movementSpeed = movementSpeed;
 	}
 
 	getRectangle() {
@@ -62,13 +62,5 @@ class TurtleAnimatedSprite extends AnimatedSprite {
 		if(typeof(this.#animationTimer) !== "undefined") {
 			this.#animationTimer.startTimer();
 		}
-	}
-
-	#onFrogSaved() {
-		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_SAVED_FROG);
-	}
-
-	#increaseMovementSpeedIfPossibleBy(value) {
-		this.#movementSpeed = MathMethods.clamp(this.#movementSpeed + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND);
 	}
 }
