@@ -2,14 +2,16 @@ class ProgressBarUI {
 	#position;
 	#size;
 	#fillColor;
+	#borderThickness;
 	#currentValue;
 	#maxValue;
 	#canvasContext;
 
-	constructor(position, size, fillColor, currentValue, maxValue) {
+	constructor(position, size, fillColor, borderThickness, currentValue, maxValue) {
 		this.#position = position;
 		this.#size = size;
 		this.#fillColor = fillColor;
+		this.#borderThickness = borderThickness;
 
 		this.setCurrentValue(currentValue || 0);
 		this.setMaxValue(maxValue || 0);
@@ -27,11 +29,10 @@ class ProgressBarUI {
 		const canvasContext = this.#getCanvasContext();
 		const borderPosition = this.#position;
 		const borderSize = this.#size;
-		const borderThickness = 1;
-		const doubledBorderThickness = borderThickness*2;
+		const doubledBorderThickness = this.#borderThickness*2;
 		const barWidth = (borderSize.x - doubledBorderThickness)*this.#getFillPercent();
 		const barHeight = borderSize.y - doubledBorderThickness;
-		const barFillPosition = new Point(borderPosition.x + borderThickness, borderPosition.y + borderThickness);
+		const barFillPosition = new Point(borderPosition.x + this.#borderThickness, borderPosition.y + this.#borderThickness);
 		const barFillSize = new Point(barWidth, barHeight);
 		const barFillRectangle = new Rectangle(barFillPosition, barFillSize);
 
