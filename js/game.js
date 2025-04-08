@@ -1,6 +1,6 @@
 class Game {
 	#canvas;
-	#input;
+	#gameInput;
 	#gameData;
 	#sceneManager;
 	#currentTimeStamp = 0;
@@ -8,11 +8,11 @@ class Game {
 
 	constructor() {
 		this.#canvas = new Canvas();
-		this.#input = new Input();
+		this.#gameInput = new GameInput();
 		this.#gameData = new GameData();
 		this.#sceneManager = new SceneManager();
 
-		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
+		this.#gameInput.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
 	}
 

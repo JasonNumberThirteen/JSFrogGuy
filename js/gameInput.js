@@ -1,4 +1,4 @@
-class Input {
+class GameInput {
 	keyPressedEvent = new GameEvent();
 	
 	constructor() {
