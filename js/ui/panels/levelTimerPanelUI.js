@@ -1,13 +1,14 @@
 class LevelTimerPanelUI {
-	#headerText;
 	#progressBarUI;
+	#headerText;
 
 	constructor() {
-		const position = new Point(HALF_OF_GAME_WINDOW_WIDTH + 8, GAME_WINDOW_HEIGHT - 12);
-		const size = new Point(80, 8);
+		const progressBarUIPosition = new Point(HALF_OF_GAME_WINDOW_WIDTH + 8, GAME_WINDOW_HEIGHT - LEVEL_TIMER_PANEL_UI_HEIGHT - 4);
+		const progressBarUISize = new Point(LEVEL_TIMER_PANEL_UI_WIDTH, LEVEL_TIMER_PANEL_UI_HEIGHT);
+		const headerTextPosition = new Point(progressBarUIPosition.x + progressBarUISize.x + 4, progressBarUIPosition.y + GAME_FONT_SIZE);
 		
-		this.#progressBarUI = new ProgressBarUI(position, size, YELLOW_COLOR, REMAINING_TIME_PROGRESS_BAR_UI_BORDER_THICKNESS, LEVEL_TIME, LEVEL_TIME);
-		this.#headerText = new TextUI(TIME_TEXT, new Point(position.x + size.x + 4, position.y + 8), YELLOW_COLOR, TEXT_ALIGNED_TO_LEFT_KEY);
+		this.#progressBarUI = new ProgressBarUI(progressBarUIPosition, progressBarUISize, YELLOW_COLOR, REMAINING_TIME_PROGRESS_BAR_UI_BORDER_THICKNESS, LEVEL_TIME, LEVEL_TIME);
+		this.#headerText = new TextUI(TIME_TEXT, headerTextPosition, YELLOW_COLOR, TEXT_ALIGNED_TO_LEFT_KEY);
 	}
 
 	setCurrentValue(value) {
@@ -19,7 +20,7 @@ class LevelTimerPanelUI {
 	}
 
 	draw() {
-		this.#headerText.draw();
 		this.#progressBarUI.draw();
+		this.#headerText.draw();
 	}
 }
