@@ -1,4 +1,4 @@
-class Canvas {
+class GameCanvas {
 	#canvas;
 	#context;
 	#sceneManager;

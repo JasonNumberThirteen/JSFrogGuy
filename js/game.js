@@ -1,5 +1,5 @@
 class Game {
-	#canvas;
+	#gameCanvas;
 	#gameInput;
 	#gameData;
 	#sceneManager;
@@ -7,7 +7,7 @@ class Game {
 	#previousTimeStamp = 0;
 
 	constructor() {
-		this.#canvas = new Canvas();
+		this.#gameCanvas = new GameCanvas();
 		this.#gameInput = new GameInput();
 		this.#gameData = new GameData();
 		this.#sceneManager = new SceneManager();
@@ -25,11 +25,11 @@ class Game {
 	}
 
 	getCanvas() {
-		return this.#canvas;
+		return this.#gameCanvas;
 	}
 
 	getCanvasContext() {
-		return this.#canvas.getContext();
+		return this.#gameCanvas.getContext();
 	}
 
 	getData() {
@@ -59,7 +59,7 @@ class Game {
 
 		this.#previousTimeStamp = this.#currentTimeStamp;
 
-		this.#canvas.update(deltaTime);
+		this.#gameCanvas.update(deltaTime);
 	}
 
 	#refresh() {
