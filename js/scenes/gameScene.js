@@ -13,7 +13,7 @@ class GameScene extends Scene {
 	#gameOverTextUI;
 	#bonusPointsTextUI;
 	#fadeScreenUI;
-	#availableDestinations;
+	#availableFieldDestinations;
 	#savedFrogs;
 	#vehicles;
 	#woodenLogGroups;
@@ -22,7 +22,7 @@ class GameScene extends Scene {
 	#nextSceneLoadTimer;
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
-	#closestYToDestinationPoints;
+	#closestYToFieldDestinations;
 	#gameIsOver;
 
 	constructor() {
@@ -53,13 +53,13 @@ class GameScene extends Scene {
 		this.#gameIsOver = false;
 		
 		this.#setCounterValues();
-		this.#playerAnimatedSprite.destinationReachedEvent.addListener(position => this.#onDestinationReached(position));
+		this.#playerAnimatedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
 		this.#playerAnimatedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
 		this.#playerAnimatedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
-		this.#resetClosestYToDestinationPoints();
+		this.#resetClosestYToFieldDestinations();
 	}
 
 	update(deltaTime) {
@@ -114,13 +114,13 @@ class GameScene extends Scene {
 	}
 
 	getRandomAvailableDestination() {
-		const randomIndex = Math.floor(Math.random() * this.#availableDestinations.length);
+		const randomIndex = Math.floor(Math.random() * this.#availableFieldDestinations.length);
 		
-		return this.#availableDestinations[randomIndex];
+		return this.#availableFieldDestinations[randomIndex];
 	}
 
-	reachedAnyOfLeftDestinations(position) {
-		return this.#availableDestinations.some(destination => this.#positionIsSufficientlyCloseToDestination(destination, position));
+	reachedAnyOfAvailableFieldDestinations(position) {
+		return this.#availableFieldDestinations.some(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
 	}
 
 	playerIsStandingOnHazardousPosition(position) {
@@ -182,7 +182,7 @@ class GameScene extends Scene {
 		
 		this.#fieldSprite.setPosition(new Point(x, y));
 
-		this.#availableDestinations = [new Destination(new Point(x + 8, y + 8)), new Destination(new Point(x + 32, y + 8)), new Destination(new Point(x + 56, y + 8)), new Destination(new Point(x + 80, y + 8)), new Destination(new Point(x + 104, y + 8))];
+		this.#availableFieldDestinations = [new FieldDestination(new Point(x + 8, y + 8)), new FieldDestination(new Point(x + 32, y + 8)), new FieldDestination(new Point(x + 56, y + 8)), new FieldDestination(new Point(x + 80, y + 8)), new FieldDestination(new Point(x + 104, y + 8))];
 	}
 
 	#setCounterValues() {
@@ -192,47 +192,47 @@ class GameScene extends Scene {
 		this.#highScoreIntCounterGroupUI.setCounterValue(gameData.getHighScore());
 	}
 
-	#onDestinationReached(position) {
-		const availableDestination = this.#availableDestinations.find(destination => this.#positionIsSufficientlyCloseToDestination(destination, position));
+	#onFieldDestinationReached(position) {
+		const availableFieldDestination = this.#availableFieldDestinations.find(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
 
-		if(typeof(availableDestination) === "undefined") {
+		if(typeof(availableFieldDestination) === "undefined") {
 			return;
 		}
 
-		const availableDestinationRectangle = availableDestination.getRectangle();
-		const playerIntersectsWithFly = availableDestinationRectangle.intersectsWith(this.#flySprite.getRectangle());
-		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_DESTINATION_POINT + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_DESTINATION_POINT;
+		const availableFieldDestinationRectangle = availableFieldDestination.getRectangle();
+		const playerIntersectsWithFly = availableFieldDestinationRectangle.intersectsWith(this.#flySprite.getRectangle());
+		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION;
 
 		if(playerIntersectsWithFly) {
-			const availableDestinationPosition = availableDestinationRectangle.getPosition();
-			const availableDestinationSize = availableDestinationRectangle.getSize();
+			const availableFieldDestinationPosition = availableFieldDestinationRectangle.getPosition();
+			const availableFieldDestinationSize = availableFieldDestinationRectangle.getSize();
 			
 			this.#flySprite.setActive(false);
-			this.#bonusPointsTextUI.display(new Point(availableDestinationPosition.x + availableDestinationSize.x*0.5, availableDestinationPosition.y + availableDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
+			this.#bonusPointsTextUI.display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
 		}
 
-		this.#savedFrogs.push(new SavedFrogSprite(availableDestination.getPosition()));
+		this.#savedFrogs.push(new SavedFrogSprite(availableFieldDestination.getPosition()));
 		this.frogSavedEvent.invoke();
 		this.#playerScoreIntCounterGroupUI.increaseCounterValue(points);
-		ListMethods.removeElementByReferenceIfPossible(this.#availableDestinations, availableDestination);
-		this.#resetClosestYToDestinationPoints();
+		ListMethods.removeElementByReferenceIfPossible(this.#availableFieldDestinations, availableFieldDestination);
+		this.#resetClosestYToFieldDestinations();
 		this.#remainingTimeTimer.startTimer();
 		this.#checkIfWonGame();
 	}
 
-	#positionIsSufficientlyCloseToDestination(destination, position) {
+	#positionIsSufficientlyCloseToFieldDestination(destination, position) {
 		const destinationPosition = destination.getPosition();
 		const differenceInPositionXIsSufficientlySmall = Math.abs(destinationPosition.x - position.x) <= DESTINATION_POSITION_X_THRESHOLD;
 
 		return differenceInPositionXIsSufficientlySmall && destinationPosition.y == position.y;
 	}
 
-	#resetClosestYToDestinationPoints() {
-		this.#closestYToDestinationPoints = this.#playerAnimatedSprite.getPosition().y;
+	#resetClosestYToFieldDestinations() {
+		this.#closestYToFieldDestinations = this.#playerAnimatedSprite.getPosition().y;
 	}
 
 	#checkIfWonGame() {
-		if(this.#availableDestinations.length > 0) {
+		if(this.#availableFieldDestinations.length > 0) {
 			return;
 		}
 
@@ -250,13 +250,13 @@ class GameScene extends Scene {
 	}
 
 	#onPositionChanged(position) {
-		if(position.y >= this.#closestYToDestinationPoints) {
+		if(position.y >= this.#closestYToFieldDestinations) {
 			return;
 		}
 		
-		this.#closestYToDestinationPoints = position.y;
+		this.#closestYToFieldDestinations = position.y;
 			
-		this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_DESTINATION_POSITIONS);
+		this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_FIELD_DESTINATIONS);
 		this.#updateHighScoreIfNeeded();
 	}
 

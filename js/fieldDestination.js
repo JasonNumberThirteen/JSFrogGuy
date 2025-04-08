@@ -1,4 +1,4 @@
-class Destination {
+class FieldDestination {
 	#position;
 
 	constructor(position) {
