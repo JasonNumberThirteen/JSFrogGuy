@@ -25,11 +25,11 @@ class FadeScreenUI {
 	}
 
 	draw() {
-		var canvasContext = this.#getCanvasContext();
-		
-		canvasContext.fillStyle = this.#getRectColor();
+		const position = new Point();
+		const size = new Point(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+		const rectangle = new Rectangle(position, size);
 
-		canvasContext.fillRect(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
+		CanvasMethods.fillRect(this.#getCanvasContext(), this.#getRectColor(), rectangle);
 	}
 
 	#getCanvasContext() {

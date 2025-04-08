@@ -24,20 +24,19 @@ class ProgressBarUI {
 	}
 
 	draw() {
-		var canvasContext = this.#getCanvasContext();
-		var position = this.#position;
-		var size = this.#size;
-		var borderThickness = 1;
-		var fillPercent = this.#getFillPercent();
-		var barWidth = (size.x - borderThickness*2)*fillPercent;
-		
-		canvasContext.fillStyle = BLACK_COLOR;
+		const canvasContext = this.#getCanvasContext();
+		const borderPosition = this.#position;
+		const borderSize = this.#size;
+		const borderThickness = 1;
+		const doubledBorderThickness = borderThickness*2;
+		const barWidth = (borderSize.x - doubledBorderThickness)*this.#getFillPercent();
+		const barHeight = borderSize.y - doubledBorderThickness;
+		const barFillPosition = new Point(borderPosition.x + borderThickness, borderPosition.y + borderThickness);
+		const barFillSize = new Point(barWidth, barHeight);
+		const barFillRectangle = new Rectangle(barFillPosition, barFillSize);
 
-		canvasContext.fillRect(position.x, position.y, size.x, size.y);
-
-		canvasContext.fillStyle = this.#fillColor;
-
-		canvasContext.fillRect(position.x + borderThickness, position.y + borderThickness, barWidth, size.y - borderThickness*2);
+		CanvasMethods.fillRect(canvasContext, BLACK_COLOR, new Rectangle(borderPosition, borderSize));
+		CanvasMethods.fillRect(canvasContext, this.#fillColor, barFillRectangle);
 	}
 
 	#getCanvasContext() {
