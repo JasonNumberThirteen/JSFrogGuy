@@ -1,4 +1,4 @@
-class RemainingTimePanelUI {
+class LevelTimerPanelUI {
 	#headerText;
 	#progressBarUI;
 

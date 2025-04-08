@@ -8,7 +8,7 @@ class GameScene extends Scene {
 	#playerAnimatedSprite;
 	#flySprite;
 	#playerLivesSpritesGroupPanelUI;
-	#remainingTimePanelUI;
+	#levelTimerPanelUI;
 	#currentLevelTextUI;
 	#gameOverTextUI;
 	#bonusPointsTextUI;
@@ -38,7 +38,7 @@ class GameScene extends Scene {
 		this.#playerAnimatedSprite = new PlayerAnimatedSprite();
 		this.#flySprite = new FlySprite();
 		this.#playerLivesSpritesGroupPanelUI = new PlayerLivesSpritesGroupPanelUI(this.#playerAnimatedSprite.getLives());
-		this.#remainingTimePanelUI = new RemainingTimePanelUI();
+		this.#levelTimerPanelUI = new LevelTimerPanelUI();
 		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#gameOverTextUI = new GameOverTextUI();
 		this.#bonusPointsTextUI = new BonusPointsTextUI();
@@ -77,7 +77,7 @@ class GameScene extends Scene {
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.update(deltaTime));
 		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
 		this.#fadeScreenUI.update(deltaTime);
-		this.#remainingTimePanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
+		this.#levelTimerPanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
 	}
 
 	draw() {
@@ -93,7 +93,7 @@ class GameScene extends Scene {
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
 		this.#playerLivesSpritesGroupPanelUI.draw();
-		this.#remainingTimePanelUI.draw();
+		this.#levelTimerPanelUI.draw();
 
 		if(this.#gameIsOver) {
 			this.#gameOverTextUI.draw();
