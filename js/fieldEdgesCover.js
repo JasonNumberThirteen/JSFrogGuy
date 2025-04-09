@@ -2,8 +2,8 @@ class FieldEdgesCover {
 	#fieldSprite;
 	#canvasContext;
 
-	constructor() {
-		this.#fieldSprite = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getFieldSprite();
+	constructor(fieldSprite) {
+		this.#fieldSprite = fieldSprite;
 	}
 	
 	draw() {

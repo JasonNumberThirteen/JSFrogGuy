@@ -2,20 +2,12 @@ class GameScene extends Scene {
 	frogSavedEvent = new GameEvent();
 	gameWonEvent = new GameEvent();
 	
-	#fieldSprite;
-	#playerSlicedSprite;
-	#flySprite;
-	#availableFieldDestinations;
-	#savedFrogs;
-	#vehicles;
-	#woodenLogGroups;
-	#turtleGroups;
-	#fieldEdgesCover;
 	#nextSceneLoadTimer;
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToFieldDestinations;
 	#gameIsOver;
+	#fieldObjectsContainer;
 	#panelUI;
 
 	constructor() {
@@ -23,60 +15,38 @@ class GameScene extends Scene {
 	}
 
 	init() {
-		const objectsGenerator = new ObjectsGenerator();
-		
-		this.#fieldSprite = new Sprite(FIELD_SPRITE_FILENAME, new Point(), this.#onFieldSpriteLoad.bind(this));
-		this.#playerSlicedSprite = new PlayerSlicedSprite();
-		this.#flySprite = new FlySprite();
-		this.#savedFrogs = [];
-		this.#vehicles = objectsGenerator.createVehicles();
-		this.#woodenLogGroups = objectsGenerator.createWoodenLogGroups();
-		this.#turtleGroups = objectsGenerator.createTurtleGroups();
-		this.#fieldEdgesCover = new FieldEdgesCover();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		this.#gameIsOver = false;
+		this.#fieldObjectsContainer = new FieldObjectsContainer();
 		this.#panelUI = new GameScenePanelUI();
 		
-		this.#playerSlicedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
-		this.#playerSlicedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
-		this.#playerSlicedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
+		this.#addListenersToPlayer();
 		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#resetClosestYToFieldDestinations();
 	}
 
 	update(deltaTime) {
-		this.#playerSlicedSprite.update(deltaTime);
-		this.#flySprite.update(deltaTime);
 		this.#nextSceneLoadTimer.update(deltaTime);
 
 		if(!this.#gameIsOver) {
 			this.#remainingTimeTimer.update(deltaTime);
 		}
 
-		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
-		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.update(deltaTime));
-		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
+		this.#fieldObjectsContainer.update(deltaTime);
 		this.#panelUI.update(deltaTime);
 	}
 
 	draw() {
 		this.clearScreen();
-		this.#fieldSprite.draw();
-		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
-		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.draw());
-		this.#turtleGroups.forEach(turtle => turtle.draw());
-		this.#playerSlicedSprite.draw();
-		this.#flySprite.draw();
-		this.#vehicles.forEach(vehicle => vehicle.draw());
-		this.#fieldEdgesCover.draw();
+		this.#fieldObjectsContainer.draw();
 		this.#panelUI.draw();
 	}
 
 	processInput(key) {
-		this.#playerSlicedSprite.processInput(key);
+		this.#fieldObjectsContainer.getPlayerSlicedSprite().processInput(key);
 	}
 
 	getLeftTime() {
@@ -88,17 +58,18 @@ class GameScene extends Scene {
 	}
 
 	getRandomAvailableDestination() {
-		const randomIndex = Math.floor(Math.random() * this.#availableFieldDestinations.length);
+		const availableFieldDestinations = this.#fieldObjectsContainer.getAvailableFieldDestinations();
+		const randomIndex = Math.floor(Math.random() * availableFieldDestinations.length);
 		
-		return this.#availableFieldDestinations[randomIndex];
+		return availableFieldDestinations[randomIndex];
 	}
 
 	reachedAnyOfAvailableFieldDestinations(position) {
-		return this.#availableFieldDestinations.some(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
+		return this.#fieldObjectsContainer.getAvailableFieldDestinations().some(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
 	}
 
 	playerIsStandingOnHazardousPosition(position) {
-		const playerPosition = position || this.#playerSlicedSprite.getPosition();
+		const playerPosition = position || this.#fieldObjectsContainer.getPlayerSlicedSprite().getPosition();
 		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
 		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
 
@@ -106,86 +77,52 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyVehicle(position) {
-		const rectangle = this.#playerSlicedSprite.getRectangle();
+		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
 
 		if(typeof(position) !== "undefined") {
 			rectangle.getPosition().x = position.x;
 			rectangle.getPosition().y = position.y;
 		}
 		
-		return this.#vehicles.some(vehicle => rectangle.intersectsWith(vehicle.getRectangle()));
+		return this.#fieldObjectsContainer.getVehicles().some(vehicle => rectangle.intersectsWith(vehicle.getRectangle()));
 	}
 
 	playerIntersectsWithAnyWoodenLogGroup(position) {
-		const rectangle = this.#playerSlicedSprite.getRectangle();
+		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
 
 		if(typeof(position) !== "undefined") {
 			rectangle.getPosition().x = position.x;
 			rectangle.getPosition().y = position.y;
 		}
 		
-		return this.#woodenLogGroups.some(woodenLogGroup => rectangle.intersectsWith(woodenLogGroup.getRectangle()));
+		return this.#fieldObjectsContainer.getWoodenLogGroups().some(woodenLogGroup => rectangle.intersectsWith(woodenLogGroup.getRectangle()));
 	}
 
 	playerIntersectsWithAnyTurtlesGroup(position) {
-		const rectangle = this.#playerSlicedSprite.getRectangle();
+		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
 
 		if(typeof(position) !== "undefined") {
 			rectangle.getPosition().x = position.x;
 			rectangle.getPosition().y = position.y;
 		}
 		
-		return this.#turtleGroups.some(turtleGroup => !turtleGroup.isHidden() && rectangle.intersectsWith(turtleGroup.getRectangle()));
+		return this.#fieldObjectsContainer.getTurtleGroups().some(turtleGroup => !turtleGroup.isHidden() && rectangle.intersectsWith(turtleGroup.getRectangle()));
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {
-		const objectsOnRiver = this.#woodenLogGroups.slice();
+		const objectsOnRiver = this.#fieldObjectsContainer.getWoodenLogGroups().slice();
 
-		this.#turtleGroups.forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
+		this.#fieldObjectsContainer.getTurtleGroups().forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
 		
-		return objectsOnRiver.find(objectOnRiver => this.#playerSlicedSprite.getRectangle().intersectsWith(objectOnRiver.getRectangle()));
+		return objectsOnRiver.find(objectOnRiver => this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle().intersectsWith(objectOnRiver.getRectangle()));
 	}
 
-	getFieldSprite() {
-		return this.#fieldSprite;
-	}
-
-	#onFieldSpriteLoad(sprite) {
-		const image = sprite.getImage();
-		const x = HALF_OF_GAME_WINDOW_WIDTH - image.width*0.5;
-		const y = HALF_OF_GAME_WINDOW_HEIGHT - image.height*0.5;
+	#addListenersToPlayer() {
+		const playerSlicedSprite = this.#fieldObjectsContainer.getPlayerSlicedSprite();
 		
-		this.#fieldSprite.setPosition(new Point(x, y));
-
-		this.#availableFieldDestinations = [new FieldDestination(new Point(x + 8, y + 8)), new FieldDestination(new Point(x + 32, y + 8)), new FieldDestination(new Point(x + 56, y + 8)), new FieldDestination(new Point(x + 80, y + 8)), new FieldDestination(new Point(x + 104, y + 8))];
-	}
-
-	#onFieldDestinationReached(position) {
-		const availableFieldDestination = this.#availableFieldDestinations.find(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
-
-		if(typeof(availableFieldDestination) === "undefined") {
-			return;
-		}
-
-		const availableFieldDestinationRectangle = availableFieldDestination.getRectangle();
-		const playerIntersectsWithFly = availableFieldDestinationRectangle.intersectsWith(this.#flySprite.getRectangle());
-		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION;
-
-		if(playerIntersectsWithFly) {
-			const availableFieldDestinationPosition = availableFieldDestinationRectangle.getPosition();
-			const availableFieldDestinationSize = availableFieldDestinationRectangle.getSize();
-			
-			this.#flySprite.setActive(false);
-			this.#panelUI.getBonusPointsTextUI().display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
-		}
-
-		this.#savedFrogs.push(new SavedFrogSprite(availableFieldDestination.getPosition()));
-		this.frogSavedEvent.invoke();
-		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
-		ListMethods.removeElementByReferenceIfPossible(this.#availableFieldDestinations, availableFieldDestination);
-		this.#resetClosestYToFieldDestinations();
-		this.#remainingTimeTimer.startTimer();
-		this.#checkIfWonGame();
+		playerSlicedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
+		playerSlicedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
+		playerSlicedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 	}
 
 	#positionIsSufficientlyCloseToFieldDestination(destination, position) {
@@ -196,11 +133,40 @@ class GameScene extends Scene {
 	}
 
 	#resetClosestYToFieldDestinations() {
-		this.#closestYToFieldDestinations = this.#playerSlicedSprite.getPosition().y;
+		this.#closestYToFieldDestinations = this.#fieldObjectsContainer.getPlayerSlicedSprite().getPosition().y;
+	}
+
+	#onFieldDestinationReached(position) {
+		const availableFieldDestination = this.#fieldObjectsContainer.getAvailableFieldDestinations().find(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
+
+		if(typeof(availableFieldDestination) === "undefined") {
+			return;
+		}
+
+		const availableFieldDestinationRectangle = availableFieldDestination.getRectangle();
+		const flySprite = this.#fieldObjectsContainer.getFlySprite();
+		const playerIntersectsWithFly = availableFieldDestinationRectangle.intersectsWith(flySprite.getRectangle());
+		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION;
+
+		if(playerIntersectsWithFly) {
+			const availableFieldDestinationPosition = availableFieldDestinationRectangle.getPosition();
+			const availableFieldDestinationSize = availableFieldDestinationRectangle.getSize();
+			
+			flySprite.setActive(false);
+			this.#panelUI.getBonusPointsTextUI().display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
+		}
+
+		this.#fieldObjectsContainer.getSavedFrogs().push(new SavedFrogSprite(availableFieldDestination.getPosition()));
+		this.frogSavedEvent.invoke();
+		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
+		ListMethods.removeElementByReferenceIfPossible(this.#fieldObjectsContainer.getAvailableFieldDestinations(), availableFieldDestination);
+		this.#resetClosestYToFieldDestinations();
+		this.#remainingTimeTimer.startTimer();
+		this.#checkIfWonGame();
 	}
 
 	#checkIfWonGame() {
-		if(this.#availableFieldDestinations.length > 0) {
+		if(this.#fieldObjectsContainer.getAvailableFieldDestinations().length > 0) {
 			return;
 		}
 
