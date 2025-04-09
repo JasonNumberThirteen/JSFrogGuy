@@ -19,7 +19,7 @@ class WoodenLogSlicedSpritesGroup extends SlicedSpritesGroup {
 	}
 
 	#createAndAddSegment(position, movementSpeed, frameIndex) {
-		const segment = new WoodenLogSlicedSprite(position, movementSpeed, frameIndex);
+		const segment = new WoodenLogMovingSlicedSprite(position, movementSpeed, frameIndex);
 
 		this.getSprites().push(segment);
 	}

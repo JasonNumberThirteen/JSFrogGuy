@@ -1,17 +1,12 @@
-class VehicleSlicedSprite extends SlicedSprite {
-	#movementSpeed;
-	#moveToRight;
+class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 	#initialMovementSpeed;
 	
 	constructor(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight) {
-		super(filename, position, frameWidth, frameHeight);
-		this.setCurrentColumnIndex(columnIndex);
+		super(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight);
 
 		this.#initialMovementSpeed = movementSpeed;
-		this.#movementSpeed = this.#initialMovementSpeed;
-		this.#moveToRight = moveToRight;
 
-		if(this.#moveToRight) {
+		if(this.isMovingRight()) {
 			this.setCurrentRowIndex(1);
 		}
 
@@ -27,17 +22,17 @@ class VehicleSlicedSprite extends SlicedSprite {
 	}
 
 	update(deltaTime) {
+		super.update(deltaTime);
+		
 		const position = this.getPosition();
-		const movementDirection = this.#moveToRight ? 1 : -1;
 		const leftSide = 68;
 		const rightSide = 188;
 		const frameWidth = this.getFrameWidth();
+		const isMovingRight = this.isMovingRight();
 
-		position.x += this.#movementSpeed*movementDirection*deltaTime;
-
-		if(!this.#moveToRight && position.x < leftSide - frameWidth) {
+		if(!isMovingRight && position.x < leftSide - frameWidth) {
 			position.x = rightSide + frameWidth;
-		} else if(this.#moveToRight && position.x > rightSide) {
+		} else if(isMovingRight && position.x > rightSide) {
 			position.x = leftSide - frameWidth*2;
 		}
 
@@ -49,6 +44,6 @@ class VehicleSlicedSprite extends SlicedSprite {
 	}
 
 	#increaseMovementSpeedIfPossibleBy(value) {
-		this.#movementSpeed = MathMethods.clamp(this.#movementSpeed + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND);
+		this.setMovementSpeed(MathMethods.clamp(this.getMovementSpeed() + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND));
 	}
 }
