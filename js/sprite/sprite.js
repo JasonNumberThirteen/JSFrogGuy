@@ -54,7 +54,7 @@ class Sprite {
 		this.#image.src = filename;
 
 		if(onload) {
-			this.#image.onload = () => onload(this.#image);
+			this.#image.onload = () => onload(this);
 		}
 	}
 

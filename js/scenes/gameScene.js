@@ -176,7 +176,8 @@ class GameScene extends Scene {
 		return this.#fieldSprite;
 	}
 
-	#onFieldSpriteLoad(image) {
+	#onFieldSpriteLoad(sprite) {
+		const image = sprite.getImage();
 		const x = HALF_OF_GAME_WINDOW_WIDTH - image.width*0.5;
 		const y = HALF_OF_GAME_WINDOW_HEIGHT - image.height*0.5;
 		

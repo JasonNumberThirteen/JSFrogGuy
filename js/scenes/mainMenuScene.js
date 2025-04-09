@@ -67,7 +67,9 @@ class MainMenuScene extends Scene {
 		gameData.resetCurrentLevelNumber();
 	}
 
-	#onGameLogoSpriteLoad(image) {
+	#onGameLogoSpriteLoad(sprite) {
+		const image = sprite.getImage();
+		
 		this.#setPositionOfGameLogoSprite(image);
 		this.#setPositionOfMainMenuCursorSprite(image);
 	}
