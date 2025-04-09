@@ -67,7 +67,7 @@ class SlicedSpritesGroup {
 	#increaseMovementSpeedIfPossibleBy(value) {
 		this.#movementSpeed = MathMethods.clamp(this.#movementSpeed + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND);
 
-		this.#sprites.forEach(segment => segment.setMovementSpeed(this.#movementSpeed));
+		this.#sprites.forEach(sprite => sprite.setMovementSpeed(this.#movementSpeed));
 	}
 
 	#adjustSpritesPositionIfNeeded(x) {
