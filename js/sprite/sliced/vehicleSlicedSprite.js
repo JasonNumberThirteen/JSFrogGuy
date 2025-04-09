@@ -1,4 +1,4 @@
-class VehicleAnimatedSprite extends AnimatedSprite {
+class VehicleSlicedSprite extends SlicedSprite {
 	#movementSpeed;
 	#moveToRight;
 	#initialMovementSpeed;

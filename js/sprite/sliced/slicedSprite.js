@@ -1,4 +1,4 @@
-class AnimatedSprite extends Sprite {
+class SlicedSprite extends Sprite {
 	#frameWidth;
 	#frameHeight;
 	#currentRowIndex = 0;

@@ -1,4 +1,4 @@
-class WoodenLogAnimatedSprite extends AnimatedSprite {
+class WoodenLogSlicedSprite extends SlicedSprite {
 	#movementSpeed;
 	#movementDirection = 1;
 	

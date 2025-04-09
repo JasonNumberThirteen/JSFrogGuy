@@ -1,4 +1,4 @@
-class PlayerAnimatedSprite extends AnimatedSprite {
+class PlayerSlicedSprite extends SlicedSprite {
 	destinationReachedEvent = new GameEvent();
 	livesChangedEvent = new GameEvent();
 	positionChangedEvent = new GameEvent();

@@ -5,7 +5,7 @@ class GameScene extends Scene {
 	#fieldSprite;
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
-	#playerAnimatedSprite;
+	#playerSlicedSprite;
 	#flySprite;
 	#playerLivesPanelUI;
 	#levelTimerPanelUI;
@@ -35,9 +35,9 @@ class GameScene extends Scene {
 		this.#fieldSprite = new Sprite(FIELD_SPRITE_FILENAME, new Point(), this.#onFieldSpriteLoad.bind(this));
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
-		this.#playerAnimatedSprite = new PlayerAnimatedSprite();
+		this.#playerSlicedSprite = new PlayerSlicedSprite();
 		this.#flySprite = new FlySprite();
-		this.#playerLivesPanelUI = new PlayerLivesPanelUI(this.#playerAnimatedSprite.getLives());
+		this.#playerLivesPanelUI = new PlayerLivesPanelUI(this.#playerSlicedSprite.getLives());
 		this.#levelTimerPanelUI = new LevelTimerPanelUI();
 		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#gameOverTextUI = new GameOverTextUI();
@@ -53,9 +53,9 @@ class GameScene extends Scene {
 		this.#gameIsOver = false;
 		
 		this.#setCounterValues();
-		this.#playerAnimatedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
-		this.#playerAnimatedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
-		this.#playerAnimatedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
+		this.#playerSlicedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
+		this.#playerSlicedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
+		this.#playerSlicedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
 		this.#fadeScreenUI.fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
@@ -63,7 +63,7 @@ class GameScene extends Scene {
 	}
 
 	update(deltaTime) {
-		this.#playerAnimatedSprite.update(deltaTime);
+		this.#playerSlicedSprite.update(deltaTime);
 		this.#flySprite.update(deltaTime);
 		this.#nextSceneLoadTimer.update(deltaTime);
 
@@ -86,7 +86,7 @@ class GameScene extends Scene {
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.draw());
 		this.#turtleGroups.forEach(turtle => turtle.draw());
-		this.#playerAnimatedSprite.draw();
+		this.#playerSlicedSprite.draw();
 		this.#flySprite.draw();
 		this.#vehicles.forEach(vehicle => vehicle.draw());
 		this.#fieldEdgesCover.draw();
@@ -106,7 +106,7 @@ class GameScene extends Scene {
 	}
 
 	processInput(key) {
-		this.#playerAnimatedSprite.processInput(key);
+		this.#playerSlicedSprite.processInput(key);
 	}
 
 	gameIsOver() {
@@ -124,7 +124,7 @@ class GameScene extends Scene {
 	}
 
 	playerIsStandingOnHazardousPosition(position) {
-		const playerPosition = position || this.#playerAnimatedSprite.getPosition();
+		const playerPosition = position || this.#playerSlicedSprite.getPosition();
 		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
 		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
 
@@ -132,7 +132,7 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyVehicle(position) {
-		const rectangle = this.#playerAnimatedSprite.getRectangle();
+		const rectangle = this.#playerSlicedSprite.getRectangle();
 
 		if(typeof(position) !== "undefined") {
 			rectangle.getPosition().x = position.x;
@@ -143,7 +143,7 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyWoodenLogGroup(position) {
-		const rectangle = this.#playerAnimatedSprite.getRectangle();
+		const rectangle = this.#playerSlicedSprite.getRectangle();
 
 		if(typeof(position) !== "undefined") {
 			rectangle.getPosition().x = position.x;
@@ -154,7 +154,7 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyTurtlesGroup(position) {
-		const rectangle = this.#playerAnimatedSprite.getRectangle();
+		const rectangle = this.#playerSlicedSprite.getRectangle();
 
 		if(typeof(position) !== "undefined") {
 			rectangle.getPosition().x = position.x;
@@ -169,7 +169,7 @@ class GameScene extends Scene {
 
 		this.#turtleGroups.forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
 		
-		return objectsOnRiver.find(objectOnRiver => this.#playerAnimatedSprite.getRectangle().intersectsWith(objectOnRiver.getRectangle()));
+		return objectsOnRiver.find(objectOnRiver => this.#playerSlicedSprite.getRectangle().intersectsWith(objectOnRiver.getRectangle()));
 	}
 
 	getFieldSprite() {
@@ -229,7 +229,7 @@ class GameScene extends Scene {
 	}
 
 	#resetClosestYToFieldDestinations() {
-		this.#closestYToFieldDestinations = this.#playerAnimatedSprite.getPosition().y;
+		this.#closestYToFieldDestinations = this.#playerSlicedSprite.getPosition().y;
 	}
 
 	#checkIfWonGame() {

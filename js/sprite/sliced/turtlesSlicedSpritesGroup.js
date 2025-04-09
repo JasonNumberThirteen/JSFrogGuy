@@ -1,4 +1,4 @@
-class TurtlesAnimatedSpritesGroup {
+class TurtlesSlicedSpritesGroup {
 	#turtles = [];
 	#movementSpeed;
 	#movementDirection = -1;
@@ -8,7 +8,7 @@ class TurtlesAnimatedSpritesGroup {
 		const isHiding = Math.random() < CHANCE_FOR_HIDING_TURTLES_GROUP;
 		
 		for (let i = 0; i < 3; ++i) {
-			this.#turtles.push(new TurtleAnimatedSprite(new Point(position.x + i*8, position.y), movementSpeed, isHiding));
+			this.#turtles.push(new TurtleSlicedSprite(new Point(position.x + i*8, position.y), movementSpeed, isHiding));
 		}
 
 		this.#initialMovementSpeed = movementSpeed;

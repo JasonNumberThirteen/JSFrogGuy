@@ -1,4 +1,4 @@
-class WoodenLogAnimatedSpritesGroup {
+class WoodenLogSlicedSpritesGroup {
 	#segments = [];
 	#movementSpeed;
 	#movementDirection = 1;
@@ -65,7 +65,7 @@ class WoodenLogAnimatedSpritesGroup {
 	}
 
 	#createAndAddSegment(position, movementSpeed, frameIndex) {
-		const segment = new WoodenLogAnimatedSprite(position, movementSpeed, frameIndex);
+		const segment = new WoodenLogSlicedSprite(position, movementSpeed, frameIndex);
 
 		this.#segments.push(segment);
 	}

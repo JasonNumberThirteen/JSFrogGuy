@@ -1,4 +1,4 @@
-class TurtleAnimatedSprite extends AnimatedSprite {
+class TurtleSlicedSprite extends SlicedSprite {
 	#movementSpeed;
 	#movementDirection = -1;
 	#animationTimer;
