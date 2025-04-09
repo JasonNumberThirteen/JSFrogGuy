@@ -11,12 +11,20 @@ class SlicedSprite extends Sprite {
 		this.#frameHeight = frameHeight;
 	}
 
+	getSize() {
+		return new Point(this.#frameWidth, this.#frameHeight);
+	}
+
 	getFrameWidth() {
 		return this.#frameWidth;
 	}
 
-	getSize() {
-		return new Point(this.#frameWidth, this.#frameHeight);
+	getFrameHeight() {
+		return this.#frameHeight;
+	}
+
+	getCurrentRowIndex() {
+		return this.#currentRowIndex;
 	}
 
 	getCurrentColumnIndex() {
