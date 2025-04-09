@@ -133,7 +133,7 @@ class GameScene extends Scene {
 	}
 
 	#resetClosestYToFieldDestinations() {
-		this.#closestYToFieldDestinations = this.#fieldObjectsContainer.getPlayerSlicedSprite().getPosition().y;
+		this.#closestYToFieldDestinations = PLAYER_INITIAL_Y;
 	}
 
 	#onFieldDestinationReached(position) {

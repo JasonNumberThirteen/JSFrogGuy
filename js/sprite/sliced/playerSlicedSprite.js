@@ -16,7 +16,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#hazardousPositionCheckTimer;
 	
 	constructor() {
-		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, GAME_WINDOW_HEIGHT - 24), 8, 8);
+		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, PLAYER_INITIAL_Y), 8, 8);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
