@@ -1,4 +1,4 @@
-class TurtlesSlicedSpritesGroup extends SlicedSpritesGroup {
+class TurtlesMovingSlicedSpritesGroup extends MovingSlicedSpritesGroup {
 	constructor(position, movementSpeed) {
 		super(position, movementSpeed, false);
 		

@@ -29,15 +29,15 @@ class ObjectsGenerator {
 		const woodenLogGroups = [];
 
 		for (let i = 0; i < 3; ++i) {
-			woodenLogGroups.push(new WoodenLogSlicedSpritesGroup(new Point(8 + 48*i, 56), 10, 1));
+			woodenLogGroups.push(new WoodenLogMovingSlicedSpritesGroup(new Point(8 + 48*i, 56), 10, 1));
 		}
 
 		for (let i = 0; i < 1; ++i) {
-			woodenLogGroups.push(new WoodenLogSlicedSpritesGroup(new Point(24 + 48*i, 48), 20, 3));
+			woodenLogGroups.push(new WoodenLogMovingSlicedSpritesGroup(new Point(24 + 48*i, 48), 20, 3));
 		}
 
 		for (let i = 0; i < 3; ++i) {
-			woodenLogGroups.push(new WoodenLogSlicedSpritesGroup(new Point(24 + 48*i, 32), 18, 2));
+			woodenLogGroups.push(new WoodenLogMovingSlicedSpritesGroup(new Point(24 + 48*i, 32), 18, 2));
 		}
 
 		return woodenLogGroups;
@@ -46,8 +46,8 @@ class ObjectsGenerator {
 	createTurtleGroups() {
 		const turtleGroups = [];
 
-		turtleGroups.push(new TurtlesSlicedSpritesGroup(new Point(128, 64), 20));
-		turtleGroups.push(new TurtlesSlicedSpritesGroup(new Point(128, 40), 30));
+		turtleGroups.push(new TurtlesMovingSlicedSpritesGroup(new Point(128, 64), 20));
+		turtleGroups.push(new TurtlesMovingSlicedSpritesGroup(new Point(128, 40), 30));
 
 		return turtleGroups;
 	}

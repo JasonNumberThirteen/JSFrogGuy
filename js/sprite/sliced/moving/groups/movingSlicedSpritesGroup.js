@@ -1,4 +1,4 @@
-class SlicedSpritesGroup {
+class MovingSlicedSpritesGroup {
 	#sprites = [];
 	#initialMovementSpeed;
 	#movementSpeed;

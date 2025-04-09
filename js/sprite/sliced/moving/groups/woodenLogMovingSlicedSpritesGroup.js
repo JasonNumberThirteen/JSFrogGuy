@@ -1,4 +1,4 @@
-class WoodenLogSlicedSpritesGroup extends SlicedSpritesGroup {
+class WoodenLogMovingSlicedSpritesGroup extends MovingSlicedSpritesGroup {
 	constructor(position, movementSpeed, numberOfMiddleSegments) {
 		super(position, movementSpeed, true);
 		
