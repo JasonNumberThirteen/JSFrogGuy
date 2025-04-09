@@ -1,33 +1,27 @@
-class GameScenePanelUI {
-	#playerScoreIntCounterGroupUI;
-	#highScoreIntCounterGroupUI;
+class GameScenePanelUI extends ScenePanelUI {
 	#currentLevelTextUI;
 	#playerLivesPanelUI;
 	#levelTimerPanelUI;
 	#gameOverTextUI;
 	#bonusPointsTextUI;
-	#fadeScreenUI;
 	#gameScene;
 
 	constructor() {
-		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
-		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
+		super();
+		
 		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#playerLivesPanelUI = new PlayerLivesPanelUI(PLAYER_INITIAL_LIVES);
 		this.#levelTimerPanelUI = new LevelTimerPanelUI();
 		this.#gameOverTextUI = new GameOverTextUI();
 		this.#bonusPointsTextUI = new BonusPointsTextUI();
-		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
-
-		this.#setCounterValues();
 	}
 
 	update(deltaTime) {
 		this.#currentLevelTextUI.update(deltaTime);
 		this.#levelTimerPanelUI.setCurrentValue(this.#gameScene.getLeftTime());
 		this.#bonusPointsTextUI.update(deltaTime);
-		this.#fadeScreenUI.update(deltaTime);
+		super.update(deltaTime);
 	}
 
 	draw() {
@@ -37,20 +31,10 @@ class GameScenePanelUI {
 			this.#currentLevelTextUI.draw();
 		}
 		
-		this.#playerScoreIntCounterGroupUI.draw();
-		this.#highScoreIntCounterGroupUI.draw();
 		this.#playerLivesPanelUI.draw();
 		this.#levelTimerPanelUI.draw();
 		this.#bonusPointsTextUI.draw();
-		this.#fadeScreenUI.draw();
-	}
-
-	getPlayerScoreIntCounterGroupUI() {
-		return this.#playerScoreIntCounterGroupUI;
-	}
-
-	getHighScoreIntCounterGroupUI() {
-		return this.#highScoreIntCounterGroupUI;
+		super.draw();
 	}
 
 	getPlayerLivesPanelUI() {
@@ -61,23 +45,13 @@ class GameScenePanelUI {
 		return this.#bonusPointsTextUI;
 	}
 
-	getFadeScreenUI() {
-		return this.#fadeScreenUI;
-	}
-
 	updateHighScoreIfNeeded() {
-		const currentPlayerScore = this.#playerScoreIntCounterGroupUI.getCounterValue();
-		const currentHighScore = this.#highScoreIntCounterGroupUI.getCounterValue();
+		const highScoreIntCounterGroupUI = this.getHighScoreIntCounterGroupUI();
+		const currentPlayerScore = this.getPlayerScoreIntCounterGroupUI().getCounterValue();
+		const currentHighScore = highScoreIntCounterGroupUI.getCounterValue();
 
 		if(currentPlayerScore > currentHighScore) {
-			this.#highScoreIntCounterGroupUI.setCounterValue(currentPlayerScore);
+			highScoreIntCounterGroupUI.setCounterValue(currentPlayerScore);
 		}
-	}
-
-	#setCounterValues() {
-		const gameData = FrogGuy.getData();
-
-		this.#playerScoreIntCounterGroupUI.setCounterValue(gameData.getPlayerScore());
-		this.#highScoreIntCounterGroupUI.setCounterValue(gameData.getHighScore());
 	}
 }
