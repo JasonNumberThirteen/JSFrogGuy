@@ -7,7 +7,7 @@ class GameScene extends Scene {
 	#highScoreIntCounterGroupUI;
 	#playerAnimatedSprite;
 	#flySprite;
-	#playerLivesSpritesGroupPanelUI;
+	#playerLivesPanelUI;
 	#levelTimerPanelUI;
 	#currentLevelTextUI;
 	#gameOverTextUI;
@@ -37,7 +37,7 @@ class GameScene extends Scene {
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#playerAnimatedSprite = new PlayerAnimatedSprite();
 		this.#flySprite = new FlySprite();
-		this.#playerLivesSpritesGroupPanelUI = new PlayerLivesSpritesGroupPanelUI(this.#playerAnimatedSprite.getLives());
+		this.#playerLivesPanelUI = new PlayerLivesPanelUI(this.#playerAnimatedSprite.getLives());
 		this.#levelTimerPanelUI = new LevelTimerPanelUI();
 		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#gameOverTextUI = new GameOverTextUI();
@@ -92,7 +92,7 @@ class GameScene extends Scene {
 		this.#fieldEdgesCover.draw();
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
-		this.#playerLivesSpritesGroupPanelUI.draw();
+		this.#playerLivesPanelUI.draw();
 		this.#levelTimerPanelUI.draw();
 
 		if(this.#gameIsOver) {
@@ -242,7 +242,7 @@ class GameScene extends Scene {
 	}
 
 	#onLivesChanged(lives) {
-		this.#playerLivesSpritesGroupPanelUI.setNumberOfSprites(lives);
+		this.#playerLivesPanelUI.setNumberOfSprites(lives);
 	
 		if(lives <= 0) {
 			this.#setGameAsOverIfNeeded();
