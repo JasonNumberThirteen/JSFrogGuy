@@ -125,7 +125,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 		const currentPosition = this.getPosition();
 
-		if(previousPosition.x !== currentPosition.x || previousPosition.y !== currentPosition.y) {
+		if(!previousPosition.equals(currentPosition)) {
 			this.positionChangedEvent.invoke(position);
 		}
 	}
