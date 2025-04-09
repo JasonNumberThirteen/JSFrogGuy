@@ -6,6 +6,7 @@ class MainMenuScenePanelUI extends ScenePanelUI {
 
 	constructor() {
 		super();
+		
 		this.#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, new Point(), this.#onGameLogoSpriteLoad.bind(this));
 		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
 		this.#startGameTextUI = new StartGameTextUI();
