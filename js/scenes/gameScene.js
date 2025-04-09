@@ -58,10 +58,7 @@ class GameScene extends Scene {
 	}
 
 	getRandomAvailableDestination() {
-		const availableFieldDestinations = this.#fieldObjectsContainer.getAvailableFieldDestinations();
-		const randomIndex = Math.floor(Math.random() * availableFieldDestinations.length);
-		
-		return availableFieldDestinations[randomIndex];
+		return ListMethods.getRandomElement(this.#fieldObjectsContainer.getAvailableFieldDestinations());
 	}
 
 	reachedAnyOfAvailableFieldDestinations(position) {
