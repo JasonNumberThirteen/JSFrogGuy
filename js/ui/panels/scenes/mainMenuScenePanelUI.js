@@ -1,35 +1,35 @@
 class MainMenuScenePanelUI {
-	#gameLogoSprite;
-	#mainMenuCursorSprite;
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
+	#gameLogoSprite;
+	#mainMenuCursorSprite;
 	#startGameTextUI;
 	#creditsTextUI;
 	#fadeScreenUI;
 
 	constructor() {
-		this.#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, new Point(), this.#onGameLogoSpriteLoad.bind(this));
-		this.#startGameTextUI = new StartGameTextUI();
-		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(HALF_OF_GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
-		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
+		this.#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, new Point(), this.#onGameLogoSpriteLoad.bind(this));
+		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
+		this.#startGameTextUI = new StartGameTextUI();
+		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(HALF_OF_GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
 
 		this.#setCounterValues();
 	}
 
 	update(deltaTime) {
-		this.#startGameTextUI.update(deltaTime);
 		this.#mainMenuCursorSprite.update(deltaTime);
+		this.#startGameTextUI.update(deltaTime);
 		this.#fadeScreenUI.update(deltaTime);
 	}
 
 	draw() {
-		this.#gameLogoSprite.draw();
-		this.#mainMenuCursorSprite.draw();
 		this.#playerScoreIntCounterGroupUI.draw();
 		this.#highScoreIntCounterGroupUI.draw();
+		this.#gameLogoSprite.draw();
+		this.#mainMenuCursorSprite.draw();
 		this.#startGameTextUI.draw();
 		this.#creditsTextUI.draw();
 		this.#fadeScreenUI.draw();
