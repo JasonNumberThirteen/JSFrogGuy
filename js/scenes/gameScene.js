@@ -3,16 +3,8 @@ class GameScene extends Scene {
 	gameWonEvent = new GameEvent();
 	
 	#fieldSprite;
-	#playerScoreIntCounterGroupUI;
-	#highScoreIntCounterGroupUI;
 	#playerSlicedSprite;
 	#flySprite;
-	#playerLivesPanelUI;
-	#levelTimerPanelUI;
-	#currentLevelTextUI;
-	#gameOverTextUI;
-	#bonusPointsTextUI;
-	#fadeScreenUI;
 	#availableFieldDestinations;
 	#savedFrogs;
 	#vehicles;
@@ -24,6 +16,7 @@ class GameScene extends Scene {
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToFieldDestinations;
 	#gameIsOver;
+	#panelUI;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -33,16 +26,8 @@ class GameScene extends Scene {
 		const objectsGenerator = new ObjectsGenerator();
 		
 		this.#fieldSprite = new Sprite(FIELD_SPRITE_FILENAME, new Point(), this.#onFieldSpriteLoad.bind(this));
-		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
-		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
 		this.#playerSlicedSprite = new PlayerSlicedSprite();
 		this.#flySprite = new FlySprite();
-		this.#playerLivesPanelUI = new PlayerLivesPanelUI(this.#playerSlicedSprite.getLives());
-		this.#levelTimerPanelUI = new LevelTimerPanelUI();
-		this.#currentLevelTextUI = new CurrentLevelTextUI();
-		this.#gameOverTextUI = new GameOverTextUI();
-		this.#bonusPointsTextUI = new BonusPointsTextUI();
-		this.#fadeScreenUI = new FadeScreenUI(true, true);
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
 		this.#woodenLogGroups = objectsGenerator.createWoodenLogGroups();
@@ -51,14 +36,14 @@ class GameScene extends Scene {
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		this.#gameIsOver = false;
+		this.#panelUI = new GameScenePanelUI();
 		
-		this.#setCounterValues();
 		this.#playerSlicedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
 		this.#playerSlicedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
 		this.#playerSlicedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
-		this.#fadeScreenUI.fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
+		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#resetClosestYToFieldDestinations();
 	}
 
@@ -71,13 +56,10 @@ class GameScene extends Scene {
 			this.#remainingTimeTimer.update(deltaTime);
 		}
 
-		this.#currentLevelTextUI.update(deltaTime);
-		this.#bonusPointsTextUI.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.update(deltaTime));
 		this.#turtleGroups.forEach(turtle => turtle.update(deltaTime));
-		this.#fadeScreenUI.update(deltaTime);
-		this.#levelTimerPanelUI.setCurrentValue(this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime());
+		this.#panelUI.update(deltaTime);
 	}
 
 	draw() {
@@ -90,23 +72,15 @@ class GameScene extends Scene {
 		this.#flySprite.draw();
 		this.#vehicles.forEach(vehicle => vehicle.draw());
 		this.#fieldEdgesCover.draw();
-		this.#playerScoreIntCounterGroupUI.draw();
-		this.#highScoreIntCounterGroupUI.draw();
-		this.#playerLivesPanelUI.draw();
-		this.#levelTimerPanelUI.draw();
-
-		if(this.#gameIsOver) {
-			this.#gameOverTextUI.draw();
-		} else {
-			this.#currentLevelTextUI.draw();
-		}
-		
-		this.#bonusPointsTextUI.draw();
-		this.#fadeScreenUI.draw();
+		this.#panelUI.draw();
 	}
 
 	processInput(key) {
 		this.#playerSlicedSprite.processInput(key);
+	}
+
+	getLeftTime() {
+		return this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime();
 	}
 
 	gameIsOver() {
@@ -186,13 +160,6 @@ class GameScene extends Scene {
 		this.#availableFieldDestinations = [new FieldDestination(new Point(x + 8, y + 8)), new FieldDestination(new Point(x + 32, y + 8)), new FieldDestination(new Point(x + 56, y + 8)), new FieldDestination(new Point(x + 80, y + 8)), new FieldDestination(new Point(x + 104, y + 8))];
 	}
 
-	#setCounterValues() {
-		const gameData = FrogGuy.getData();
-
-		this.#playerScoreIntCounterGroupUI.setCounterValue(gameData.getPlayerScore());
-		this.#highScoreIntCounterGroupUI.setCounterValue(gameData.getHighScore());
-	}
-
 	#onFieldDestinationReached(position) {
 		const availableFieldDestination = this.#availableFieldDestinations.find(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
 
@@ -209,12 +176,12 @@ class GameScene extends Scene {
 			const availableFieldDestinationSize = availableFieldDestinationRectangle.getSize();
 			
 			this.#flySprite.setActive(false);
-			this.#bonusPointsTextUI.display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
+			this.#panelUI.getBonusPointsTextUI().display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
 		}
 
 		this.#savedFrogs.push(new SavedFrogSprite(availableFieldDestination.getPosition()));
 		this.frogSavedEvent.invoke();
-		this.#playerScoreIntCounterGroupUI.increaseCounterValue(points);
+		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
 		ListMethods.removeElementByReferenceIfPossible(this.#availableFieldDestinations, availableFieldDestination);
 		this.#resetClosestYToFieldDestinations();
 		this.#remainingTimeTimer.startTimer();
@@ -243,7 +210,7 @@ class GameScene extends Scene {
 	}
 
 	#onLivesChanged(lives) {
-		this.#playerLivesPanelUI.setNumberOfSprites(lives);
+		this.#panelUI.getPlayerLivesPanelUI().setNumberOfSprites(lives);
 	
 		if(lives <= 0) {
 			this.#setGameAsOverIfNeeded();
@@ -257,17 +224,8 @@ class GameScene extends Scene {
 		
 		this.#closestYToFieldDestinations = position.y;
 			
-		this.#playerScoreIntCounterGroupUI.increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_FIELD_DESTINATIONS);
-		this.#updateHighScoreIfNeeded();
-	}
-
-	#updateHighScoreIfNeeded() {
-		const currentPlayerScore = this.#playerScoreIntCounterGroupUI.getCounterValue();
-		const currentHighScore = this.#highScoreIntCounterGroupUI.getCounterValue();
-
-		if(currentPlayerScore > currentHighScore) {
-			this.#highScoreIntCounterGroupUI.setCounterValue(currentPlayerScore);
-		}
+		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_FIELD_DESTINATIONS);
+		this.#panelUI.updateHighScoreIfNeeded();
 	}
 
 	#setGameAsOverIfNeeded() {
@@ -289,14 +247,16 @@ class GameScene extends Scene {
 	#updateGameData() {
 		const gameData = FrogGuy.getData();
 
-		gameData.setPlayerScore(this.#playerScoreIntCounterGroupUI.getCounterValue());
-		gameData.setHighScore(this.#highScoreIntCounterGroupUI.getCounterValue());
+		gameData.setPlayerScore(this.#panelUI.getPlayerScoreIntCounterGroupUI().getCounterValue());
+		gameData.setHighScore(this.#panelUI.getHighScoreIntCounterGroupUI().getCounterValue());
 		gameData.saveValues();
 	}
 
 	#startFading() {
-		this.#fadeScreenUI.setFadeOut(false);
-		this.#fadeScreenUI.startFading();
+		const fadeScreenUI = this.#panelUI.getFadeScreenUI();
+		
+		fadeScreenUI.setFadeOut(false);
+		fadeScreenUI.startFading();
 	}
 
 	#onFadeFinished(fadeOut) {
