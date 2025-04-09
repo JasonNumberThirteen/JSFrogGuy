@@ -1,9 +1,9 @@
 class GameScenePanelUI {
 	#playerScoreIntCounterGroupUI;
 	#highScoreIntCounterGroupUI;
+	#currentLevelTextUI;
 	#playerLivesPanelUI;
 	#levelTimerPanelUI;
-	#currentLevelTextUI;
 	#gameOverTextUI;
 	#bonusPointsTextUI;
 	#fadeScreenUI;
@@ -12,9 +12,9 @@ class GameScenePanelUI {
 	constructor() {
 		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
 		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
+		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#playerLivesPanelUI = new PlayerLivesPanelUI(PLAYER_INITIAL_LIVES);
 		this.#levelTimerPanelUI = new LevelTimerPanelUI();
-		this.#currentLevelTextUI = new CurrentLevelTextUI();
 		this.#gameOverTextUI = new GameOverTextUI();
 		this.#bonusPointsTextUI = new BonusPointsTextUI();
 		this.#fadeScreenUI = new FadeScreenUI(true, true);
@@ -25,23 +25,22 @@ class GameScenePanelUI {
 
 	update(deltaTime) {
 		this.#currentLevelTextUI.update(deltaTime);
+		this.#levelTimerPanelUI.setCurrentValue(this.#gameScene.getLeftTime());
 		this.#bonusPointsTextUI.update(deltaTime);
 		this.#fadeScreenUI.update(deltaTime);
-		this.#levelTimerPanelUI.setCurrentValue(this.#gameScene.getLeftTime());
 	}
 
 	draw() {
-		this.#playerScoreIntCounterGroupUI.draw();
-		this.#highScoreIntCounterGroupUI.draw();
-		this.#playerLivesPanelUI.draw();
-		this.#levelTimerPanelUI.draw();
-
 		if(this.#gameScene.gameIsOver()) {
 			this.#gameOverTextUI.draw();
 		} else {
 			this.#currentLevelTextUI.draw();
 		}
 		
+		this.#playerScoreIntCounterGroupUI.draw();
+		this.#highScoreIntCounterGroupUI.draw();
+		this.#playerLivesPanelUI.draw();
+		this.#levelTimerPanelUI.draw();
 		this.#bonusPointsTextUI.draw();
 		this.#fadeScreenUI.draw();
 	}
