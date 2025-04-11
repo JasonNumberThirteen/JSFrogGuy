@@ -27,17 +27,13 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 		
 		const field = this.#getField();
 		const fieldPosition = field.getPosition();
-		const fieldSize = field.getSize();
 		const vehiclePosition = this.getPosition();
-		const leftSide = fieldPosition.x;
-		const rightSide = fieldPosition.x + fieldSize.x;
 		const frameWidth = this.getFrameWidth();
-		const isMovingRight = this.isMovingRight();
 
-		if(!isMovingRight && vehiclePosition.x < leftSide - frameWidth) {
-			vehiclePosition.x = rightSide + frameWidth;
-		} else if(isMovingRight && vehiclePosition.x > rightSide) {
-			vehiclePosition.x = leftSide - frameWidth*2;
+		if(this.#reachedLeftEdgeOfField()) {
+			vehiclePosition.x = fieldPosition.x + field.getSize().x + frameWidth;
+		} else if(this.#reachedRightEdgeOfField()) {
+			vehiclePosition.x = fieldPosition.x - frameWidth*2;
 		}
 
 		this.setPosition(vehiclePosition);
@@ -49,6 +45,16 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 
 	#increaseMovementSpeedIfPossibleBy(value) {
 		this.setMovementSpeed(MathMethods.clamp(this.getMovementSpeed() + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND));
+	}
+
+	#reachedLeftEdgeOfField() {
+		return !this.isMovingRight() && this.getPosition().x < this.#getField().getPosition().x - this.getFrameWidth();
+	}
+
+	#reachedRightEdgeOfField() {
+		const field = this.#getField();
+		
+		return this.isMovingRight() && this.getPosition().x > field.getPosition().x + field.getSize().x;
 	}
 
 	#getField() {
