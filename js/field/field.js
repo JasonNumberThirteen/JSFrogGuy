@@ -17,6 +17,10 @@ class Field {
 		this.setPosition(new Point(HALF_OF_GAME_WINDOW_WIDTH - this.#frogLocationFieldArea.getSize().x*0.5, HALF_OF_GAME_WINDOW_HEIGHT - this.getSize().y*0.5));
 	}
 
+	getFrogLocationFieldArea() {
+		return this.#frogLocationFieldArea;
+	}
+
 	draw() {
 		this.#areas.forEach(area => area.draw());
 	}

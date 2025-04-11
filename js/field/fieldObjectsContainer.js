@@ -13,7 +13,7 @@ class FieldObjectsContainer {
 		const objectsGenerator = new ObjectsGenerator();
 		
 		this.#field = new Field();
-		this.#playerSlicedSprite = new PlayerSlicedSprite();
+		this.#playerSlicedSprite = new PlayerSlicedSprite(this.#field);
 		this.#flySprite = new FlySprite();
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
@@ -41,6 +41,10 @@ class FieldObjectsContainer {
 		this.#flySprite.draw();
 		this.#vehicles.forEach(vehicle => vehicle.draw());
 		this.#fieldEdgesCover.draw();
+	}
+
+	getField() {
+		return this.#field;
 	}
 
 	getPlayerSlicedSprite() {

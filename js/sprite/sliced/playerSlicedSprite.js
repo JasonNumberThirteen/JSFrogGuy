@@ -14,14 +14,16 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#lives;
 	#parentObject;
 	#hazardousPositionCheckTimer;
+	#field;
 	
-	constructor() {
+	constructor(field) {
 		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, PLAYER_INITIAL_Y), 8, 8);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 		this.#lives = PLAYER_INITIAL_LIVES;
 		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY, true);
+		this.#field = field;
 
 		this.#gameScene.gameWonEvent.addListener(this.#deactivate.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
@@ -32,8 +34,10 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 		if(typeof(this.#parentObject) !== "undefined") {
 			var x = this.getPosition().x;
+			const fieldPosition = this.#field.getPosition();
+			const fieldSize = this.#field.getSize();
 			
-			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, 68, 180);
+			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, fieldPosition.x, fieldPosition.x + fieldSize.x - 8);
 			this.getPosition().x = x;
 		}
 	}
@@ -117,8 +121,10 @@ class PlayerSlicedSprite extends SlicedSprite {
 	}
 
 	#setPositionWithinField(position) {
-		const minPosition = new Point(68, 32);
-		const maxPosition = new Point(180, 120);
+		const fieldPosition = this.#field.getPosition();
+		const fieldSize = this.#field.getSize();
+		const minPosition = new Point(fieldPosition.x, fieldPosition.y + this.#field.getFrogLocationFieldArea().getSize().y);
+		const maxPosition = new Point(fieldPosition.x + fieldSize.x, fieldPosition.y + fieldSize.y);
 		const previousPosition = this.getPosition();
 		
 		this.setPosition(PositionMethods.clamp(position, minPosition, maxPosition));
