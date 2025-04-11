@@ -1,5 +1,6 @@
 class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 	#initialMovementSpeed;
+	#field;
 	
 	constructor(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight) {
 		super(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight);
@@ -24,19 +25,22 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 	update(deltaTime) {
 		super.update(deltaTime);
 		
-		const position = this.getPosition();
-		const leftSide = 68;
-		const rightSide = 188;
+		const field = this.#getField();
+		const fieldPosition = field.getPosition();
+		const fieldSize = field.getSize();
+		const vehiclePosition = this.getPosition();
+		const leftSide = fieldPosition.x;
+		const rightSide = fieldPosition.x + fieldSize.x;
 		const frameWidth = this.getFrameWidth();
 		const isMovingRight = this.isMovingRight();
 
-		if(!isMovingRight && position.x < leftSide - frameWidth) {
-			position.x = rightSide + frameWidth;
-		} else if(isMovingRight && position.x > rightSide) {
-			position.x = leftSide - frameWidth*2;
+		if(!isMovingRight && vehiclePosition.x < leftSide - frameWidth) {
+			vehiclePosition.x = rightSide + frameWidth;
+		} else if(isMovingRight && vehiclePosition.x > rightSide) {
+			vehiclePosition.x = leftSide - frameWidth*2;
 		}
 
-		this.setPosition(position);
+		this.setPosition(vehiclePosition);
 	}
 
 	#onFrogSaved() {
@@ -45,5 +49,11 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 
 	#increaseMovementSpeedIfPossibleBy(value) {
 		this.setMovementSpeed(MathMethods.clamp(this.getMovementSpeed() + value, this.#initialMovementSpeed, OBJECTS_MOVEMENT_SPEED_UPPER_BOUND));
+	}
+
+	#getField() {
+		this.#field = this.#field || FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getField();
+
+		return this.#field;
 	}
 }
