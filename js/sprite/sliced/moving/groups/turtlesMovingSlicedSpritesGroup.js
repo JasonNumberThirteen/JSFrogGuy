@@ -5,7 +5,7 @@ class TurtlesMovingSlicedSpritesGroup extends MovingSlicedSpritesGroup {
 		const sprites = this.getSprites();
 		const isHiding = Math.random() < CHANCE_FOR_HIDING_TURTLES_GROUP;
 		
-		for (let i = 0; i < 3; ++i) {
+		for (let i = 0; i < NUMBER_OF_TURTLES_IN_GROUP; ++i) {
 			sprites.push(new TurtleMovingSlicedSprite(new Point(position.x + i*8, position.y), movementSpeed, isHiding));
 		}
 	}
