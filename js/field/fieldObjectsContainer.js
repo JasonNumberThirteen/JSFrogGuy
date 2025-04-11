@@ -1,8 +1,8 @@
 class FieldObjectsContainer {
-	#fieldSprite;
+	#field;
 	#playerSlicedSprite;
 	#flySprite;
-	#availableFieldDestinations;
+	#availableFieldDestinations = [];
 	#savedFrogs;
 	#vehicles;
 	#woodenLogGroups;
@@ -12,14 +12,16 @@ class FieldObjectsContainer {
 	constructor() {
 		const objectsGenerator = new ObjectsGenerator();
 		
-		this.#fieldSprite = new Sprite(FIELD_SPRITE_FILENAME, new Point(), this.#onFieldSpriteLoad.bind(this));
+		this.#field = new Field();
 		this.#playerSlicedSprite = new PlayerSlicedSprite();
 		this.#flySprite = new FlySprite();
 		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
 		this.#woodenLogGroups = objectsGenerator.createWoodenLogGroups();
 		this.#turtleGroups = objectsGenerator.createTurtleGroups();
-		this.#fieldEdgesCover = new FieldEdgesCover(this.#fieldSprite);
+		this.#fieldEdgesCover = new FieldEdgesCover(this.#field);
+
+		this.#addFieldDestinations();
 	}
 
 	update(deltaTime) {
@@ -31,7 +33,7 @@ class FieldObjectsContainer {
 	}
 
 	draw() {
-		this.#fieldSprite.draw();
+		this.#field.draw();
 		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.draw());
 		this.#turtleGroups.forEach(turtle => turtle.draw());
@@ -69,13 +71,15 @@ class FieldObjectsContainer {
 		return this.#availableFieldDestinations;
 	}
 
-	#onFieldSpriteLoad(sprite) {
-		const image = sprite.getImage();
-		const x = HALF_OF_GAME_WINDOW_WIDTH - image.width*0.5;
-		const y = HALF_OF_GAME_WINDOW_HEIGHT - image.height*0.5;
-		
-		this.#fieldSprite.setPosition(new Point(x, y));
+	#addFieldDestinations() {
+		const fieldPosition = this.#field.getPosition();
 
-		this.#availableFieldDestinations = [new FieldDestination(new Point(x + 8, y + 8)), new FieldDestination(new Point(x + 32, y + 8)), new FieldDestination(new Point(x + 56, y + 8)), new FieldDestination(new Point(x + 80, y + 8)), new FieldDestination(new Point(x + 104, y + 8))];
+		this.#availableFieldDestinations.length = 0;
+
+		for (let i = 0; i < NUMBER_OF_FROG_LOCATIONS; ++i) {
+			const fieldDestinationPosition = new Point(fieldPosition.x + 8 + 24*i, fieldPosition.y + 8);
+			
+			this.#availableFieldDestinations.push(new FieldDestination(fieldDestinationPosition));
+		}
 	}
 }

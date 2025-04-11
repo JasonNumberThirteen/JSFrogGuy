@@ -1,15 +1,15 @@
 class FieldEdgesCover {
-	#fieldSprite;
+	#field;
 	#canvasContext;
 
-	constructor(fieldSprite) {
-		this.#fieldSprite = fieldSprite;
+	constructor(field) {
+		this.#field = field;
 	}
 	
 	draw() {
 		const canvasContext = this.#getCanvasContext();
-		const fieldPosition = this.#fieldSprite.getPosition();
-		const fieldSize = this.#fieldSprite.getSize();
+		const fieldPosition = this.#field.getPosition();
+		const fieldSize = this.#field.getSize();
 		const leftHalfOfCoverPosition = new Point(0, fieldPosition.y);
 		const rightHalfOfCoverPosition = new Point(fieldPosition.x + fieldSize.x, fieldPosition.y);
 		const rectangleSize = new Point(fieldPosition.x, fieldSize.y);

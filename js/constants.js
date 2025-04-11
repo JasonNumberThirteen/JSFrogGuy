@@ -43,7 +43,6 @@ const PALE_YELLOW_COLOR = "#ffefaf";
 
 // SPRITE FILENAMES
 const FLY_SPRITE_FILENAME = "assets/sprites/single/game/fly.png";
-const FIELD_SPRITE_FILENAME = "assets/sprites/single/game/field.png";
 const GAME_LOGO_SPRITE_FILENAME = "assets/sprites/single/mainMenu/gameLogo.png";
 const SAVED_FROG_SPRITE_FILENAME = "assets/sprites/single/game/savedFrog.png";
 const PLAYER_LIFE_SPRITE_FILENAME = "assets/sprites/single/game/playerLife.png";
@@ -52,6 +51,7 @@ const MAIN_MENU_CURSOR_SPRITE_FILENAME = "assets/sprites/single/mainMenu/mainMen
 // SPRITE SHEET FILENAMES
 const PLAYER_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/player.png";
 const TURTLE_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/turtle.png";
+const TILESET_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/tileset.png";
 const VEHICLES_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/vehicles.png";
 const WOODEN_LOG_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/woodenLog.png";
 
@@ -107,6 +107,7 @@ const PIXELS_UNIT = "px";
 const EMPTY_STRING = "";
 const INITIAL_HIGH_SCORE = 5000;
 const PLAYER_INITIAL_LIVES = 3;
+const NUMBER_OF_FROG_LOCATIONS = 1;
 const CHANCE_FOR_HIDING_TURTLES_GROUP = 0.75;
 const DESTINATION_POSITION_X_THRESHOLD = 2;
 const MAIN_MENU_CURSOR_MOVEMENT_AMPLITUDE = 4;
