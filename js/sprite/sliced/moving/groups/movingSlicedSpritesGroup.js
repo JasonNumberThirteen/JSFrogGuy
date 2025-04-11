@@ -43,18 +43,15 @@ class MovingSlicedSpritesGroup {
 
 		const field = this.#getField();
 		const fieldPosition = field.getPosition();
-		const fieldSize = field.getSize();
 		const groupPosition = this.getPosition();
-		const leftSide = fieldPosition.x;
-		const rightSide = fieldPosition.x + fieldSize.x;
-		const frameWidth = this.getSize().x;
+		const groupWidth = this.getSize().x;
 
-		if(!this.#moveToRight && groupPosition.x < leftSide - frameWidth) {
-			groupPosition.x = rightSide + frameWidth;
+		if(this.#reachedLeftEdgeOfField()) {
+			groupPosition.x = fieldPosition.x + field.getSize().x + groupWidth;
 
 			this.#adjustSpritesPositionIfNeeded(groupPosition.x);
-		} else if(this.#moveToRight && groupPosition.x > rightSide) {
-			groupPosition.x = leftSide - frameWidth*2;
+		} else if(this.#reachedRightEdgeOfField()) {
+			groupPosition.x = fieldPosition.x - groupWidth*2;
 
 			this.#adjustSpritesPositionIfNeeded(groupPosition.x);
 		}
@@ -80,6 +77,16 @@ class MovingSlicedSpritesGroup {
 		for (let i = 0; i < numberOfSprites; ++i) {
 			this.#sprites[i].getPosition().x = x + i*8;
 		}
+	}
+
+	#reachedLeftEdgeOfField() {
+		return !this.#moveToRight && this.getPosition().x < this.#getField().getPosition().x - this.getSize().x;
+	}
+
+	#reachedRightEdgeOfField() {
+		const field = this.#getField();
+		
+		return this.#moveToRight && this.getPosition().x > field.getPosition().x + field.getSize().x;
 	}
 
 	#getField() {
