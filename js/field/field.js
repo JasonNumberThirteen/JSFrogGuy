@@ -17,6 +17,19 @@ class Field {
 		this.setPosition(new Point(HALF_OF_GAME_WINDOW_WIDTH - this.#frogLocationFieldArea.getSize().x*0.5, HALF_OF_GAME_WINDOW_HEIGHT - this.getSize().y*0.5));
 	}
 
+	positionIsWithinAreaOfType(position, areaType) {
+		const area = this.#areas.find(area => area.getAreaType() === areaType);
+
+		if(typeof(area) === "undefined") {
+			return false;
+		}
+
+		const areaPosition = area.getPosition();
+		const areaSize = area.getSize();
+
+		return position.x >= areaPosition.x && position.x < areaPosition.x + areaSize.x && position.y >= areaPosition.y && position.y < areaPosition.y + areaSize.y;
+	}
+
 	getFrogLocationFieldArea() {
 		return this.#frogLocationFieldArea;
 	}

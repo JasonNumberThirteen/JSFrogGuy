@@ -185,7 +185,7 @@ class GameScene extends Scene {
 	}
 
 	#onPositionChanged(position) {
-		if(position.y >= this.#closestYToFieldDestinations) {
+		if(position.y >= this.#closestYToFieldDestinations || this.#fieldObjectsContainer.getField().positionIsWithinAreaOfType(position, FieldAreaType.WALKWAY)) {
 			return;
 		}
 		
