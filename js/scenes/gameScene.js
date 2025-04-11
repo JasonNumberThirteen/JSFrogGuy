@@ -49,6 +49,10 @@ class GameScene extends Scene {
 		this.#fieldObjectsContainer.getPlayerSlicedSprite().processInput(key);
 	}
 
+	getField() {
+		return this.#fieldObjectsContainer.getField();
+	}
+
 	getLeftTime() {
 		return this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime();
 	}
