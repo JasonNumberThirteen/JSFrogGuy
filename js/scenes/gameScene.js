@@ -75,7 +75,7 @@ class GameScene extends Scene {
 
 	playerIsStandingOnHazardousPosition(position) {
 		const playerPosition = position || this.#fieldObjectsContainer.getPlayerSlicedSprite().getPosition();
-		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
+		const playerIsWithinRiverField = false;
 		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
 
 		return this.playerIntersectsWithAnyVehicle(position) || playerIsStandingOnRiver;
@@ -166,18 +166,30 @@ class GameScene extends Scene {
 		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
 		ListMethods.removeElementByReferenceIfPossible(this.#field.getFrogLocationFieldArea().getFreeFrogLocations(), availableFieldDestination);
 		this.#resetClosestYToFieldDestinations();
-		this.#remainingTimeTimer.startTimer();
+		this.#affectRemainingTimeTimerDependingOnGameState();
 		this.#checkIfWonGame();
 	}
 
+	#affectRemainingTimeTimerDependingOnGameState() {
+		if(this.#allFrogLocationsAreTaken()) {
+			this.#remainingTimeTimer.setAsPaused(true);
+		} else {
+			this.#remainingTimeTimer.startTimer();
+		}
+	}
+
 	#checkIfWonGame() {
-		if(this.#field.getFrogLocationFieldArea().getFreeFrogLocations().length > 0) {
+		if(!this.#allFrogLocationsAreTaken()) {
 			return;
 		}
 
 		this.gameWonEvent.invoke();
 		this.#nextSceneLoadTimer.startTimer();
 		FrogGuy.getData().increaseCurrentLevelNumberBy(1);
+	}
+
+	#allFrogLocationsAreTaken() {
+		return this.#field.getFrogLocationFieldArea().getFreeFrogLocations().length === 0;
 	}
 
 	#onLivesChanged(lives) {

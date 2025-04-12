@@ -5,6 +5,7 @@ class Timer {
 	#currentTime = 0;
 	#timerWasStarted = false;
 	#timerWasFinished = false;
+	#isPaused = false;
 
 	constructor(duration, startImmediately) {
 		startImmediately = startImmediately || false;
@@ -26,7 +27,7 @@ class Timer {
 	}
 
 	update(deltaTime) {
-		if(!this.#timerWasStarted) {
+		if(!this.#timerWasStarted || this.#isPaused) {
 			return;
 		}
 
@@ -41,10 +42,16 @@ class Timer {
 		this.#currentTime = finished ? this.#duration : 0;
 		this.#timerWasStarted = !finished;
 		this.#timerWasFinished = finished;
+
+		this.setAsPaused(false);
 	}
 
 	setDuration(duration) {
 		this.#duration = duration;
+	}
+
+	setAsPaused(isPaused) {
+		this.#isPaused = isPaused;
 	}
 
 	getDuration() {
