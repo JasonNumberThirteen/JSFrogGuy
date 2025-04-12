@@ -9,12 +9,17 @@ class FlySprite extends Sprite {
 		this.#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION, true);
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 
+		this.#gameScene.gameWonEvent.addListener(this.#onGameWon.bind(this));
 		this.#appearanceSwitchTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.activeStateChangedEvent.addListener(isActive => this.#onActiveStateChanged(isActive));
 	}
 
 	update(deltaTime) {
 		this.#appearanceSwitchTimer.update(deltaTime);
+	}
+
+	#onGameWon() {
+		this.#appearanceSwitchTimer.setAsFinished(true);
 	}
 
 	#onTimerFinished() {
