@@ -23,7 +23,13 @@ class FlySprite extends Sprite {
 
 	#onActiveStateChanged(isActive) {
 		if(isActive) {
-			this.setPosition(this.#gameScene.getRandomAvailableDestination().getPosition());
+			const availableFrogLocation = this.#gameScene.getRandomAvailableFrogLocation();
+
+			if(typeof(availableFrogLocation) !== "undefined") {
+				const destinationPosition = availableFrogLocation.getDestination().getPosition();
+			
+				this.setPosition(destinationPosition);
+			}
 		}
 
 		this.#appearanceSwitchTimer.startTimerWithSetDuration(isActive ? FLY_APPEARANCE_DURATION : FLY_DISAPPEARANCE_DURATION);

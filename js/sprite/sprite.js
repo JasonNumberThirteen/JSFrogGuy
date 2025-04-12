@@ -1,5 +1,6 @@
 class Sprite {
 	activeStateChangedEvent = new GameEvent();
+	positionChangedEvent = new GameEvent();
 	
 	#image;
 	#position;
@@ -59,7 +60,13 @@ class Sprite {
 	}
 
 	setPosition(position) {
+		if(typeof(this.#position) !== "undefined" && this.#position.equals(position)) {
+			return;
+		}
+		
 		this.#position = position;
+
+		this.positionChangedEvent.invoke(this.#position);
 	}
 
 	setActive(active) {

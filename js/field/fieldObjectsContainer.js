@@ -1,27 +1,20 @@
 class FieldObjectsContainer {
-	#field;
 	#playerSlicedSprite;
 	#flySprite;
-	#availableFieldDestinations = [];
-	#savedFrogs;
 	#vehicles;
 	#woodenLogGroups;
 	#turtleGroups;
 	#fieldEdgesCover;
 
-	constructor() {
+	constructor(field) {
 		const objectsGenerator = new ObjectsGenerator();
 		
-		this.#field = new Field();
-		this.#playerSlicedSprite = new PlayerSlicedSprite(this.#field);
+		this.#playerSlicedSprite = new PlayerSlicedSprite(field);
 		this.#flySprite = new FlySprite();
-		this.#savedFrogs = [];
 		this.#vehicles = objectsGenerator.createVehicles();
 		this.#woodenLogGroups = objectsGenerator.createWoodenLogGroups();
 		this.#turtleGroups = objectsGenerator.createTurtleGroups();
-		this.#fieldEdgesCover = new FieldEdgesCover(this.#field);
-
-		this.#addFieldDestinations();
+		this.#fieldEdgesCover = new FieldEdgesCover(field);
 	}
 
 	update(deltaTime) {
@@ -33,8 +26,6 @@ class FieldObjectsContainer {
 	}
 
 	draw() {
-		this.#field.draw();
-		this.#savedFrogs.forEach(savedFrog => savedFrog.draw());
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.draw());
 		this.#turtleGroups.forEach(turtle => turtle.draw());
 		this.#playerSlicedSprite.draw();
@@ -43,20 +34,12 @@ class FieldObjectsContainer {
 		this.#fieldEdgesCover.draw();
 	}
 
-	getField() {
-		return this.#field;
-	}
-
 	getPlayerSlicedSprite() {
 		return this.#playerSlicedSprite;
 	}
 
 	getFlySprite() {
 		return this.#flySprite;
-	}
-
-	getSavedFrogs() {
-		return this.#savedFrogs;
 	}
 
 	getVehicles() {
@@ -69,21 +52,5 @@ class FieldObjectsContainer {
 
 	getTurtleGroups() {
 		return this.#turtleGroups;
-	}
-
-	getAvailableFieldDestinations() {
-		return this.#availableFieldDestinations;
-	}
-
-	#addFieldDestinations() {
-		const fieldPosition = this.#field.getPosition();
-
-		this.#availableFieldDestinations.length = 0;
-
-		for (let i = 0; i < NUMBER_OF_FROG_LOCATIONS; ++i) {
-			const fieldDestinationPosition = new Point(fieldPosition.x + 8 + 24*i, fieldPosition.y + 8);
-			
-			this.#availableFieldDestinations.push(new FieldDestination(fieldDestinationPosition));
-		}
 	}
 }

@@ -6,7 +6,7 @@ class Field {
 	#position = new Point();
 	#frogLocationFieldArea;
 
-	constructor() {
+	init() {
 		this.#frogLocationFieldArea = new FrogLocationFieldArea(this, 0, NUMBER_OF_FROG_LOCATIONS);
 		
 		this.#addArea(this.#frogLocationFieldArea);

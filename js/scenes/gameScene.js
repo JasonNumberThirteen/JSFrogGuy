@@ -7,6 +7,7 @@ class GameScene extends Scene {
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToFieldDestinations;
 	#gameIsOver;
+	#field;
 	#fieldObjectsContainer;
 	#panelUI;
 
@@ -18,9 +19,11 @@ class GameScene extends Scene {
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		this.#gameIsOver = false;
-		this.#fieldObjectsContainer = new FieldObjectsContainer();
+		this.#field = new Field();
+		this.#fieldObjectsContainer = new FieldObjectsContainer(this.#field);
 		this.#panelUI = new GameScenePanelUI();
 		
+		this.#field.init();
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
 		this.#addListenersToPlayer();
@@ -41,6 +44,7 @@ class GameScene extends Scene {
 
 	draw() {
 		this.clearScreen();
+		this.#field.draw();
 		this.#fieldObjectsContainer.draw();
 		this.#panelUI.draw();
 	}
@@ -50,7 +54,7 @@ class GameScene extends Scene {
 	}
 
 	getField() {
-		return this.#fieldObjectsContainer.getField();
+		return this.#field;
 	}
 
 	getLeftTime() {
@@ -61,12 +65,12 @@ class GameScene extends Scene {
 		return this.#gameIsOver;
 	}
 
-	getRandomAvailableDestination() {
-		return ListMethods.getRandomElement(this.#fieldObjectsContainer.getAvailableFieldDestinations());
+	getRandomAvailableFrogLocation() {
+		return ListMethods.getRandomElement(this.#field.getFrogLocationFieldArea().getFreeFrogLocations());
 	}
 
 	reachedAnyOfAvailableFieldDestinations(position) {
-		return this.#fieldObjectsContainer.getAvailableFieldDestinations().some(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
+		return this.#field.getFrogLocationFieldArea().getFreeFrogLocations().some(frogLocation => this.#positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
 	}
 
 	playerIsStandingOnHazardousPosition(position) {
@@ -126,11 +130,11 @@ class GameScene extends Scene {
 		playerSlicedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 	}
 
-	#positionIsSufficientlyCloseToFieldDestination(destination, position) {
+	#positionIsSufficientlyCloseToFrogLocationDestination(destination, position) {
 		const destinationPosition = destination.getPosition();
 		const differenceInPositionXIsSufficientlySmall = Math.abs(destinationPosition.x - position.x) <= DESTINATION_POSITION_X_THRESHOLD;
 
-		return differenceInPositionXIsSufficientlySmall && destinationPosition.y == position.y;
+		return differenceInPositionXIsSufficientlySmall && destinationPosition.y === position.y;
 	}
 
 	#resetClosestYToFieldDestinations() {
@@ -138,7 +142,7 @@ class GameScene extends Scene {
 	}
 
 	#onFieldDestinationReached(position) {
-		const availableFieldDestination = this.#fieldObjectsContainer.getAvailableFieldDestinations().find(fieldDestination => this.#positionIsSufficientlyCloseToFieldDestination(fieldDestination, position));
+		const availableFieldDestination = this.#field.getFrogLocationFieldArea().getFreeFrogLocations().find(frogLocation => this.#positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
 
 		if(typeof(availableFieldDestination) === "undefined") {
 			return;
@@ -157,17 +161,17 @@ class GameScene extends Scene {
 			this.#panelUI.getBonusPointsTextUI().display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
 		}
 
-		this.#fieldObjectsContainer.getSavedFrogs().push(new SavedFrogSprite(availableFieldDestination.getPosition()));
+		availableFieldDestination.setAsTaken(true);
 		this.frogSavedEvent.invoke();
 		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
-		ListMethods.removeElementByReferenceIfPossible(this.#fieldObjectsContainer.getAvailableFieldDestinations(), availableFieldDestination);
+		ListMethods.removeElementByReferenceIfPossible(this.#field.getFrogLocationFieldArea().getFreeFrogLocations(), availableFieldDestination);
 		this.#resetClosestYToFieldDestinations();
 		this.#remainingTimeTimer.startTimer();
 		this.#checkIfWonGame();
 	}
 
 	#checkIfWonGame() {
-		if(this.#fieldObjectsContainer.getAvailableFieldDestinations().length > 0) {
+		if(this.#field.getFrogLocationFieldArea().getFreeFrogLocations().length > 0) {
 			return;
 		}
 
@@ -185,7 +189,7 @@ class GameScene extends Scene {
 	}
 
 	#onPositionChanged(position) {
-		if(position.y >= this.#closestYToFieldDestinations || this.#fieldObjectsContainer.getField().positionIsWithinAreaOfType(position, FieldAreaType.WALKWAY)) {
+		if(position.y >= this.#closestYToFieldDestinations || this.#field.positionIsWithinAreaOfType(position, FieldAreaType.WALKWAY)) {
 			return;
 		}
 		
