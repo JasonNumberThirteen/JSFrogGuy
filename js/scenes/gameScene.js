@@ -2,6 +2,7 @@ class GameScene extends Scene {
 	frogSavedEvent = new GameEvent();
 	gameWonEvent = new GameEvent();
 	
+	#scoreManager;
 	#nextSceneLoadTimer;
 	#remainingTimeTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
@@ -16,6 +17,7 @@ class GameScene extends Scene {
 	}
 
 	init() {
+		this.#scoreManager = new ScoreManager();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
 		this.#gameIsOver = false;
@@ -55,6 +57,10 @@ class GameScene extends Scene {
 
 	getField() {
 		return this.#field;
+	}
+
+	getPanelUI() {
+		return this.#panelUI;
 	}
 
 	getLeftTime() {
@@ -151,7 +157,6 @@ class GameScene extends Scene {
 		const availableFieldDestinationRectangle = availableFieldDestination.getRectangle();
 		const flySprite = this.#fieldObjectsContainer.getFlySprite();
 		const playerIntersectsWithFly = flySprite.isActive() && availableFieldDestinationRectangle.intersectsWith(flySprite.getRectangle());
-		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION;
 
 		if(playerIntersectsWithFly) {
 			const availableFieldDestinationPosition = availableFieldDestinationRectangle.getPosition();
@@ -163,7 +168,7 @@ class GameScene extends Scene {
 
 		availableFieldDestination.setAsTaken(true);
 		this.frogSavedEvent.invoke();
-		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
+		this.#scoreManager.increasePlayerScoreBy(playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION);
 		ListMethods.removeElementByReferenceIfPossible(this.#field.getFrogLocationFieldArea().getFreeFrogLocations(), availableFieldDestination);
 		this.#resetClosestYToFieldDestinations();
 		this.#affectRemainingTimeTimerDependingOnGameState();
@@ -206,9 +211,8 @@ class GameScene extends Scene {
 		}
 		
 		this.#closestYToFieldDestinations = position.y;
-			
-		this.#panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(POINTS_FOR_STEP_CLOSER_TO_FIELD_DESTINATIONS);
-		this.#panelUI.updateHighScoreIfNeeded();
+
+		this.#scoreManager.increasePlayerScoreBy(POINTS_FOR_STEP_CLOSER_TO_FIELD_DESTINATIONS);
 	}
 
 	#setGameAsOverIfNeeded() {
