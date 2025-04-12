@@ -75,7 +75,7 @@ class GameScene extends Scene {
 
 	playerIsStandingOnHazardousPosition(position) {
 		const playerPosition = position || this.#fieldObjectsContainer.getPlayerSlicedSprite().getPosition();
-		const playerIsWithinRiverField = false;
+		const playerIsWithinRiverField = playerPosition.y >= 32 && playerPosition.y <= 64;
 		const playerIsStandingOnRiver = playerIsWithinRiverField && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
 
 		return this.playerIntersectsWithAnyVehicle(position) || playerIsStandingOnRiver;
