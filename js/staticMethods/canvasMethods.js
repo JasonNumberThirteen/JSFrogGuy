@@ -3,7 +3,7 @@ class CanvasMethods {
 		const position = rectangle.getPosition();
 		const size = rectangle.getSize();
 
-		if(typeof(color) !== "undefined") {
+		if(VariableMethods.variableIsDefined(color)) {
 			context.fillStyle = color;
 		}
 

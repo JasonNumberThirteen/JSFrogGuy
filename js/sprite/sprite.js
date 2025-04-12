@@ -60,7 +60,7 @@ class Sprite {
 	}
 
 	setPosition(position) {
-		if(typeof(this.#position) !== "undefined" && this.#position.equals(position)) {
+		if(VariableMethods.variableIsDefined(this.#position) && this.#position.equals(position)) {
 			return;
 		}
 		

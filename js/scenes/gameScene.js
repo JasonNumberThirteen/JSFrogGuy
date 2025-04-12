@@ -85,7 +85,7 @@ class GameScene extends Scene {
 	playerIntersectsWithAnyVehicle(position) {
 		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
 
-		if(typeof(position) !== "undefined") {
+		if(VariableMethods.variableIsDefined(position)) {
 			rectangle.getPosition().x = position.x;
 			rectangle.getPosition().y = position.y;
 		}
@@ -96,7 +96,7 @@ class GameScene extends Scene {
 	playerIntersectsWithAnyWoodenLogGroup(position) {
 		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
 
-		if(typeof(position) !== "undefined") {
+		if(VariableMethods.variableIsDefined(position)) {
 			rectangle.getPosition().x = position.x;
 			rectangle.getPosition().y = position.y;
 		}
@@ -107,7 +107,7 @@ class GameScene extends Scene {
 	playerIntersectsWithAnyTurtlesGroup(position) {
 		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
 
-		if(typeof(position) !== "undefined") {
+		if(VariableMethods.variableIsDefined(position)) {
 			rectangle.getPosition().x = position.x;
 			rectangle.getPosition().y = position.y;
 		}
@@ -145,7 +145,7 @@ class GameScene extends Scene {
 	#onFieldDestinationReached(position) {
 		const availableFieldDestination = this.#field.getFrogLocationFieldArea().getFreeFrogLocations().find(frogLocation => this.#positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
 
-		if(typeof(availableFieldDestination) === "undefined") {
+		if(!VariableMethods.variableIsDefined(availableFieldDestination)) {
 			return;
 		}
 

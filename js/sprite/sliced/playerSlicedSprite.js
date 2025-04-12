@@ -32,7 +32,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	update(deltaTime) {
 		this.#hazardousPositionCheckTimer.update(deltaTime);
 
-		if(typeof(this.#parentObject) !== "undefined") {
+		if(VariableMethods.variableIsDefined(this.#parentObject)) {
 			var x = this.getPosition().x;
 			const fieldPosition = this.#field.getPosition();
 			const fieldSize = this.#field.getSize();
@@ -64,7 +64,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	}
 
 	#operateOnInputKeyData(inputKeyData) {
-		if(typeof(inputKeyData) === "undefined") {
+		if(!VariableMethods.variableIsDefined(inputKeyData)) {
 			return;
 		}
 		

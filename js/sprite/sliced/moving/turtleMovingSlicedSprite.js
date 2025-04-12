@@ -20,7 +20,7 @@ class TurtleMovingSlicedSprite extends MovingSlicedSprite {
 	update(deltaTime) {
 		super.update(deltaTime);
 
-		if(typeof(this.#animationTimer) !== "undefined") {
+		if(VariableMethods.variableIsDefined(this.#animationTimer)) {
 			this.#animationTimer.update(deltaTime);
 		}
 	}
@@ -37,7 +37,7 @@ class TurtleMovingSlicedSprite extends MovingSlicedSprite {
 
 		this.setCurrentColumnIndex(this.#animationFrames[this.#currentAnimationFrame]);
 
-		if(typeof(this.#animationTimer) !== "undefined") {
+		if(VariableMethods.variableIsDefined(this.#animationTimer)) {
 			this.#animationTimer.startTimer();
 		}
 	}

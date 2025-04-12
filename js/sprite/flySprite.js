@@ -30,7 +30,7 @@ class FlySprite extends Sprite {
 		if(isActive) {
 			const availableFrogLocation = this.#gameScene.getRandomAvailableFrogLocation();
 
-			if(typeof(availableFrogLocation) !== "undefined") {
+			if(VariableMethods.variableIsDefined(availableFrogLocation)) {
 				const destinationPosition = availableFrogLocation.getDestination().getPosition();
 			
 				this.setPosition(destinationPosition);

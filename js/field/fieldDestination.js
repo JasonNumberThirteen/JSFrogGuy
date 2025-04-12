@@ -41,7 +41,7 @@ class FieldDestination {
 	}
 
 	#getField() {
-		const fieldWasUndefined = typeof(this.#field) === "undefined";
+		const fieldWasUndefined = !VariableMethods.variableIsDefined(this.#field);
 		
 		this.#field = this.#field || FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getField();
 

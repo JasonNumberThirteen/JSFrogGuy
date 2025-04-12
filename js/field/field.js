@@ -20,7 +20,7 @@ class Field {
 	positionIsWithinAreaOfType(position, areaType) {
 		const area = this.#areas.find(area => area.getAreaType() === areaType);
 
-		if(typeof(area) === "undefined") {
+		if(!VariableMethods.variableIsDefined(area)) {
 			return false;
 		}
 
