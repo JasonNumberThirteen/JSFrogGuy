@@ -150,7 +150,7 @@ class GameScene extends Scene {
 
 		const availableFieldDestinationRectangle = availableFieldDestination.getRectangle();
 		const flySprite = this.#fieldObjectsContainer.getFlySprite();
-		const playerIntersectsWithFly = availableFieldDestinationRectangle.intersectsWith(flySprite.getRectangle());
+		const playerIntersectsWithFly = flySprite.isActive() && availableFieldDestinationRectangle.intersectsWith(flySprite.getRectangle());
 		const points = playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION;
 
 		if(playerIntersectsWithFly) {
