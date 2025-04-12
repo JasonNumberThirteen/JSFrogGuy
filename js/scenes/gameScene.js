@@ -4,7 +4,7 @@ class GameScene extends Scene {
 	
 	#scoreManager;
 	#nextSceneLoadTimer;
-	#remainingTimeTimer;
+	#levelTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
 	#closestYToFieldDestinations;
 	#gameIsOver;
@@ -19,7 +19,7 @@ class GameScene extends Scene {
 	init() {
 		this.#scoreManager = new ScoreManager();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
-		this.#remainingTimeTimer = new Timer(LEVEL_TIME, true);
+		this.#levelTimer = new LevelTimer();
 		this.#gameIsOver = false;
 		this.#field = new Field();
 		this.#fieldObjectsContainer = new FieldObjectsContainer(this.#field);
@@ -27,7 +27,7 @@ class GameScene extends Scene {
 		
 		this.#field.init();
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
-		this.#remainingTimeTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
+		this.#levelTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
 		this.#addListenersToPlayer();
 		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#resetClosestYToFieldDestinations();
@@ -35,11 +35,7 @@ class GameScene extends Scene {
 
 	update(deltaTime) {
 		this.#nextSceneLoadTimer.update(deltaTime);
-
-		if(!this.#gameIsOver) {
-			this.#remainingTimeTimer.update(deltaTime);
-		}
-
+		this.#levelTimer.update(deltaTime);
 		this.#fieldObjectsContainer.update(deltaTime);
 		this.#panelUI.update(deltaTime);
 	}
@@ -64,7 +60,7 @@ class GameScene extends Scene {
 	}
 
 	getLeftTime() {
-		return this.#remainingTimeTimer.getDuration() - this.#remainingTimeTimer.getCurrentTime();
+		return this.#levelTimer.getLeftTime();
 	}
 
 	gameIsOver() {
@@ -171,15 +167,15 @@ class GameScene extends Scene {
 		this.#scoreManager.increasePlayerScoreBy(playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION);
 		ListMethods.removeElementByReferenceIfPossible(this.#field.getFrogLocationFieldArea().getFreeFrogLocations(), availableFieldDestination);
 		this.#resetClosestYToFieldDestinations();
-		this.#affectRemainingTimeTimerDependingOnGameState();
+		this.#affectLevelTimerDependingOnGameState();
 		this.#checkIfWonGame();
 	}
 
-	#affectRemainingTimeTimerDependingOnGameState() {
+	#affectLevelTimerDependingOnGameState() {
 		if(this.#allFrogLocationsAreTaken()) {
-			this.#remainingTimeTimer.setAsPaused(true);
+			this.#levelTimer.setAsPaused(true);
 		} else {
-			this.#remainingTimeTimer.startTimer();
+			this.#levelTimer.startTimer();
 		}
 	}
 
