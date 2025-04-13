@@ -72,10 +72,11 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	#operateOnNextPosition(inputKeyData) {
 		const nextPosition = this.#getNextPosition(inputKeyData);
+		const playerSize = this.getSize();
 
 		if(this.#gameScene.getField().reachedAnyOfAvailableDestinations(nextPosition)) {
 			this.#onReachedDestinationPosition(nextPosition);
-		} else if(this.#player.playerIsStandingOnHazardousPosition(nextPosition)) {
+		} else if(this.#player.positionIsHazardous(new Rectangle(new Point(nextPosition.x + 1, nextPosition.y + 1), new Point(playerSize.x - 2, playerSize.y - 2)))) {
 			this.#lives.reduceLivesBy(1);
 		} else {
 			this.#setPositionWithinField(nextPosition);
@@ -134,7 +135,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	}
 
 	#onTimerFinished() {
-		if(this.#player.playerIsStandingOnHazardousPosition()) {
+		if(this.#player.isStandingOnHazardousPosition()) {
 			this.#lives.reduceLivesBy(1);
 		}
 

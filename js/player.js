@@ -27,52 +27,24 @@ class Player {
 		this.#sprite.draw();
 	}
 
-	playerIsStandingOnHazardousPosition(position) {
-		const playerPosition = position || this.getSprite().getPosition();
-		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(playerPosition, FieldAreaType.WATER) && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
-
-		return this.playerIntersectsWithAnyVehicle(position) || playerIsStandingOnWater;
+	isStandingOnHazardousPosition() {
+		return this.positionIsHazardous(this.getSprite().getRectangle());
 	}
 
-	playerIntersectsWithAnyVehicle(position) {
-		const rectangle = this.getSprite().getRectangle();
+	positionIsHazardous(rectangle) {
+		const fieldObjectsGroups = this.#gameScene.getFieldObjectsContainer().getFieldObjectsGroups();
+		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.WATER) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
 
-		if(VariableMethods.variableIsDefined(position)) {
-			rectangle.getPosition().x = position.x;
-			rectangle.getPosition().y = position.y;
-		}
-		
-		return this.#gameScene.getFieldObjectsContainer().getVehicles().some(vehicle => rectangle.intersectsWith(vehicle.getRectangle()));
-	}
-
-	playerIntersectsWithAnyWoodenLogGroup(position) {
-		const rectangle = this.getSprite().getRectangle();
-
-		if(VariableMethods.variableIsDefined(position)) {
-			rectangle.getPosition().x = position.x;
-			rectangle.getPosition().y = position.y;
-		}
-		
-		return this.#gameScene.getFieldObjectsContainer().getWoodenLogGroups().some(woodenLogGroup => rectangle.intersectsWith(woodenLogGroup.getRectangle()));
-	}
-
-	playerIntersectsWithAnyTurtlesGroup(position) {
-		const rectangle = this.getSprite().getRectangle();
-
-		if(VariableMethods.variableIsDefined(position)) {
-			rectangle.getPosition().x = position.x;
-			rectangle.getPosition().y = position.y;
-		}
-		
-		return this.#gameScene.getFieldObjectsContainer().getTurtleGroups().some(turtleGroup => !turtleGroup.isHidden() && rectangle.intersectsWith(turtleGroup.getRectangle()));
+		return fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Vehicles, rectangle) || playerIsStandingOnWater;
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {
-		const fieldObjectsContainer = this.#gameScene.getFieldObjectsContainer();
-		const objectsOnRiver = fieldObjectsContainer.getWoodenLogGroups().slice();
+		const fieldObjectsGroups = this.#gameScene.getFieldObjectsContainer().getFieldObjectsGroups();
+		const objectsOnWater = fieldObjectsGroups.getGroupOfType(FieldObjectsGroupType.WoodenLogs).getElements().slice();
+		const playerSpriteRectangle = this.getSprite().getRectangle();
 
-		fieldObjectsContainer.getTurtleGroups().forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
-		
-		return objectsOnRiver.find(objectOnRiver => this.getSprite().getRectangle().intersectsWith(objectOnRiver.getRectangle()));
+		fieldObjectsGroups.getGroupOfType(FieldObjectsGroupType.Turtles).getElements().forEach(element => objectsOnWater.push(element));
+
+		return objectsOnWater.find(objectOnWater => playerSpriteRectangle.intersectsWith(objectOnWater.getRectangle()));
 	}
 }

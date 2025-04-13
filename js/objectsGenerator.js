@@ -1,6 +1,6 @@
 class ObjectsGenerator {
 	createVehicles() {
-		const vehicles = [];
+		const vehicles = new FieldObjectsGroup(FieldObjectsGroupType.Vehicles);
 
 		for (let i = 0; i < 3; ++i) {
 			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(124 + 40*i, 112), 0, VEHICLE_SPRITES_DIMENSIONS[0], 7, false));
@@ -25,8 +25,8 @@ class ObjectsGenerator {
 		return vehicles;
 	}
 
-	createWoodenLogGroups() {
-		const woodenLogGroups = [];
+	createWoodenLogs() {
+		const woodenLogGroups = new FieldObjectsGroup(FieldObjectsGroupType.WoodenLogs);
 
 		for (let i = 0; i < 3; ++i) {
 			woodenLogGroups.push(new WoodenLogMovingSlicedSpritesGroup(new Point(8 + 48*i, 56), 10, 1));
@@ -43,8 +43,8 @@ class ObjectsGenerator {
 		return woodenLogGroups;
 	}
 
-	createTurtleGroups() {
-		const turtleGroups = [];
+	createTurtles() {
+		const turtleGroups = new TurtlesFieldObjectsGroup();
 
 		turtleGroups.push(new TurtlesMovingSlicedSpritesGroup(new Point(128, 64), 20));
 		turtleGroups.push(new TurtlesMovingSlicedSpritesGroup(new Point(128, 40), 30));
