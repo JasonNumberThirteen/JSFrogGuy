@@ -157,9 +157,10 @@ class GameScene extends Scene {
 		if(playerIntersectsWithFly) {
 			const availableFieldDestinationPosition = availableFieldDestinationRectangle.getPosition();
 			const availableFieldDestinationSize = availableFieldDestinationRectangle.getSize();
+			const bonusPointsTextUIPosition = PositionMethods.getSumOf(availableFieldDestinationPosition, new Point(availableFieldDestinationSize.x*0.5, availableFieldDestinationSize.y));
 			
 			flySprite.setActive(false);
-			this.#panelUI.getBonusPointsTextUI().display(new Point(availableFieldDestinationPosition.x + availableFieldDestinationSize.x*0.5, availableFieldDestinationPosition.y + availableFieldDestinationSize.y), POINTS_FOR_EATING_FLY.toString());
+			this.#panelUI.getBonusPointsTextUI().display(bonusPointsTextUIPosition, POINTS_FOR_EATING_FLY.toString());
 		}
 
 		availableFieldDestination.setAsTaken(true);

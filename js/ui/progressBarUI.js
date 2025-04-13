@@ -32,7 +32,7 @@ class ProgressBarUI {
 		const doubledBorderThickness = this.#borderThickness*2;
 		const barWidth = (borderSize.x - doubledBorderThickness)*this.#getFillPercent();
 		const barHeight = borderSize.y - doubledBorderThickness;
-		const barFillPosition = new Point(borderPosition.x + this.#borderThickness, borderPosition.y + this.#borderThickness);
+		const barFillPosition = PositionMethods.getSumOf(borderPosition, new Point(this.#borderThickness, this.#borderThickness));
 		const barFillSize = new Point(barWidth, barHeight);
 		const barFillRectangle = new Rectangle(barFillPosition, barFillSize);
 

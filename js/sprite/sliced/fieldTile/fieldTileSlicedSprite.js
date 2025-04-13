@@ -14,8 +14,6 @@ class FieldTileSlicedSprite extends SlicedSprite {
 	}
 
 	getPosition() {
-		const position = super.getPosition();
-
-		return new Point(position.x + this.#offset.x, position.y + this.#offset.y);
+		return PositionMethods.getSumOf(super.getPosition(), this.#offset);
 	}
 }

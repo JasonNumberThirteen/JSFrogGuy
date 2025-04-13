@@ -24,10 +24,7 @@ class FieldDestination {
 	}
 
 	getPosition() {
-		const fieldPosition = this.#getField().getPosition();
-		const globalPosition = new Point(fieldPosition.x + this.#localPosition.x, fieldPosition.y + this.#localPosition.y);
-		
-		return globalPosition;
+		return PositionMethods.getSumOf(this.#getField().getPosition(), this.#localPosition);
 	}
 
 	getRectangle() {

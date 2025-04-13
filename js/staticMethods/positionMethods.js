@@ -5,4 +5,8 @@ class PositionMethods {
 
 		return new Point(x, y);
 	}
+
+	static getSumOf(pointA, pointB) {
+		return new Point(pointA.x + pointB.x, pointA.y + pointB.y);
+	}
 }

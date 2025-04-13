@@ -36,7 +36,7 @@ class FieldArea {
 	}
 
 	#onPositionChanged(parameters) {
-		const spritesOffset = new Point(parameters.position.x, parameters.position.y + this.#getOffsetY(parameters.areasList));
+		const spritesOffset = PositionMethods.getSumOf(parameters.position, new Point(0, this.#getOffsetY(parameters.areasList)));
 
 		this.#sprites.forEach(sprite => sprite.setOffset(spritesOffset));
 	}
