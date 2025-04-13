@@ -3,23 +3,23 @@ class ObjectsGenerator {
 		const vehicles = [];
 
 		for (let i = 0; i < 3; ++i) {
-			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(124 + 40*i, 112), 0, new Point(8, 8), 7, false));
+			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(124 + 40*i, 112), 0, VEHICLE_SPRITES_DIMENSIONS[0], 7, false));
 		}
 
 		for (let i = 0; i < 3; ++i) {
-			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(160 + 32*i, 104), 1, new Point(8, 8), 8, true));
+			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(160 + 32*i, 104), 1, VEHICLE_SPRITES_DIMENSIONS[1], 8, true));
 		}
 
 		for (let i = 0; i < 3; ++i) {
-			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(80 + 32*i, 96), 2, new Point(8, 8), 9, false));
+			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(80 + 32*i, 96), 2, VEHICLE_SPRITES_DIMENSIONS[2], 9, false));
 		}
 
 		for (let i = 0; i < 1; ++i) {
-			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(68 + 32*i, 88), 3, new Point(8, 8), 10, true));
+			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(68 + 32*i, 88), 3, VEHICLE_SPRITES_DIMENSIONS[3], 10, true));
 		}
 
 		for (let i = 0; i < 2; ++i) {
-			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(124 + 40*i, 80), 2, new Point(16, 8), 12, false));
+			vehicles.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(124 + 40*i, 80), 2, VEHICLE_SPRITES_DIMENSIONS[4], 12, false));
 		}
 
 		return vehicles;

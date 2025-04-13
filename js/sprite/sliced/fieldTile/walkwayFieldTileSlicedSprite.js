@@ -1,5 +1,5 @@
 class WalkwayFieldTileSlicedSprite extends FieldTileSlicedSprite {
 	constructor() {
-		super(new Point(8, 8));
+		super(WALKWAY_SPRITE_DIMENSIONS);
 	}
 }

@@ -1,6 +1,6 @@
 class WaterFieldTileSlicedSprite extends FieldTileSlicedSprite {
 	constructor() {
-		super(new Point(8, 8));
+		super(WATER_SPRITE_DIMENSIONS);
 		this.setCurrentColumnIndex(2);
 	}
 }

@@ -16,7 +16,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#lives;
 	
 	constructor(player, field) {
-		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, PLAYER_INITIAL_Y), new Point(8, 8));
+		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - PLAYER_SPRITE_DIMENSIONS.x*0.5, PLAYER_INITIAL_Y), PLAYER_SPRITE_DIMENSIONS);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
@@ -37,7 +37,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 			const fieldPosition = this.#field.getPosition();
 			const fieldSize = this.#field.getSize();
 			
-			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, fieldPosition.x, fieldPosition.x + fieldSize.x - 8);
+			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, fieldPosition.x, fieldPosition.x + fieldSize.x - PLAYER_SPRITE_DIMENSIONS.y);
 			this.getPosition().x = x;
 		}
 	}
@@ -85,10 +85,9 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#getNextPosition(inputKeyData) {
 		const currentPosition = this.getPosition();
 		const movementDirection = inputKeyData.getMovementDirection();
-		const x = currentPosition.x + movementDirection.x*8;
-		const y = currentPosition.y + movementDirection.y*8;
+		const movementStep = new Point(movementDirection.x*PLAYER_SPRITE_DIMENSIONS.x, movementDirection.y*PLAYER_SPRITE_DIMENSIONS.y);
 
-		return new Point(x, y);
+		return PositionMethods.getSumOf(currentPosition, movementStep);
 	}
 
 	#onReachedDestinationPosition(position) {

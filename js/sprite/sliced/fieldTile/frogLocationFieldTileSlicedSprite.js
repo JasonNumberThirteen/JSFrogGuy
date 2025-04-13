@@ -2,7 +2,7 @@ class FrogLocationFieldTileSlicedSprite extends FieldTileSlicedSprite {
 	#destination;
 	
 	constructor() {
-		super(new Point(24, 16));
+		super(FROG_LOCATION_SPRITE_DIMENSIONS);
 		this.setCurrentRowIndex(0.5);
 
 		this.#destination = new FieldDestination(new Point(8, 8));
