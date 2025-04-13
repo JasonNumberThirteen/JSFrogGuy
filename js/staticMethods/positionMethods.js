@@ -9,4 +9,8 @@ class PositionMethods {
 	static getSumOf(pointA, pointB) {
 		return new Point(pointA.x + pointB.x, pointA.y + pointB.y);
 	}
+
+	static getMultiplicationOf(pointA, pointB) {
+		return new Point(pointA.x*pointB.x, pointA.y*pointB.y);
+	}
 }

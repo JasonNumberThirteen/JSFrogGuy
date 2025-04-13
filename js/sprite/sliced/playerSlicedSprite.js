@@ -85,7 +85,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#getNextPosition(inputKeyData) {
 		const currentPosition = this.getPosition();
 		const movementDirection = inputKeyData.getMovementDirection();
-		const movementStep = new Point(movementDirection.x*PLAYER_SPRITE_DIMENSIONS.x, movementDirection.y*PLAYER_SPRITE_DIMENSIONS.y);
+		const movementStep = PositionMethods.getMultiplicationOf(movementDirection, PLAYER_SPRITE_DIMENSIONS);
 
 		return PositionMethods.getSumOf(currentPosition, movementStep);
 	}
