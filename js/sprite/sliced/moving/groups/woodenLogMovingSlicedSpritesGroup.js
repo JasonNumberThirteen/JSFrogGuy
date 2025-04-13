@@ -5,10 +5,10 @@ class WoodenLogMovingSlicedSpritesGroup extends MovingSlicedSpritesGroup {
 		this.#createAndAddSegment(position, movementSpeed, 0);
 
 		for (let i = 1; i <= numberOfMiddleSegments; ++i) {
-			this.#createAndAddSegment(new Point(position.x + 8*i, position.y), movementSpeed, 1);
+			this.#createAndAddSegment(this.#getPositionOfSegment(position, i), movementSpeed, 1);
 		}
 
-		this.#createAndAddSegment(new Point(position.x + 8*(numberOfMiddleSegments + 1), position.y), movementSpeed, 2);
+		this.#createAndAddSegment(this.#getPositionOfSegment(position, numberOfMiddleSegments + 1), movementSpeed, 2);
 	}
 
 	getRectangle() {
@@ -22,5 +22,9 @@ class WoodenLogMovingSlicedSpritesGroup extends MovingSlicedSpritesGroup {
 		const segment = new WoodenLogMovingSlicedSprite(position, movementSpeed, frameIndex);
 
 		this.getSprites().push(segment);
+	}
+
+	#getPositionOfSegment(basePosition, offsetInTiles) {
+		return PositionMethods.getSumOf(basePosition, new Point(WOODEN_LOG_SPRITE_DIMENSIONS.x*offsetInTiles, 0))
 	}
 }
