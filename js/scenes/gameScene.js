@@ -45,7 +45,7 @@ class GameScene extends Scene {
 	}
 
 	processInput(key) {
-		this.#fieldObjectsContainer.getPlayer().getSprite().processInput(key);
+		this.#fieldObjectsContainer.getPlayer().processInput(key);
 	}
 
 	getGameManager() {

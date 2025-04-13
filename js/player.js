@@ -1,14 +1,24 @@
 class Player {
+	#input;
 	#lives;
 	#sprite;
 	#field;
 	#gameScene;
 
 	constructor(field) {
+		this.#input = new PlayerInput(this);
 		this.#lives = new PlayerLives(PLAYER_INITIAL_LIVES);
 		this.#sprite = new PlayerSlicedSprite(this, field);
 		this.#field = field;
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+	}
+
+	isActive() {
+		return this.#sprite.isActive();
+	}
+
+	getInput() {
+		return this.#input;
 	}
 
 	getLives() {
@@ -25,6 +35,10 @@ class Player {
 
 	draw() {
 		this.#sprite.draw();
+	}
+
+	processInput(key) {
+		this.#input.processInput(key);
 	}
 
 	isStandingOnHazardousPosition() {

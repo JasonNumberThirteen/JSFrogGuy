@@ -2,18 +2,13 @@ class PlayerSlicedSprite extends SlicedSprite {
 	destinationReachedEvent = new GameEvent();
 	positionChangedEvent = new GameEvent();
 	
-	#inputKeyData = [
-		new PlayerInputKeyData(PLAYER_UP_MOVEMENT_KEY, new Point(0, -1), 0),
-		new PlayerInputKeyData(PLAYER_DOWN_MOVEMENT_KEY, new Point(0, 1), 1),
-		new PlayerInputKeyData(PLAYER_LEFT_MOVEMENT_KEY, new Point(-1, 0), 2),
-		new PlayerInputKeyData(PLAYER_RIGHT_MOVEMENT_KEY, new Point(1, 0), 3)
-	];
 	#initialPosition;
 	#gameScene;
 	#parentObject;
 	#hazardousPositionCheckTimer;
 	#field;
 	#player;
+	#input;
 	#lives;
 	
 	constructor(player, field) {
@@ -24,10 +19,12 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY, true);
 		this.#field = field;
 		this.#player = player;
+		this.#input = this.#player.getInput();
 		this.#lives = this.#player.getLives();
 
 		this.#gameScene.getGameManager().gameWonEvent.addListener(this.#deactivate.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#lives.livesChangedEvent.addListener(this.#onLivesChanged.bind(this));
 	}
 
@@ -51,21 +48,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		return new Rectangle(new Point(position.x + 1, position.y + 1), new Point(size.x - 2, size.y - 2));
 	}
 
-	processInput(key) {
-		if(!this.isActive() || this.#gameScene.getGameManager().gameIsOver()) {
-			return;
-		}
-
-		const inputKeyData = this.#inputKeyData.find(inputKeyData => inputKeyData.getInputKey() === key);
-
-		this.#operateOnInputKeyData(inputKeyData);
-	}
-
-	#operateOnInputKeyData(inputKeyData) {
-		if(!VariableMethods.variableIsDefined(inputKeyData)) {
-			return;
-		}
-		
+	#onKeyPressed(inputKeyData) {
 		this.#operateOnNextPosition(inputKeyData);
 		this.setCurrentColumnIndex(inputKeyData.getAnimationIndex());
 	}
