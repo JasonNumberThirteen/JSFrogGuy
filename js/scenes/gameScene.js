@@ -124,11 +124,12 @@ class GameScene extends Scene {
 	}
 
 	#addListenersToPlayer() {
-		const playerSlicedSprite = this.#fieldObjectsContainer.getPlayer().getSprite();
+		const player = this.#fieldObjectsContainer.getPlayer();
+		const playerSprite = player.getSprite();
 		
-		playerSlicedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
-		playerSlicedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
-		playerSlicedSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
+		playerSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
+		player.getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
+		playerSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
 	}
 
 	#positionIsSufficientlyCloseToFrogLocationDestination(destination, position) {

@@ -1,8 +1,14 @@
 class Player {
+	#lives;
 	#sprite;
 
 	constructor(field) {
-		this.#sprite = new PlayerSlicedSprite(field);
+		this.#lives = new PlayerLives(PLAYER_INITIAL_LIVES);
+		this.#sprite = new PlayerSlicedSprite(this, field);
+	}
+
+	getLives() {
+		return this.#lives;
 	}
 
 	getSprite() {

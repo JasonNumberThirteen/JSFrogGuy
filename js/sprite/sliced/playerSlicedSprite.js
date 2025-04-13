@@ -1,6 +1,5 @@
 class PlayerSlicedSprite extends SlicedSprite {
 	destinationReachedEvent = new GameEvent();
-	livesChangedEvent = new GameEvent();
 	positionChangedEvent = new GameEvent();
 	
 	#inputKeyData = [
@@ -11,22 +10,23 @@ class PlayerSlicedSprite extends SlicedSprite {
 	];
 	#initialPosition;
 	#gameScene;
-	#lives;
 	#parentObject;
 	#hazardousPositionCheckTimer;
 	#field;
+	#lives;
 	
-	constructor(field) {
+	constructor(player, field) {
 		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - 4, PLAYER_INITIAL_Y), 8, 8);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
-		this.#lives = PLAYER_INITIAL_LIVES;
 		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY, true);
 		this.#field = field;
+		this.#lives = player.getLives();
 
 		this.#gameScene.gameWonEvent.addListener(this.#deactivate.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
+		this.#lives.livesChangedEvent.addListener(this.#onLivesChanged.bind(this));
 	}
 
 	update(deltaTime) {
@@ -40,10 +40,6 @@ class PlayerSlicedSprite extends SlicedSprite {
 			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, fieldPosition.x, fieldPosition.x + fieldSize.x - 8);
 			this.getPosition().x = x;
 		}
-	}
-
-	getLives() {
-		return this.#lives;
 	}
 
 	getRectangle() {
@@ -78,7 +74,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		if(this.#gameScene.reachedAnyOfAvailableFieldDestinations(nextPosition)) {
 			this.#onReachedDestinationPosition(nextPosition);
 		} else if(this.#gameScene.playerIsStandingOnHazardousPosition(nextPosition)) {
-			this.#onReachedHazardousPosition();
+			this.#lives.reduceLivesBy(1);
 		} else {
 			this.#setPositionWithinField(nextPosition);
 
@@ -100,14 +96,12 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#respawn();
 	}
 
-	#onReachedHazardousPosition() {
-		if(--this.#lives > 0) {
+	#onLivesChanged(lives) {
+		if(lives > 0) {
 			this.#respawn();
 		} else {
 			this.#deactivate();
 		}
-
-		this.livesChangedEvent.invoke(this.#lives);
 	}
 
 	#respawn() {
@@ -140,7 +134,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	#onTimerFinished() {
 		if(this.#gameScene.playerIsStandingOnHazardousPosition()) {
-			this.#onReachedHazardousPosition();
+			this.#lives.reduceLivesBy(1);
 		}
 
 		if(this.isActive()) {
