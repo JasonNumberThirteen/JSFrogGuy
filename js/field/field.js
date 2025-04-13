@@ -30,6 +30,17 @@ class Field {
 		return position.x >= areaPosition.x && position.x < areaPosition.x + areaSize.x && position.y >= areaPosition.y && position.y < areaPosition.y + areaSize.y;
 	}
 
+	reachedAnyOfAvailableDestinations(position) {
+		return this.getFrogLocationFieldArea().getFreeFrogLocations().some(frogLocation => this.positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
+	}
+
+	positionIsSufficientlyCloseToFrogLocationDestination(destination, position) {
+		const destinationPosition = destination.getPosition();
+		const differenceInPositionXIsSufficientlySmall = Math.abs(destinationPosition.x - position.x) <= DESTINATION_POSITION_X_THRESHOLD;
+
+		return differenceInPositionXIsSufficientlySmall && destinationPosition.y === position.y;
+	}
+
 	getFrogLocationFieldArea() {
 		return this.#frogLocationFieldArea;
 	}

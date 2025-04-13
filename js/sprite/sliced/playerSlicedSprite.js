@@ -13,6 +13,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#parentObject;
 	#hazardousPositionCheckTimer;
 	#field;
+	#player;
 	#lives;
 	
 	constructor(player, field) {
@@ -22,7 +23,8 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY, true);
 		this.#field = field;
-		this.#lives = player.getLives();
+		this.#player = player;
+		this.#lives = this.#player.getLives();
 
 		this.#gameScene.getGameManager().gameWonEvent.addListener(this.#deactivate.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
@@ -71,14 +73,14 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#operateOnNextPosition(inputKeyData) {
 		const nextPosition = this.#getNextPosition(inputKeyData);
 
-		if(this.#gameScene.reachedAnyOfAvailableFieldDestinations(nextPosition)) {
+		if(this.#gameScene.getField().reachedAnyOfAvailableDestinations(nextPosition)) {
 			this.#onReachedDestinationPosition(nextPosition);
-		} else if(this.#gameScene.playerIsStandingOnHazardousPosition(nextPosition)) {
+		} else if(this.#player.playerIsStandingOnHazardousPosition(nextPosition)) {
 			this.#lives.reduceLivesBy(1);
 		} else {
 			this.#setPositionWithinField(nextPosition);
 
-			this.#parentObject = this.#gameScene.getObjectOnRiverOnPlayerPositionIfPossible();
+			this.#parentObject = this.#player.getObjectOnRiverOnPlayerPositionIfPossible();
 		}
 	}
 
@@ -132,7 +134,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	}
 
 	#onTimerFinished() {
-		if(this.#gameScene.playerIsStandingOnHazardousPosition()) {
+		if(this.#player.playerIsStandingOnHazardousPosition()) {
 			this.#lives.reduceLivesBy(1);
 		}
 

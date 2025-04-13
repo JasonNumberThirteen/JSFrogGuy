@@ -38,13 +38,6 @@ class GameManager {
 		gameData.saveValues();
 	}
 
-	positionIsSufficientlyCloseToFrogLocationDestination(destination, position) {
-		const destinationPosition = destination.getPosition();
-		const differenceInPositionXIsSufficientlySmall = Math.abs(destinationPosition.x - position.x) <= DESTINATION_POSITION_X_THRESHOLD;
-
-		return differenceInPositionXIsSufficientlySmall && destinationPosition.y === position.y;
-	}
-
 	#addListenersToPlayer() {
 		const player = this.#gameScene.getFieldObjectsContainer().getPlayer();
 		const playerSprite = player.getSprite();
@@ -62,7 +55,7 @@ class GameManager {
 
 	#onFieldDestinationReached(position) {
 		const field = this.#gameScene.getField();
-		const availableFieldDestination = field.getFrogLocationFieldArea().getFreeFrogLocations().find(frogLocation => this.positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
+		const availableFieldDestination = field.getFrogLocationFieldArea().getFreeFrogLocations().find(frogLocation => field.positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
 
 		if(!VariableMethods.variableIsDefined(availableFieldDestination)) {
 			return;

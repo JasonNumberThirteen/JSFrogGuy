@@ -28,7 +28,7 @@ class FlySprite extends Sprite {
 
 	#onActiveStateChanged(isActive) {
 		if(isActive) {
-			const availableFrogLocation = this.#gameScene.getRandomAvailableFrogLocation();
+			const availableFrogLocation = ListMethods.getRandomElement(this.#gameScene.getField().getFrogLocationFieldArea().getFreeFrogLocations());
 
 			if(VariableMethods.variableIsDefined(availableFrogLocation)) {
 				const destinationPosition = availableFrogLocation.getDestination().getPosition();
