@@ -2,8 +2,8 @@ class MovingSlicedSprite extends SlicedSprite {
 	#movementSpeed;
 	#moveToRight;
 
-	constructor(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight) {
-		super(filename, position, frameWidth, frameHeight);
+	constructor(filename, position, columnIndex, frameDimensions, movementSpeed, moveToRight) {
+		super(filename, position, frameDimensions);
 		this.setCurrentColumnIndex(columnIndex);
 
 		this.#movementSpeed = movementSpeed;

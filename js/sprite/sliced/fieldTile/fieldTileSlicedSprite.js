@@ -1,8 +1,8 @@
 class FieldTileSlicedSprite extends SlicedSprite {
 	#offset = new Point();
 	
-	constructor(frameWidth, frameHeight) {
-		super(TILESET_SPRITE_SHEET_FILENAME, new Point(), frameWidth, frameHeight);
+	constructor(frameDimensions) {
+		super(TILESET_SPRITE_SHEET_FILENAME, new Point(), frameDimensions);
 	}
 
 	getOffset() {

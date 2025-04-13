@@ -1,6 +1,6 @@
 class WoodenLogMovingSlicedSprite extends MovingSlicedSprite {
 	constructor(position, movementSpeed, frameIndex) {
-		super(WOODEN_LOG_SPRITE_SHEET_FILENAME, position, frameIndex, 8, 8, movementSpeed, true);
+		super(WOODEN_LOG_SPRITE_SHEET_FILENAME, position, frameIndex, new Point(8, 8), movementSpeed, true);
 	}
 
 	getRectangle() {

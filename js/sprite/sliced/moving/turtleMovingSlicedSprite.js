@@ -4,7 +4,7 @@ class TurtleMovingSlicedSprite extends MovingSlicedSprite {
 	#currentAnimationFrame = 0;
 	
 	constructor(position, movementSpeed, isHiding) {
-		super(TURTLE_SPRITE_SHEET_FILENAME, position, 0, 8, 8, movementSpeed, false);
+		super(TURTLE_SPRITE_SHEET_FILENAME, position, 0, new Point(8, 8), movementSpeed, false);
 
 		if(isHiding) {
 			this.#animationTimer = new Timer(TURTLE_HIDING_ANIMATION_STEP_DELAY, true);

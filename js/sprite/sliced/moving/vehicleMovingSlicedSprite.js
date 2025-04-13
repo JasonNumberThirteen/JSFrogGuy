@@ -2,8 +2,8 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 	#initialMovementSpeed;
 	#field;
 	
-	constructor(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight) {
-		super(filename, position, columnIndex, frameWidth, frameHeight, movementSpeed, moveToRight);
+	constructor(filename, position, columnIndex, frameDimensions, movementSpeed, moveToRight) {
+		super(filename, position, columnIndex, frameDimensions, movementSpeed, moveToRight);
 
 		this.#initialMovementSpeed = movementSpeed;
 

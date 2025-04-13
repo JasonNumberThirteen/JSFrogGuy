@@ -1,26 +1,24 @@
 class SlicedSprite extends Sprite {
-	#frameWidth;
-	#frameHeight;
+	#frameDimensions;
 	#currentRowIndex = 0;
 	#currentColumnIndex = 0;
 	
-	constructor(filename, position, frameWidth, frameHeight) {
+	constructor(filename, position, frameDimensions) {
 		super(filename, position);
 
-		this.#frameWidth = frameWidth;
-		this.#frameHeight = frameHeight;
+		this.#frameDimensions = frameDimensions;
 	}
 
 	getSize() {
-		return new Point(this.#frameWidth, this.#frameHeight);
+		return this.#frameDimensions;
 	}
 
 	getFrameWidth() {
-		return this.#frameWidth;
+		return this.#frameDimensions.x;
 	}
 
 	getFrameHeight() {
-		return this.#frameHeight;
+		return this.#frameDimensions.y;
 	}
 
 	getCurrentRowIndex() {
@@ -44,8 +42,8 @@ class SlicedSprite extends Sprite {
 			return;
 		}
 		
-		const frameWidth = this.#frameWidth;
-		const frameHeight = this.#frameHeight;
+		const frameWidth = this.#frameDimensions.x;
+		const frameHeight = this.#frameDimensions.y;
 		const offsetX = this.#currentColumnIndex*frameWidth;
 		const offsetY = this.#currentRowIndex*frameHeight;
 		const position = this.getPosition();
