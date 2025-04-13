@@ -1,5 +1,5 @@
 class FieldObjectsContainer {
-	#playerSlicedSprite;
+	#player;
 	#flySprite;
 	#vehicles;
 	#woodenLogGroups;
@@ -9,7 +9,7 @@ class FieldObjectsContainer {
 	constructor(field) {
 		const objectsGenerator = new ObjectsGenerator();
 		
-		this.#playerSlicedSprite = new PlayerSlicedSprite(field);
+		this.#player = new Player(field);
 		this.#flySprite = new FlySprite();
 		this.#vehicles = objectsGenerator.createVehicles();
 		this.#woodenLogGroups = objectsGenerator.createWoodenLogGroups();
@@ -18,7 +18,7 @@ class FieldObjectsContainer {
 	}
 
 	update(deltaTime) {
-		this.#playerSlicedSprite.update(deltaTime);
+		this.#player.update(deltaTime);
 		this.#flySprite.update(deltaTime);
 		this.#vehicles.forEach(vehicle => vehicle.update(deltaTime));
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.update(deltaTime));
@@ -28,14 +28,14 @@ class FieldObjectsContainer {
 	draw() {
 		this.#woodenLogGroups.forEach(woodenLogGroup => woodenLogGroup.draw());
 		this.#turtleGroups.forEach(turtle => turtle.draw());
-		this.#playerSlicedSprite.draw();
+		this.#player.draw();
 		this.#flySprite.draw();
 		this.#vehicles.forEach(vehicle => vehicle.draw());
 		this.#fieldEdgesCover.draw();
 	}
 
-	getPlayerSlicedSprite() {
-		return this.#playerSlicedSprite;
+	getPlayer() {
+		return this.#player;
 	}
 
 	getFlySprite() {

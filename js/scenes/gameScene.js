@@ -48,7 +48,7 @@ class GameScene extends Scene {
 	}
 
 	processInput(key) {
-		this.#fieldObjectsContainer.getPlayerSlicedSprite().processInput(key);
+		this.#fieldObjectsContainer.getPlayer().getSprite().processInput(key);
 	}
 
 	getField() {
@@ -76,14 +76,14 @@ class GameScene extends Scene {
 	}
 
 	playerIsStandingOnHazardousPosition(position) {
-		const playerPosition = position || this.#fieldObjectsContainer.getPlayerSlicedSprite().getPosition();
+		const playerPosition = position || this.#fieldObjectsContainer.getPlayer().getSprite().getPosition();
 		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(playerPosition, FieldAreaType.WATER) && !this.playerIntersectsWithAnyWoodenLogGroup(position) && !this.playerIntersectsWithAnyTurtlesGroup(position);
 
 		return this.playerIntersectsWithAnyVehicle(position) || playerIsStandingOnWater;
 	}
 
 	playerIntersectsWithAnyVehicle(position) {
-		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
+		const rectangle = this.#fieldObjectsContainer.getPlayer().getSprite().getRectangle();
 
 		if(VariableMethods.variableIsDefined(position)) {
 			rectangle.getPosition().x = position.x;
@@ -94,7 +94,7 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyWoodenLogGroup(position) {
-		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
+		const rectangle = this.#fieldObjectsContainer.getPlayer().getSprite().getRectangle();
 
 		if(VariableMethods.variableIsDefined(position)) {
 			rectangle.getPosition().x = position.x;
@@ -105,7 +105,7 @@ class GameScene extends Scene {
 	}
 
 	playerIntersectsWithAnyTurtlesGroup(position) {
-		const rectangle = this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle();
+		const rectangle = this.#fieldObjectsContainer.getPlayer().getSprite().getRectangle();
 
 		if(VariableMethods.variableIsDefined(position)) {
 			rectangle.getPosition().x = position.x;
@@ -120,11 +120,11 @@ class GameScene extends Scene {
 
 		this.#fieldObjectsContainer.getTurtleGroups().forEach(turtleGroup => objectsOnRiver.push(turtleGroup));
 		
-		return objectsOnRiver.find(objectOnRiver => this.#fieldObjectsContainer.getPlayerSlicedSprite().getRectangle().intersectsWith(objectOnRiver.getRectangle()));
+		return objectsOnRiver.find(objectOnRiver => this.#fieldObjectsContainer.getPlayer().getSprite().getRectangle().intersectsWith(objectOnRiver.getRectangle()));
 	}
 
 	#addListenersToPlayer() {
-		const playerSlicedSprite = this.#fieldObjectsContainer.getPlayerSlicedSprite();
+		const playerSlicedSprite = this.#fieldObjectsContainer.getPlayer().getSprite();
 		
 		playerSlicedSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
 		playerSlicedSprite.livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
