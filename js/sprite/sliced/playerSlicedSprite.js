@@ -24,7 +24,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#field = field;
 		this.#lives = player.getLives();
 
-		this.#gameScene.gameWonEvent.addListener(this.#deactivate.bind(this));
+		this.#gameScene.getGameManager().gameWonEvent.addListener(this.#deactivate.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#lives.livesChangedEvent.addListener(this.#onLivesChanged.bind(this));
 	}
@@ -50,7 +50,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	}
 
 	processInput(key) {
-		if(!this.isActive() || this.#gameScene.gameIsOver()) {
+		if(!this.isActive() || this.#gameScene.getGameManager().gameIsOver()) {
 			return;
 		}
 

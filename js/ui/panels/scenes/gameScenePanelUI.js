@@ -19,13 +19,13 @@ class GameScenePanelUI extends ScenePanelUI {
 
 	update(deltaTime) {
 		this.#currentLevelTextUI.update(deltaTime);
-		this.#levelTimerPanelUI.setCurrentValue(this.#gameScene.getLeftTime());
+		this.#levelTimerPanelUI.setCurrentValue(this.#gameScene.getGameManager().getLevelTimer().getLeftTime());
 		this.#bonusPointsTextUI.update(deltaTime);
 		super.update(deltaTime);
 	}
 
 	draw() {
-		if(this.#gameScene.gameIsOver()) {
+		if(this.#gameScene.getGameManager().gameIsOver()) {
 			this.#gameOverTextUI.draw();
 		} else {
 			this.#currentLevelTextUI.draw();

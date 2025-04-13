@@ -8,7 +8,7 @@ class LevelTimer extends Timer {
 	}
 	
 	update(deltaTime) {
-		if(!this.#gameScene.gameIsOver()) {
+		if(!this.#gameScene.getGameManager().gameIsOver()) {
 			super.update(deltaTime);
 		}
 	}

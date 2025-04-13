@@ -1,13 +1,8 @@
 class GameScene extends Scene {
-	frogSavedEvent = new GameEvent();
-	gameWonEvent = new GameEvent();
-	
+	#gameManager;
 	#scoreManager;
 	#nextSceneLoadTimer;
-	#levelTimer;
 	#nextSceneKey = GAME_SCENE_NAME_KEY;
-	#closestYToFieldDestinations;
-	#gameIsOver;
 	#field;
 	#fieldObjectsContainer;
 	#panelUI;
@@ -17,25 +12,27 @@ class GameScene extends Scene {
 	}
 
 	init() {
+		this.#gameManager = new GameManager();
 		this.#scoreManager = new ScoreManager();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
-		this.#levelTimer = new LevelTimer();
-		this.#gameIsOver = false;
 		this.#field = new Field();
 		this.#fieldObjectsContainer = new FieldObjectsContainer(this.#field);
 		this.#panelUI = new GameScenePanelUI();
 		
 		this.#field.init();
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
-		this.#levelTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
-		this.#addListenersToPlayer();
 		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
-		this.#resetClosestYToFieldDestinations();
+		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
+		this.#gameManager.init();
+		this.#gameManager.frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
+		this.#gameManager.gameWonEvent.addListener(this.#onGameWon.bind(this));
+		this.#gameManager.gameLostEvent.addListener(this.#onGameLost.bind(this));
+		this.#gameManager.closestPositionToFieldDestinationsUpdatedEvent.addListener(this.#onClosestPositionToFieldDestinationsUpdated.bind(this));
 	}
 
 	update(deltaTime) {
+		this.#gameManager.update(deltaTime);
 		this.#nextSceneLoadTimer.update(deltaTime);
-		this.#levelTimer.update(deltaTime);
 		this.#fieldObjectsContainer.update(deltaTime);
 		this.#panelUI.update(deltaTime);
 	}
@@ -51,20 +48,24 @@ class GameScene extends Scene {
 		this.#fieldObjectsContainer.getPlayer().getSprite().processInput(key);
 	}
 
+	getGameManager() {
+		return this.#gameManager;
+	}
+
+	getScoreManager() {
+		return this.#scoreManager;
+	}
+
 	getField() {
 		return this.#field;
 	}
 
+	getFieldObjectsContainer() {
+		return this.#fieldObjectsContainer;
+	}
+
 	getPanelUI() {
 		return this.#panelUI;
-	}
-
-	getLeftTime() {
-		return this.#levelTimer.getLeftTime();
-	}
-
-	gameIsOver() {
-		return this.#gameIsOver;
 	}
 
 	getRandomAvailableFrogLocation() {
@@ -72,7 +73,7 @@ class GameScene extends Scene {
 	}
 
 	reachedAnyOfAvailableFieldDestinations(position) {
-		return this.#field.getFrogLocationFieldArea().getFreeFrogLocations().some(frogLocation => this.#positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
+		return this.#field.getFrogLocationFieldArea().getFreeFrogLocations().some(frogLocation => this.#gameManager.positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
 	}
 
 	playerIsStandingOnHazardousPosition(position) {
@@ -123,117 +124,31 @@ class GameScene extends Scene {
 		return objectsOnRiver.find(objectOnRiver => this.#fieldObjectsContainer.getPlayer().getSprite().getRectangle().intersectsWith(objectOnRiver.getRectangle()));
 	}
 
-	#addListenersToPlayer() {
-		const player = this.#fieldObjectsContainer.getPlayer();
-		const playerSprite = player.getSprite();
-		
-		playerSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
-		player.getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
-		playerSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
-	}
-
-	#positionIsSufficientlyCloseToFrogLocationDestination(destination, position) {
-		const destinationPosition = destination.getPosition();
-		const differenceInPositionXIsSufficientlySmall = Math.abs(destinationPosition.x - position.x) <= DESTINATION_POSITION_X_THRESHOLD;
-
-		return differenceInPositionXIsSufficientlySmall && destinationPosition.y === position.y;
-	}
-
-	#resetClosestYToFieldDestinations() {
-		this.#closestYToFieldDestinations = PLAYER_INITIAL_Y;
-	}
-
-	#onFieldDestinationReached(position) {
-		const availableFieldDestination = this.#field.getFrogLocationFieldArea().getFreeFrogLocations().find(frogLocation => this.#positionIsSufficientlyCloseToFrogLocationDestination(frogLocation.getDestination(), position));
-
-		if(!VariableMethods.variableIsDefined(availableFieldDestination)) {
-			return;
-		}
-
-		const availableFieldDestinationRectangle = availableFieldDestination.getRectangle();
-		const flySprite = this.#fieldObjectsContainer.getFlySprite();
-		const playerIntersectsWithFly = flySprite.isActive() && availableFieldDestinationRectangle.intersectsWith(flySprite.getRectangle());
-
-		if(playerIntersectsWithFly) {
-			const availableFieldDestinationPosition = availableFieldDestinationRectangle.getPosition();
-			const availableFieldDestinationSize = availableFieldDestinationRectangle.getSize();
-			const bonusPointsTextUIPosition = PositionMethods.getSumOf(availableFieldDestinationPosition, new Point(availableFieldDestinationSize.x*0.5, availableFieldDestinationSize.y));
-			
-			flySprite.setActive(false);
-			this.#panelUI.getBonusPointsTextUI().display(bonusPointsTextUIPosition, POINTS_FOR_EATING_FLY.toString());
-		}
-
-		availableFieldDestination.setAsTaken(true);
-		this.frogSavedEvent.invoke();
-		this.#scoreManager.increasePlayerScoreBy(playerIntersectsWithFly ? POINTS_FOR_REACHING_FIELD_DESTINATION + POINTS_FOR_EATING_FLY : POINTS_FOR_REACHING_FIELD_DESTINATION);
-		ListMethods.removeElementByReferenceIfPossible(this.#field.getFrogLocationFieldArea().getFreeFrogLocations(), availableFieldDestination);
-		this.#resetClosestYToFieldDestinations();
-		this.#affectLevelTimerDependingOnGameState();
-		this.#checkIfWonGame();
-	}
-
-	#affectLevelTimerDependingOnGameState() {
-		if(this.#allFrogLocationsAreTaken()) {
-			this.#levelTimer.setAsPaused(true);
-		} else {
-			this.#levelTimer.startTimer();
-		}
-	}
-
-	#checkIfWonGame() {
-		if(!this.#allFrogLocationsAreTaken()) {
-			return;
-		}
-
-		this.gameWonEvent.invoke();
-		this.#nextSceneLoadTimer.startTimer();
-		FrogGuy.getData().increaseCurrentLevelNumberBy(1);
-	}
-
-	#allFrogLocationsAreTaken() {
-		return this.#field.getFrogLocationFieldArea().getFreeFrogLocations().length === 0;
-	}
-
 	#onLivesChanged(lives) {
 		this.#panelUI.getPlayerLivesPanelUI().setNumberOfSprites(lives);
-	
-		if(lives <= 0) {
-			this.#setGameAsOverIfNeeded();
-		}
 	}
 
-	#onPositionChanged(position) {
-		if(position.y >= this.#closestYToFieldDestinations || this.#field.positionIsWithinAreaOfType(position, FieldAreaType.WALKWAY)) {
-			return;
-		}
-		
-		this.#closestYToFieldDestinations = position.y;
+	#onFrogSaved(points) {
+		this.#scoreManager.increasePlayerScoreBy(points);
+	}
 
+	#onGameWon() {
+		this.#nextSceneLoadTimer.startTimer();
+	}
+
+	#onGameLost() {
+		this.#nextSceneKey = MAIN_MENU_SCENE_NAME_KEY;
+
+		this.#nextSceneLoadTimer.startTimer();
+	}
+
+	#onClosestPositionToFieldDestinationsUpdated() {
 		this.#scoreManager.increasePlayerScoreBy(POINTS_FOR_STEP_CLOSER_TO_FIELD_DESTINATIONS);
 	}
 
-	#setGameAsOverIfNeeded() {
-		if(this.#gameIsOver) {
-			return;
-		}
-		
-		this.#nextSceneKey = MAIN_MENU_SCENE_NAME_KEY;
-		this.#gameIsOver = true;
-
-		this.#nextSceneLoadTimer.startTimer();
-	}
-
 	#onNextSceneLoadTimerFinished() {
-		this.#updateGameData();
+		this.#gameManager.updateGameData(this.#panelUI.getPlayerScoreIntCounterGroupUI().getCounterValue(), this.#panelUI.getHighScoreIntCounterGroupUI().getCounterValue());
 		this.#startFading();
-	}
-
-	#updateGameData() {
-		const gameData = FrogGuy.getData();
-
-		gameData.setPlayerScore(this.#panelUI.getPlayerScoreIntCounterGroupUI().getCounterValue());
-		gameData.setHighScore(this.#panelUI.getHighScoreIntCounterGroupUI().getCounterValue());
-		gameData.saveValues();
 	}
 
 	#startFading() {
