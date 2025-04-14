@@ -5,11 +5,13 @@ class Sprite {
 	#image;
 	#position;
 	#isActive = true;
+	#collisionRectangleOffset;
 	#canvasContext;
 
 	constructor(filename, position, onload) {
 		this.setImage(filename, onload);
 		this.setPosition(position);
+		this.setCollisionRectangleOffset(new Rectangle(new Point(), new Point()));
 	}
 
 	draw() {
@@ -34,6 +36,10 @@ class Sprite {
 		const image = this.#image;
 		
 		return new Point(image.width, image.height);
+	}
+
+	getCollisionRectangle() {
+		return RectangleMethods.getSumOf(this.getRectangle(), this.#collisionRectangleOffset);
 	}
 
 	getRectangle() {
@@ -73,5 +79,9 @@ class Sprite {
 		this.#isActive = active;
 
 		this.activeStateChangedEvent.invoke(this.#isActive);
+	}
+
+	setCollisionRectangleOffset(offset) {
+		this.#collisionRectangleOffset = offset;
 	}
 }

@@ -42,7 +42,7 @@ class Player {
 	}
 
 	isStandingOnHazardousPosition() {
-		return this.positionIsHazardous(this.getSprite().getRectangle());
+		return this.positionIsHazardous(this.getSprite().getCollisionRectangle());
 	}
 
 	positionIsHazardous(rectangle) {
@@ -55,10 +55,10 @@ class Player {
 	getObjectOnRiverOnPlayerPositionIfPossible() {
 		const fieldObjectsGroups = this.#gameScene.getFieldObjectsContainer().getFieldObjectsGroups();
 		const objectsOnWater = fieldObjectsGroups.getGroupOfType(FieldObjectsGroupType.WoodenLogs).getElements().slice();
-		const playerSpriteRectangle = this.getSprite().getRectangle();
+		const playerSpriteRectangle = this.getSprite().getCollisionRectangle();
 
 		fieldObjectsGroups.getGroupOfType(FieldObjectsGroupType.Turtles).getElements().forEach(element => objectsOnWater.push(element));
 
-		return objectsOnWater.find(objectOnWater => playerSpriteRectangle.intersectsWith(objectOnWater.getRectangle()));
+		return objectsOnWater.find(objectOnWater => playerSpriteRectangle.intersectsWith(objectOnWater.getCollisionRectangle()));
 	}
 }

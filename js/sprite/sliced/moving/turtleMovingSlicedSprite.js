@@ -5,6 +5,7 @@ class TurtleMovingSlicedSprite extends MovingSlicedSprite {
 	
 	constructor(position, movementSpeed, isHiding) {
 		super(TURTLE_SPRITE_SHEET_FILENAME, position, 0, TURTLE_SPRITE_DIMENSIONS, movementSpeed, false);
+		this.setCollisionRectangleOffset(new Rectangle(new Point(1, 1), new Point(-2, -2)));
 
 		if(isHiding) {
 			this.#animationTimer = new Timer(TURTLE_HIDING_ANIMATION_STEP_DELAY, true);
@@ -23,13 +24,6 @@ class TurtleMovingSlicedSprite extends MovingSlicedSprite {
 		if(VariableMethods.variableIsDefined(this.#animationTimer)) {
 			this.#animationTimer.update(deltaTime);
 		}
-	}
-
-	getRectangle() {
-		const position = this.getPosition();
-		const size = this.getSize();
-		
-		return new Rectangle(new Point(position.x + 1, position.y + 1), new Point(size.x - 2, size.y - 2));
 	}
 
 	#onTimerFinished() {

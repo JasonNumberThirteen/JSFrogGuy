@@ -4,6 +4,7 @@ class MovingSlicedSpritesGroup {
 	#movementSpeed;
 	#moveToRight;
 	#field;
+	#collisionRectangleOffset;
 
 	constructor(position, movementSpeed, moveToRight) {
 		this.#initialMovementSpeed = movementSpeed;
@@ -12,6 +13,7 @@ class MovingSlicedSpritesGroup {
 
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
+		this.setCollisionRectangleOffset(new Rectangle(new Point(), new Point()));
 	}
 
 	getSprites() {
@@ -32,6 +34,10 @@ class MovingSlicedSpritesGroup {
 
 	getSize() {
 		return new Point(this.#sprites.length*8, 8);
+	}
+
+	getCollisionRectangle() {
+		return RectangleMethods.getSumOf(this.getRectangle(), this.#collisionRectangleOffset);
 	}
 
 	getRectangle() {
@@ -59,6 +65,10 @@ class MovingSlicedSpritesGroup {
 
 	draw() {
 		this.#sprites.forEach(sprite => sprite.draw());
+	}
+
+	setCollisionRectangleOffset(offset) {
+		this.#collisionRectangleOffset = offset;
 	}
 
 	#onFrogSaved() {

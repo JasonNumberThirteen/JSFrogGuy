@@ -26,6 +26,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#lives.livesChangedEvent.addListener(this.#onLivesChanged.bind(this));
+		this.setCollisionRectangleOffset(new Rectangle(new Point(1, 1), new Point(-2, -2)));
 	}
 
 	update(deltaTime) {
@@ -39,13 +40,6 @@ class PlayerSlicedSprite extends SlicedSprite {
 			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, fieldPosition.x, fieldPosition.x + fieldSize.x - PLAYER_SPRITE_DIMENSIONS.y);
 			this.getPosition().x = x;
 		}
-	}
-
-	getRectangle() {
-		const position = this.getPosition();
-		const size = this.getSize();
-		
-		return new Rectangle(new Point(position.x + 1, position.y + 1), new Point(size.x - 2, size.y - 2));
 	}
 
 	#onKeyPressed(inputKeyData) {

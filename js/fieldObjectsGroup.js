@@ -27,6 +27,6 @@ class FieldObjectsGroup {
 	}
 
 	rectangleIntersectsWithAnyElement(rectangle) {
-		return this.#elements.some(element => rectangle.intersectsWith(element.getRectangle()));
+		return this.#elements.some(element => rectangle.intersectsWith(element.getCollisionRectangle()));
 	}
 }

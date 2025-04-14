@@ -4,6 +4,7 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 	
 	constructor(filename, position, columnIndex, frameDimensions, movementSpeed, moveToRight) {
 		super(filename, position, columnIndex, frameDimensions, movementSpeed, moveToRight);
+		this.setCollisionRectangleOffset(new Rectangle(new Point(0, 1), new Point(0, -2)));
 
 		this.#initialMovementSpeed = movementSpeed;
 
@@ -13,13 +14,6 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
-	}
-
-	getRectangle() {
-		const position = this.getPosition();
-		const size = this.getSize();
-		
-		return new Rectangle(new Point(position.x, position.y + 1), new Point(size.x, size.y - 2));
 	}
 
 	update(deltaTime) {
