@@ -31,14 +31,29 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	update(deltaTime) {
 		this.#hazardousPositionCheckTimer.update(deltaTime);
+		this.#moveIfIsStandingOnObject(deltaTime);
+	}
 
-		if(VariableMethods.variableIsDefined(this.#parentObject)) {
-			var x = this.getPosition().x;
-			const fieldPosition = this.#field.getPosition();
-			const fieldSize = this.#field.getSize();
-			
-			x = MathMethods.clamp(x + this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime, fieldPosition.x, fieldPosition.x + fieldSize.x - PLAYER_SPRITE_DIMENSIONS.y);
-			this.getPosition().x = x;
+	#moveIfIsStandingOnObject(deltaTime) {
+		if(!VariableMethods.variableIsDefined(this.#parentObject)) {
+			return;
+		}
+
+		const fieldPosition = this.#field.getPosition();
+		const fieldSize = this.#field.getSize();
+		const speed = this.#parentObject.getMovementSpeed()*this.#parentObject.getMovementDirection()*deltaTime;
+		const maxX = fieldPosition.x + fieldSize.x - PLAYER_SPRITE_DIMENSIONS.y;
+		
+		this.setX(MathMethods.clamp(this.getX() + speed, fieldPosition.x, maxX));
+	}
+
+	#onTimerFinished() {
+		if(this.#player.isStandingOnHazardousPosition()) {
+			this.#lives.reduceLivesBy(1);
+		}
+
+		if(this.isActive()) {
+			this.#hazardousPositionCheckTimer.startTimer();
 		}
 	}
 
@@ -49,16 +64,13 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	#operateOnNextPosition(inputKeyData) {
 		const nextPosition = this.#getNextPosition(inputKeyData);
-		const playerSize = this.getSize();
 
 		if(this.#gameScene.getField().reachedAnyOfAvailableDestinations(nextPosition)) {
-			this.#onReachedDestinationPosition(nextPosition);
-		} else if(this.#player.positionIsHazardous(new Rectangle(new Point(nextPosition.x + 1, nextPosition.y + 1), new Point(playerSize.x - 2, playerSize.y - 2)))) {
+			this.#onDestinationReached(nextPosition);
+		} else if(this.#player.positionIsHazardous(this.#getPositionCollisionRectangle(nextPosition))) {
 			this.#lives.reduceLivesBy(1);
 		} else {
-			this.#setPositionWithinField(nextPosition);
-
-			this.#parentObject = this.#player.getObjectOnRiverOnPlayerPositionIfPossible();
+			this.#moveToPosition(nextPosition);
 		}
 	}
 
@@ -70,9 +82,32 @@ class PlayerSlicedSprite extends SlicedSprite {
 		return PositionMethods.getSumOf(currentPosition, movementStep);
 	}
 
-	#onReachedDestinationPosition(position) {
+	#onDestinationReached(position) {
 		this.destinationReachedEvent.invoke(position);
 		this.#respawn();
+	}
+
+	#getPositionCollisionRectangle(position) {
+		const rectangle = new Rectangle(position, this.getSize());
+		
+		return RectangleMethods.getSumOf(rectangle, this.getCollisionRectangleOffset());
+	}
+
+	#moveToPosition(position) {
+		this.#setPositionWithinField(position);
+
+		this.#parentObject = this.#player.getObjectOnRiverOnPlayerPositionIfPossible();
+	}
+
+	#setPositionWithinField(position) {
+		const fieldPosition = this.#field.getPosition();
+		const fieldSize = this.#field.getSize();
+		const spriteSize = this.getSize();
+		const frogLocationFieldAreaHeight = this.#field.getFrogLocationFieldArea().getSize().y;
+		const minPosition = new Point(fieldPosition.x, fieldPosition.y + frogLocationFieldAreaHeight);
+		const maxPosition = new Point(fieldPosition.x + fieldSize.x - spriteSize.x, fieldPosition.y + fieldSize.y - spriteSize.y - frogLocationFieldAreaHeight);
+		
+		this.setPosition(PositionMethods.clamp(position, minPosition, maxPosition));
 	}
 
 	#onLivesChanged(lives) {
@@ -91,26 +126,5 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	#deactivate() {
 		this.setActive(false);
-	}
-
-	#setPositionWithinField(position) {
-		const fieldPosition = this.#field.getPosition();
-		const fieldSize = this.#field.getSize();
-		const spriteSize = this.getSize();
-		const frogLocationFieldAreaHeight = this.#field.getFrogLocationFieldArea().getSize().y;
-		const minPosition = new Point(fieldPosition.x, fieldPosition.y + frogLocationFieldAreaHeight);
-		const maxPosition = new Point(fieldPosition.x + fieldSize.x - spriteSize.x, fieldPosition.y + fieldSize.y - spriteSize.y - frogLocationFieldAreaHeight);
-		
-		this.setPosition(PositionMethods.clamp(position, minPosition, maxPosition));
-	}
-
-	#onTimerFinished() {
-		if(this.#player.isStandingOnHazardousPosition()) {
-			this.#lives.reduceLivesBy(1);
-		}
-
-		if(this.isActive()) {
-			this.#hazardousPositionCheckTimer.startTimer();
-		}
 	}
 }

@@ -28,6 +28,14 @@ class Sprite {
 		return this.#image;
 	}
 
+	getX() {
+		return this.#position.x;
+	}
+
+	getY() {
+		return this.#position.y;
+	}
+
 	getPosition() {
 		return this.#position;
 	}
@@ -40,6 +48,10 @@ class Sprite {
 
 	getCollisionRectangle() {
 		return RectangleMethods.getSumOf(this.getRectangle(), this.#collisionRectangleOffset);
+	}
+
+	getCollisionRectangleOffset() {
+		return this.#collisionRectangleOffset;
 	}
 
 	getRectangle() {
@@ -63,6 +75,14 @@ class Sprite {
 		if(onload) {
 			this.#image.onload = () => onload(this);
 		}
+	}
+
+	setX(x) {
+		this.setPosition(new Point(x, this.#position.y));
+	}
+
+	setY(y) {
+		this.setPosition(new Point(this.#position.x, y));
 	}
 
 	setPosition(position) {
