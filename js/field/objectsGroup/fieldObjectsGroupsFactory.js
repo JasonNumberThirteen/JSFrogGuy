@@ -1,4 +1,4 @@
-class ObjectsGenerator {
+class FieldObjectsGroupsFactory {
 	createVehicles() {
 		const vehicles = new FieldObjectsGroup(FieldObjectsGroupType.Vehicles);
 

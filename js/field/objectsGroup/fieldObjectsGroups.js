@@ -2,11 +2,11 @@ class FieldObjectsGroups {
 	#groups = [];
 
 	constructor() {
-		const objectsGenerator = new ObjectsGenerator();
+		const fieldObjectsGroupsFactory = new FieldObjectsGroupsFactory();
 		
-		this.#groups.push(objectsGenerator.createVehicles());
-		this.#groups.push(objectsGenerator.createWoodenLogs());
-		this.#groups.push(objectsGenerator.createTurtles());
+		this.#groups.push(fieldObjectsGroupsFactory.createVehicles());
+		this.#groups.push(fieldObjectsGroupsFactory.createWoodenLogs());
+		this.#groups.push(fieldObjectsGroupsFactory.createTurtles());
 	}
 
 	getGroupOfType(groupType) {
