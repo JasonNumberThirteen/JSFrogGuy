@@ -40,6 +40,14 @@ class Sprite {
 		return this.#position;
 	}
 
+	getWidth() {
+		return this.getSize().x;
+	}
+
+	getHeight() {
+		return this.getSize().y;
+	}
+
 	getSize() {
 		const image = this.#image;
 		

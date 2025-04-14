@@ -46,5 +46,6 @@ class MainMenuScenePanelUI extends ScenePanelUI {
 		const y = HALF_OF_GAME_WINDOW_HEIGHT + image.height;
 		
 		this.#mainMenuCursorSprite.setPosition(new Point(x, y));
+		this.#mainMenuCursorSprite.setInitialX(x);
 	}
 }

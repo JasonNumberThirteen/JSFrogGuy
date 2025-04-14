@@ -28,8 +28,24 @@ class MovingSlicedSpritesGroup {
 		return this.#moveToRight ? 1 : -1;
 	}
 
+	getX() {
+		return this.getPosition().x;
+	}
+
+	getY() {
+		return this.getPosition().y;
+	}
+
 	getPosition() {
 		return this.#sprites[0].getPosition();
+	}
+
+	getWidth() {
+		return this.getSize().x;
+	}
+
+	getHeight() {
+		return this.getSize().y;
 	}
 
 	getSize() {
@@ -50,10 +66,10 @@ class MovingSlicedSpritesGroup {
 		const field = this.#getField();
 		const fieldPosition = field.getPosition();
 		const groupPosition = this.getPosition();
-		const groupWidth = this.getSize().x;
+		const groupWidth = this.getWidth();
 
 		if(this.#reachedLeftEdgeOfField()) {
-			groupPosition.x = fieldPosition.x + field.getSize().x + groupWidth;
+			groupPosition.x = fieldPosition.x + field.getWidth() + groupWidth;
 
 			this.#adjustSpritesPositionIfNeeded(groupPosition.x);
 		} else if(this.#reachedRightEdgeOfField()) {
@@ -85,18 +101,18 @@ class MovingSlicedSpritesGroup {
 		const numberOfSprites = this.#sprites.length;
 		
 		for (let i = 0; i < numberOfSprites; ++i) {
-			this.#sprites[i].getPosition().x = x + i*8;
+			this.#sprites[i].setX(x + i*8);
 		}
 	}
 
 	#reachedLeftEdgeOfField() {
-		return !this.#moveToRight && this.getPosition().x < this.#getField().getPosition().x - this.getSize().x;
+		return !this.#moveToRight && this.getX() < this.#getField().getX() - this.getWidth();
 	}
 
 	#reachedRightEdgeOfField() {
 		const field = this.#getField();
 		
-		return this.#moveToRight && this.getPosition().x > field.getPosition().x + field.getSize().x;
+		return this.#moveToRight && this.getX() > field.getX() + field.getWidth();
 	}
 
 	#getField() {

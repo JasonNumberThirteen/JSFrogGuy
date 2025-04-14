@@ -1,18 +1,16 @@
 class MainMenuCursorSprite extends Sprite {
-	_initialX;
+	#initialX;
 	
 	constructor() {
 		super(MAIN_MENU_CURSOR_SPRITE_FILENAME, new Point());
 	}
 
-	setPosition(position) {
-		super.setPosition(position);
-
-		this._initialX = this.getPosition().x;
+	update(deltaTime) {
+		this.setX(this.#initialX + this.#getOffset());
 	}
 
-	update(deltaTime) {
-		this.getPosition().x = this._initialX + this.#getOffset();
+	setInitialX(x) {
+		this.#initialX = x;
 	}
 
 	#getOffset() {

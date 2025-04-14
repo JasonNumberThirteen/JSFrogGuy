@@ -17,8 +17,28 @@ class FieldArea {
 		this.#sprites.forEach(sprite => sprite.draw());
 	}
 
+	getX() {
+		return this.getPosition().x;
+	}
+
+	getY() {
+		return this.getPosition().y;
+	}
+
 	getPosition() {
 		return this.#sprites[0].getPosition();
+	}
+
+	getWidth() {
+		return this.getSize().x;
+	}
+
+	getHeight() {
+		return this.getSize().y;
+	}
+
+	getSize() {
+		return new Point();
 	}
 
 	getAreaType() {
@@ -45,7 +65,7 @@ class FieldArea {
 		let offsetY = 0;
 
 		for (let i = 0; i < this.#index; ++i) {
-			offsetY += areasList[i].getSize().y;
+			offsetY += areasList[i].getHeight();
 		}
 
 		return offsetY;

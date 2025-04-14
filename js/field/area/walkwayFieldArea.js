@@ -22,7 +22,7 @@ class WalkwayFieldArea extends FieldArea {
 	#addTile(columnIndex) {
 		const sprite = new WalkwayFieldTileSlicedSprite();
 			
-		sprite.setPosition(new Point(sprite.getSize().x*columnIndex, sprite.getPosition().y));
+		sprite.setX(sprite.getWidth()*columnIndex);
 		this.getSprites().push(sprite);
 	}
 }

@@ -25,7 +25,7 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 		const frameWidth = this.getFrameWidth();
 
 		if(this.#reachedLeftEdgeOfField()) {
-			vehiclePosition.x = fieldPosition.x + field.getSize().x + frameWidth;
+			vehiclePosition.x = fieldPosition.x + field.getWidth() + frameWidth;
 		} else if(this.#reachedRightEdgeOfField()) {
 			vehiclePosition.x = fieldPosition.x - frameWidth*2;
 		}
@@ -42,13 +42,13 @@ class VehicleMovingSlicedSprite extends MovingSlicedSprite {
 	}
 
 	#reachedLeftEdgeOfField() {
-		return !this.isMovingRight() && this.getPosition().x < this.#getField().getPosition().x - this.getFrameWidth();
+		return !this.isMovingRight() && this.getX() < this.#getField().getX() - this.getFrameWidth();
 	}
 
 	#reachedRightEdgeOfField() {
 		const field = this.#getField();
 		
-		return this.isMovingRight() && this.getPosition().x > field.getPosition().x + field.getSize().x;
+		return this.isMovingRight() && this.getX() > field.getX() + field.getWidth();
 	}
 
 	#getField() {

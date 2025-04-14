@@ -14,7 +14,7 @@ class Field {
 		this.#addArea(new WalkwayFieldArea(this, 2, NUMBER_OF_FROG_LOCATIONS*3));
 		this.#addArea(new StreetFieldArea(this, 3, NUMBER_OF_FROG_LOCATIONS*3, 5));
 		this.#addArea(new WalkwayFieldArea(this, 4, NUMBER_OF_FROG_LOCATIONS*3));
-		this.setPosition(new Point(HALF_OF_GAME_WINDOW_WIDTH - this.#frogLocationFieldArea.getSize().x*0.5, HALF_OF_GAME_WINDOW_HEIGHT - this.getSize().y*0.5));
+		this.setPosition(new Point(HALF_OF_GAME_WINDOW_WIDTH - this.#frogLocationFieldArea.getWidth()*0.5, HALF_OF_GAME_WINDOW_HEIGHT - this.getHeight()*0.5));
 	}
 
 	positionIsWithinAreaOfType(position, areaType) {
@@ -59,14 +59,30 @@ class Field {
 		this.positionChangedEvent.invoke({position: this.#position, areasList: this.#areas});
 	}
 
+	getX() {
+		return this.getPosition().x;
+	}
+
+	getY() {
+		return this.getPosition().y;
+	}
+
 	getPosition() {
 		return this.#position;
+	}
+
+	getWidth() {
+		return this.getSize().x;
+	}
+
+	getHeight() {
+		return this.getSize().y;
 	}
 
 	getSize() {
 		const lastArea = this.#areas[this.#areas.length - 1];
 		
-		return new Point(this.#frogLocationFieldArea.getSize().x, lastArea ? (lastArea.getPosition().y + lastArea.getSize().y) : 0);
+		return new Point(this.#frogLocationFieldArea.getWidth(), lastArea ? (lastArea.getY() + lastArea.getHeight()) : 0);
 	}
 
 	#addArea(area) {

@@ -103,7 +103,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		const fieldPosition = this.#field.getPosition();
 		const fieldSize = this.#field.getSize();
 		const spriteSize = this.getSize();
-		const frogLocationFieldAreaHeight = this.#field.getFrogLocationFieldArea().getSize().y;
+		const frogLocationFieldAreaHeight = this.#field.getFrogLocationFieldArea().getHeight();
 		const minPosition = new Point(fieldPosition.x, fieldPosition.y + frogLocationFieldAreaHeight);
 		const maxPosition = new Point(fieldPosition.x + fieldSize.x - spriteSize.x, fieldPosition.y + fieldSize.y - spriteSize.y - frogLocationFieldAreaHeight);
 		
