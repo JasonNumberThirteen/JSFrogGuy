@@ -11,8 +11,8 @@ class PlayerSlicedSprite extends SlicedSprite {
 	#input;
 	#lives;
 	
-	constructor(player, field) {
-		super(PLAYER_SPRITE_SHEET_FILENAME, new Point(HALF_OF_GAME_WINDOW_WIDTH - PLAYER_SPRITE_DIMENSIONS.x*0.5, PLAYER_INITIAL_Y), PLAYER_SPRITE_DIMENSIONS);
+	constructor(position, player, field) {
+		super(PLAYER_SPRITE_SHEET_FILENAME, position, PLAYER_SPRITE_DIMENSIONS);
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);

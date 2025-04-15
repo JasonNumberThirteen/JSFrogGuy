@@ -1,68 +1,93 @@
 class FieldObjectsGroupsFactory {
 	#field;
+	#vehiclesGroup;
+	#woodenLogsGroup;
+	#turtlesGroups;
 
 	constructor(field) {
 		this.#field = field;
 	}
 	
 	createVehicles() {
-		const vehiclesGroup = new FieldObjectsGroup(FieldObjectsGroupType.Vehicles);
-		const fieldPositionX = this.#field.getX();
+		this.#vehiclesGroup = new FieldObjectsGroup(FieldObjectsGroupType.Vehicles);
+		
+		this.#createVehiclesRow(0, 2, 8, 6, 2, 4, 12, false);
+		this.#createVehiclesRow(1, 1, -1, 6, 3, 3, 10, true);
+		this.#createVehiclesRow(2, 3, 6, 4, 2, 2, 9, false);
+		this.#createVehiclesRow(3, 3, 6, 4, 1, 1, 8, true);
+		this.#createVehiclesRow(4, 3, 5, 4.5, 0, 0, 7, false);
 
-		for (let i = 1; i <= 2; ++i) {
-			vehiclesGroup.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(fieldPositionX + 64 + 48*(i - 1), 80), 2, VEHICLE_SPRITES_DIMENSIONS[4], 12, false));
-		}
-
-		for (let i = 1; i <= 1; ++i) {
-			vehiclesGroup.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(fieldPositionX - 8 + 48*(i - 1), 88), 3, VEHICLE_SPRITES_DIMENSIONS[3], 10, true));
-		}
-
-		for (let i = 1; i <= 3; ++i) {
-			vehiclesGroup.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(fieldPositionX + 48 + 32*(i - 1), 96), 2, VEHICLE_SPRITES_DIMENSIONS[2], 9, false));
-		}
-
-		for (let i = 1; i <= 3; ++i) {
-			vehiclesGroup.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(fieldPositionX + 48 + 32*(i - 1), 104), 1, VEHICLE_SPRITES_DIMENSIONS[1], 8, true));
-		}
-
-		for (let i = 1; i <= 3; ++i) {
-			vehiclesGroup.push(new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, new Point(fieldPositionX + 40 + 36*(i - 1), 112), 0, VEHICLE_SPRITES_DIMENSIONS[0], 7, false));
-		}
-
-		return vehiclesGroup;
+		return this.#vehiclesGroup;
 	}
 
 	createWoodenLogs() {
-		const woodenLogsGroup = new FieldObjectsGroup(FieldObjectsGroupType.WoodenLogs);
-		const fieldPositionX = this.#field.getX();
+		this.#woodenLogsGroup = new FieldObjectsGroup(FieldObjectsGroupType.WoodenLogs);
+		
+		this.#createWoodenLogsRow(0, 3, 2, 0.25, 5.75, 18);
+		this.#createWoodenLogsRow(2, 2, 4, 1.5, 9, 20);
+		this.#createWoodenLogsRow(3, 3, 1, 2.5, 6, 10);
 
-		for (let i = 1; i <= 3; ++i) {
-			woodenLogsGroup.push(new WoodenLogMovingSlicedSpritesGroup(new Point(fieldPositionX + 2 + 46*(i - 1), 32), 18, 2));
-		}
-
-		for (let i = 1; i <= 2; ++i) {
-			woodenLogsGroup.push(new WoodenLogMovingSlicedSpritesGroup(new Point(fieldPositionX + 12 + 72*(i - 1), 48), 20, 4));
-		}
-
-		for (let i = 1; i <= 3; ++i) {
-			woodenLogsGroup.push(new WoodenLogMovingSlicedSpritesGroup(new Point(fieldPositionX + 20 + 48*(i - 1), 56), 10, 1));
-		}
-
-		return woodenLogsGroup;
+		return this.#woodenLogsGroup;
 	}
 
-	createTurtles() {
-		const turtleGroup = new TurtlesFieldObjectsGroup();
-		const fieldPositionX = this.#field.getX();
+	createTurtlesGroups() {
+		this.#turtlesGroups = new TurtlesFieldObjectsGroup();
 
-		for (let i = 1; i <= 4; ++i) {
-			turtleGroup.push(new TurtlesMovingSlicedSpritesGroup(new Point(fieldPositionX + 24 + 32*(i - 1), 40), 30, 2));
+		this.#createTurtlesGroupRow(1, 4, 2, 3, 4, 30);
+		this.#createTurtlesGroupRow(4, 4, 3, 0, 4, 20);
+
+		return this.#turtlesGroups;
+	}
+
+	#createVehiclesRow(offsetInRows, numberOfVehicles, offsetFromLeftSideInTiles, offsetPerVehicleInTiles, animationColumnIndex, spriteSheetIndex, movementSpeed, isMovingRight) {
+		const streetFieldArea = this.#field.getAreaOfType(FieldAreaType.Street);
+
+		if(!VariableMethods.variableIsDefined(streetFieldArea)) {
+			return;
 		}
 
-		for (let i = 1; i <= 4; ++i) {
-			turtleGroup.push(new TurtlesMovingSlicedSpritesGroup(new Point(fieldPositionX + 32*(i - 1), 64), 20, 3));
+		for (let i = 1; i <= numberOfVehicles; ++i) {
+			const tileWidth = streetFieldArea.getTileWidth();
+			const offsetPerVehicle = tileWidth*offsetPerVehicleInTiles;
+			const x = streetFieldArea.getX() + offsetFromLeftSideInTiles*tileWidth + offsetPerVehicle*(i - 1);
+			const position = new Point(x, streetFieldArea.getY(offsetInRows));
+			const sprite = new VehicleMovingSlicedSprite(VEHICLES_SPRITE_SHEET_FILENAME, position, animationColumnIndex, VEHICLE_SPRITES_DIMENSIONS[spriteSheetIndex], movementSpeed, isMovingRight);
+
+			this.#vehiclesGroup.push(sprite);
+		}
+	}
+
+	#createWoodenLogsRow(offsetInRows, numberOfWoodenLogsInRow, numberOfMiddleSegments, offsetFromLeftSideInTiles, offsetPerWoodenLogInTiles, movementSpeed) {
+		const waterFieldArea = this.#field.getAreaOfType(FieldAreaType.Water);
+
+		if(!VariableMethods.variableIsDefined(waterFieldArea)) {
+			return;
 		}
 
-		return turtleGroup;
+		for (let i = 1; i <= numberOfWoodenLogsInRow; ++i) {
+			const tileWidth = waterFieldArea.getTileWidth();
+			const offsetPerWoodenLog = tileWidth*offsetPerWoodenLogInTiles;
+			const x = waterFieldArea.getX() + offsetFromLeftSideInTiles*tileWidth + offsetPerWoodenLog*(i - 1);
+			const position = new Point(x, waterFieldArea.getY(offsetInRows));
+			
+			this.#woodenLogsGroup.push(new WoodenLogMovingSlicedSpritesGroup(position, movementSpeed, numberOfMiddleSegments));
+		}
+	}
+
+	#createTurtlesGroupRow(offsetInRows, numberOfTurtleGroupsInRow, numberOfTurtlesInGroup, offsetFromLeftSideInTiles, offsetPerTurtleGroupInTiles, movementSpeed) {
+		const waterFieldArea = this.#field.getAreaOfType(FieldAreaType.Water);
+
+		if(!VariableMethods.variableIsDefined(waterFieldArea)) {
+			return;
+		}
+
+		for (let i = 1; i <= numberOfTurtleGroupsInRow; ++i) {
+			const tileWidth = waterFieldArea.getTileWidth();
+			const offsetPerTurtleGroup = tileWidth*offsetPerTurtleGroupInTiles;
+			const x = waterFieldArea.getX() + offsetFromLeftSideInTiles*tileWidth + offsetPerTurtleGroup*(i - 1);
+			const position = new Point(x, waterFieldArea.getY(offsetInRows));
+			
+			this.#turtlesGroups.push(new TurtlesMovingSlicedSpritesGroup(position, movementSpeed, numberOfTurtlesInGroup));
+		}
 	}
 }

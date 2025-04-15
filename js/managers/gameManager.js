@@ -124,6 +124,6 @@ class GameManager {
 	}
 
 	#resetClosestYToFieldDestinations() {
-		this.#closestYToFieldDestinations = PLAYER_INITIAL_Y;
+		this.#closestYToFieldDestinations = this.#gameScene.getFieldObjectsContainer().getPlayer().getInitialPosition().y;
 	}
 }

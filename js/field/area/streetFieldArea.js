@@ -1,23 +1,15 @@
 class StreetFieldArea extends FieldArea {
-	#widthInTiles;
-	#heightInTiles;
-	
-	constructor(field, index, widthInTiles, heightInTiles) {
-		super(field, index, FieldAreaType.Street);
-
-		this.#widthInTiles = widthInTiles;
-		this.#heightInTiles = heightInTiles;
-
+	constructor(field, index, sizeInTiles) {
+		super(field, index, FieldAreaType.Street, STREET_SPRITE_DIMENSIONS, sizeInTiles);
 		this.#addTiles();
 	}
 
-	getSize() {
-		return new Point(this.#widthInTiles*8, this.#heightInTiles*8);
-	}
-
 	#addTiles() {
-		for (let y = 0; y < this.#heightInTiles; ++y) {
-			for (let x = 0; x < this.#widthInTiles; ++x) {
+		const heightInTiles = this.getHeightInTiles();
+		const widthInTiles = this.getWidthInTiles();
+		
+		for (let y = 0; y < heightInTiles; ++y) {
+			for (let x = 0; x < widthInTiles; ++x) {
 				this.#addTile(y, x);
 			}
 		}

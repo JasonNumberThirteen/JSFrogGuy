@@ -10,11 +10,15 @@ class Field {
 		this.#frogLocationFieldArea = new FrogLocationFieldArea(this, 0, NUMBER_OF_FROG_LOCATIONS);
 		
 		this.#addArea(this.#frogLocationFieldArea);
-		this.#addArea(new WaterFieldArea(this, 1, NUMBER_OF_FROG_LOCATIONS*3, 5));
-		this.#addArea(new WalkwayFieldArea(this, 2, NUMBER_OF_FROG_LOCATIONS*3));
-		this.#addArea(new StreetFieldArea(this, 3, NUMBER_OF_FROG_LOCATIONS*3, 5));
-		this.#addArea(new WalkwayFieldArea(this, 4, NUMBER_OF_FROG_LOCATIONS*3));
+		this.#addArea(new WaterFieldArea(this, 1, new Point(NUMBER_OF_FROG_LOCATIONS*3, 5)));
+		this.#addArea(new WalkwayFieldArea(this, 2, new Point(NUMBER_OF_FROG_LOCATIONS*3, 1)));
+		this.#addArea(new StreetFieldArea(this, 3, new Point(NUMBER_OF_FROG_LOCATIONS*3, 5)));
+		this.#addArea(new WalkwayFieldArea(this, 4, new Point(NUMBER_OF_FROG_LOCATIONS*3, 1)));
 		this.setPosition(new Point(HALF_OF_GAME_WINDOW_WIDTH - this.#frogLocationFieldArea.getWidth()*0.5, HALF_OF_GAME_WINDOW_HEIGHT - this.getHeight()*0.5));
+	}
+
+	getAreaOfType(areaType, skips) {
+		return this.#areas.filter(area => area.getAreaType() === areaType)[skips || 0];
 	}
 
 	positionIsWithinAreaOfType(position, areaType) {

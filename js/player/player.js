@@ -6,10 +6,10 @@ class Player {
 	#gameScene;
 
 	constructor(field) {
+		this.#field = field;
 		this.#input = new PlayerInput(this);
 		this.#lives = new PlayerLives(PLAYER_INITIAL_LIVES);
-		this.#sprite = new PlayerSlicedSprite(this, field);
-		this.#field = field;
+		this.#sprite = new PlayerSlicedSprite(this.getInitialPosition(), this, this.#field);
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 	}
 
@@ -60,5 +60,18 @@ class Player {
 		fieldObjectsGroups.getGroupOfType(FieldObjectsGroupType.Turtles).getElements().forEach(element => objectsOnWater.push(element));
 
 		return objectsOnWater.find(objectOnWater => playerSpriteRectangle.intersectsWith(objectOnWater.getCollisionRectangle()));
+	}
+
+	getInitialPosition() {
+		const walkwayFieldArea = this.#field.getAreaOfType(FieldAreaType.Walkway, 1);
+
+		if(!VariableMethods.variableIsDefined(walkwayFieldArea)) {
+			return new Point();
+		}
+
+		const x = walkwayFieldArea.getX(7);
+		const y = walkwayFieldArea.getY();
+
+		return new Point(x, y);
 	}
 }

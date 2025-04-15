@@ -1,11 +1,7 @@
 class FrogLocationFieldArea extends FieldArea {
 	constructor(field, index, numberOfLocations) {
-		super(field, index, FieldAreaType.FrogLocation);
+		super(field, index, FieldAreaType.FrogLocation, FROG_LOCATION_SPRITE_DIMENSIONS, new Point(numberOfLocations, 1));
 		this.#addTiles(numberOfLocations);
-	}
-
-	getSize() {
-		return new Point(this.getSprites().length*24, 16);
 	}
 
 	getFreeFrogLocations() {

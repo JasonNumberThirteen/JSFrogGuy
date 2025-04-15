@@ -1,28 +1,26 @@
 class WalkwayFieldArea extends FieldArea {
-	#widthInTiles;
-	
-	constructor(field, index, widthInTiles) {
-		super(field, index, FieldAreaType.Walkway);
-
-		this.#widthInTiles = widthInTiles;
-		
+	constructor(field, index, sizeInTiles) {
+		super(field, index, FieldAreaType.Walkway, WALKWAY_SPRITE_DIMENSIONS, sizeInTiles);
 		this.#addTiles();
 	}
 
-	getSize() {
-		return new Point(this.#widthInTiles*8, 8);
-	}
-
 	#addTiles() {
-		for (let i = 0; i < this.#widthInTiles; ++i) {
-			this.#addTile(i);
+		const heightInTiles = this.getHeightInTiles();
+		const widthInTiles = this.getWidthInTiles();
+		
+		for (let y = 0; y < heightInTiles; ++y) {
+			for (let x = 0; x < widthInTiles; ++x) {
+				this.#addTile(y, x);
+			}
 		}
 	}
 
-	#addTile(columnIndex) {
+	#addTile(rowIndex, columnIndex) {
 		const sprite = new WalkwayFieldTileSlicedSprite();
-			
-		sprite.setX(sprite.getWidth()*columnIndex);
+		const spriteSize = sprite.getSize();
+		const spritePosition = new Point(spriteSize.x*columnIndex, spriteSize.y*rowIndex);
+		
+		sprite.setPosition(spritePosition);
 		this.getSprites().push(sprite);
 	}
 }

@@ -6,7 +6,7 @@ class FieldObjectsGroups {
 		
 		this.#groups.push(fieldObjectsGroupsFactory.createVehicles());
 		this.#groups.push(fieldObjectsGroupsFactory.createWoodenLogs());
-		this.#groups.push(fieldObjectsGroupsFactory.createTurtles());
+		this.#groups.push(fieldObjectsGroupsFactory.createTurtlesGroups());
 	}
 
 	getGroupOfType(groupType) {
