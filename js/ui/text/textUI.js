@@ -1,6 +1,6 @@
 class TextUI {
 	#text;
-	#position;
+	#position = new Point();
 	#fillStyle;
 	#alignment;
 	#isActive = true;
@@ -8,7 +8,11 @@ class TextUI {
 
 	constructor(text, position, fillStyle, alignment) {
 		this.setText(text);
-		this.setPosition(position);
+
+		if(VariableMethods.variableIsDefined(position)) {
+			this.setPosition(position);
+		}
+
 		this.setFillStyle(fillStyle);
 		this.setAlignment(alignment);
 	}
