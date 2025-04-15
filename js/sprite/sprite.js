@@ -14,8 +14,8 @@ class Sprite {
 		if(VariableMethods.variableIsDefined(position)) {
 			this.setPosition(position);
 		}
-		
-		this.setCollisionRectangleOffset(new Rectangle(new Point(), new Point()));
+
+		this.setCollisionRectangleOffset(new Rectangle());
 	}
 
 	draw() {

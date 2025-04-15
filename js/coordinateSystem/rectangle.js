@@ -3,8 +3,8 @@ class Rectangle {
 	#size;
 
 	constructor(position, size) {
-		this.#position = position;
-		this.#size = size;
+		this.#position = position || new Point();
+		this.#size = size || new Point();
 	}
 
 	intersectsWith(rectangle) {
