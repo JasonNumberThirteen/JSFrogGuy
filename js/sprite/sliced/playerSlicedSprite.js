@@ -120,6 +120,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	#respawn() {
 		this.setPosition(this.#initialPosition);
+		this.setCurrentColumnIndex(0);
 
 		this.#parentObject = undefined;
 	}
