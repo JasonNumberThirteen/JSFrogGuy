@@ -3,7 +3,7 @@ class StreetFieldArea extends FieldArea {
 	#heightInTiles;
 	
 	constructor(field, index, widthInTiles, heightInTiles) {
-		super(field, index, FieldAreaType.STREET);
+		super(field, index, FieldAreaType.Street);
 
 		this.#widthInTiles = widthInTiles;
 		this.#heightInTiles = heightInTiles;

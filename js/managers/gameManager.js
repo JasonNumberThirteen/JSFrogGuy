@@ -104,7 +104,7 @@ class GameManager {
 	}
 
 	#onPositionChanged(position) {
-		if(position.y >= this.#closestYToFieldDestinations || this.#gameScene.getField().positionIsWithinAreaOfType(position, FieldAreaType.WALKWAY)) {
+		if(position.y >= this.#closestYToFieldDestinations || this.#gameScene.getField().positionIsWithinAreaOfType(position, FieldAreaType.Walkway)) {
 			return;
 		}
 		

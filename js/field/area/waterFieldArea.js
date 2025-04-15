@@ -3,7 +3,7 @@ class WaterFieldArea extends FieldArea {
 	#heightInTiles;
 	
 	constructor(field, index, widthInTiles, heightInTiles) {
-		super(field, index, FieldAreaType.WATER);
+		super(field, index, FieldAreaType.Water);
 
 		this.#widthInTiles = widthInTiles;
 		this.#heightInTiles = heightInTiles;

@@ -2,7 +2,7 @@ class WalkwayFieldArea extends FieldArea {
 	#widthInTiles;
 	
 	constructor(field, index, widthInTiles) {
-		super(field, index, FieldAreaType.WALKWAY);
+		super(field, index, FieldAreaType.Walkway);
 
 		this.#widthInTiles = widthInTiles;
 		

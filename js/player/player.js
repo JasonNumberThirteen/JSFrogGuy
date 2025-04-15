@@ -47,7 +47,7 @@ class Player {
 
 	positionIsHazardous(rectangle) {
 		const fieldObjectsGroups = this.#gameScene.getFieldObjectsContainer().getFieldObjectsGroups();
-		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.WATER) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
+		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.Water) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
 
 		return fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Vehicles, rectangle) || playerIsStandingOnWater;
 	}

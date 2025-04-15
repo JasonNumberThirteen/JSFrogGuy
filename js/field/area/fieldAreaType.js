@@ -1,6 +1,6 @@
 const FieldAreaType = {
-	WALKWAY: 0,
-	STREET: 1,
-	WATER: 2,
-	FROG_LOCATION: 3
+	Walkway: 0,
+	Street: 1,
+	Water: 2,
+	FrogLocation: 3
 };

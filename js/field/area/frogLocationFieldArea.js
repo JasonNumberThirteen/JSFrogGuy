@@ -1,6 +1,6 @@
 class FrogLocationFieldArea extends FieldArea {
 	constructor(field, index, numberOfLocations) {
-		super(field, index, FieldAreaType.FROG_LOCATION);
+		super(field, index, FieldAreaType.FrogLocation);
 		this.#addTiles(numberOfLocations);
 	}
 
