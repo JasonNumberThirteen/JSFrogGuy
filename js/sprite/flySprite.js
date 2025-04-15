@@ -3,7 +3,7 @@ class FlySprite extends Sprite {
 	#gameScene;
 	
 	constructor() {
-		super(FLY_SPRITE_FILENAME, new Point());
+		super(FLY_SPRITE_FILENAME);
 		this.setActive(false);
 
 		this.#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION, true);

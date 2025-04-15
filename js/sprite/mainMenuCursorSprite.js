@@ -2,7 +2,7 @@ class MainMenuCursorSprite extends Sprite {
 	#initialX;
 	
 	constructor() {
-		super(MAIN_MENU_CURSOR_SPRITE_FILENAME, new Point());
+		super(MAIN_MENU_CURSOR_SPRITE_FILENAME);
 	}
 
 	update(deltaTime) {

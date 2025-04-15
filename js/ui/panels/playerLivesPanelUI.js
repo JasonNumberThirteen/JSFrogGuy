@@ -20,7 +20,7 @@ class PlayerLivesPanelUI {
 	}
 
 	#addSpriteToGroup(ordinalNumber) {
-		const sprite = new Sprite(PLAYER_LIFE_SPRITE_FILENAME, new Point(), sprite => this.#onSpriteLoad(sprite, ordinalNumber));
+		const sprite = new Sprite(PLAYER_LIFE_SPRITE_FILENAME, undefined, sprite => this.#onSpriteLoad(sprite, ordinalNumber));
 
 		this.#group.push(sprite);
 	}

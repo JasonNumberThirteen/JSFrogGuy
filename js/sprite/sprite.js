@@ -3,14 +3,18 @@ class Sprite {
 	positionChangedEvent = new GameEvent();
 	
 	#image;
-	#position;
+	#position = new Point();
 	#isActive = true;
 	#collisionRectangleOffset;
 	#canvasContext;
 
 	constructor(filename, position, onload) {
 		this.setImage(filename, onload);
-		this.setPosition(position);
+
+		if(VariableMethods.variableIsDefined(position)) {
+			this.setPosition(position);
+		}
+		
 		this.setCollisionRectangleOffset(new Rectangle(new Point(), new Point()));
 	}
 
