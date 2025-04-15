@@ -16,10 +16,11 @@ class GameScene extends Scene {
 		this.#scoreManager = new ScoreManager();
 		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
 		this.#field = new Field();
-		this.#fieldObjectsContainer = new FieldObjectsContainer(this.#field);
+		this.#fieldObjectsContainer = new FieldObjectsContainer();
 		this.#panelUI = new GameScenePanelUI();
 		
 		this.#field.init();
+		this.#fieldObjectsContainer.init(this.#field);
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
 		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));

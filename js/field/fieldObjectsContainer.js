@@ -4,11 +4,11 @@ class FieldObjectsContainer {
 	#fieldEdgesCover;
 	#fieldObjectsGroups;
 
-	constructor(field) {
+	init(field) {
 		this.#player = new Player(field);
 		this.#flySprite = new FlySprite();
 		this.#fieldEdgesCover = new FieldEdgesCover(field);
-		this.#fieldObjectsGroups = new FieldObjectsGroups();
+		this.#fieldObjectsGroups = new FieldObjectsGroups(field);
 	}
 
 	update(deltaTime) {

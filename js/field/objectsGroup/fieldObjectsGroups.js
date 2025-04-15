@@ -1,8 +1,8 @@
 class FieldObjectsGroups {
 	#groups = [];
 
-	constructor() {
-		const fieldObjectsGroupsFactory = new FieldObjectsGroupsFactory();
+	constructor(field) {
+		const fieldObjectsGroupsFactory = new FieldObjectsGroupsFactory(field);
 		
 		this.#groups.push(fieldObjectsGroupsFactory.createVehicles());
 		this.#groups.push(fieldObjectsGroupsFactory.createWoodenLogs());
