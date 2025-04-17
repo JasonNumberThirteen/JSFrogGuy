@@ -1,7 +1,7 @@
 # Frog Guy
 <p align = "center"><img src="./assets/sprites/single/mainMenu/gameLogo.png?raw=true" alt = "Frog Guy"/></p>
 
-> A clone of popular game written in pure JS using HTML canvas & CSS.
+> An arcade game project inspired by "Frogger" (1981) written in pure JS using HTML canvas & CSS.
 
 ## Table of Contents
 * [General information](#general-information)
@@ -20,17 +20,21 @@
 - Lose condition: the player lost all lives.
 
 ## Used technologies
-- [Visual Studio Code](https://code.visualstudio.com/ "Visual Studio Code - Code Editing. Redefined") IDE for writing code,
 - HTML5 for displaying the game window using canvas,
 - CSS for adjusting the game window,
-- JS for game mechanics.
+- JavaScript for programming,
+- [Visual Studio Code](https://code.visualstudio.com/ "Visual Studio Code - Code Editing. Redefined") IDE for writing code,
+- [GIMP](https://www.gimp.org/ "GIMP - GNU Image Manipulation Program") & [Paint.NET](https://www.getpaint.net/ "Paint.NET - Free Software for Digital Photo Editing") for making graphics,
+- [FamiStudio](https://famistudio.org/ "FamiStudio - NES Music Editor") for making music & sound effects.
 
 ## Features
 - 2 scenes,
+- 8 sound effects,
 - 5 types of vehicles,
 - 2 types of entities on water,
 - Resizable game window by the given scale,
-- A fly spawning in one of available destination positions.
+- A fly spawning in one of available destination positions,
+- Adjustable size of the field which was split into areas (frog locations, water, walkways & street),
 
 ## Scenes
 ### Main Menu
@@ -47,11 +51,11 @@ A scene wherein the game is played.
 - W / S / A / D - **Moving the frog (you can press and hold)**.
 
 ## Project status
-<p align = "center"><b>IN PROGRESS</b></p>
-<p align = "center"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Gasr95percent.png"/></p>
+<p align = "center"><b>COMPLETED</b></p>
+<p align = "center"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Gasr100percent.png"/></p>
 
 ---
-<p align = "center"><b>The project is completed in ~95%</b>. It still requires fixes, optimisations and upgrades.</p>
+<p align = "center"><b>The project is complete and ready to play</b>.</p>
 
 ## Credits
 This project was made **entirely** by [Stanisław "Jason" Popowski](https://jasonxiii.pl "Jason. Cała informatyka w jednym miejscu! Oficjalna strona internetowa! Setki artykułów na różne tematy! Wszystko stworzone przez jedną osobę!").
