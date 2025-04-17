@@ -3,6 +3,7 @@ class MainMenuScenePanelUI extends ScenePanelUI {
 	#mainMenuCursorSprite;
 	#startGameTextUI;
 	#creditsTextUI;
+	#gameVersionTextUI;
 
 	constructor() {
 		super();
@@ -11,6 +12,7 @@ class MainMenuScenePanelUI extends ScenePanelUI {
 		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
 		this.#startGameTextUI = new StartGameTextUI();
 		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(HALF_OF_GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
+		this.#gameVersionTextUI = new TextUI(GAME_VERSION_TEXT, new Point(GAME_WINDOW_WIDTH - 8, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_RIGHT_KEY);
 	}
 
 	update(deltaTime) {
@@ -24,6 +26,7 @@ class MainMenuScenePanelUI extends ScenePanelUI {
 		this.#mainMenuCursorSprite.draw();
 		this.#startGameTextUI.draw();
 		this.#creditsTextUI.draw();
+		this.#gameVersionTextUI.draw();
 		super.draw();
 	}
 
