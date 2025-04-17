@@ -1,5 +1,5 @@
 const FieldObjectsGroupType = {
-	Vehicles: 0,
+	WoodenLogs: 0,
 	Turtles: 1,
-	WoodenLogs: 2
+	Vehicles: 2
 };
