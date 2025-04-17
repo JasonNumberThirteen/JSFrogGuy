@@ -8,6 +8,7 @@ class Timer {
 	#isPaused = false;
 
 	constructor(duration, startImmediately) {
+		duration = duration || 0;
 		startImmediately = startImmediately || false;
 		
 		if(startImmediately) {
