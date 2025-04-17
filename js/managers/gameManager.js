@@ -44,7 +44,7 @@ class GameManager {
 		
 		playerSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
 		player.getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
-		playerSprite.positionChangedEvent.addListener(position => this.#onPositionChanged(position));
+		playerSprite.playerMovedFromInputEvent.addListener(position => this.#onPlayerMovedFromInput(position));
 	}
 
 	#onLivesChanged(lives) {
@@ -80,6 +80,7 @@ class GameManager {
 		this.#resetClosestYToFieldDestinations();
 		this.#affectLevelTimerDependingOnGameState();
 		this.#checkIfWonGame();
+		FrogGuy.getSoundManager().playSoundOfType(playerIntersectsWithFly ? SoundType.EatingFlyByPlayer : SoundType.ReachingFieldDestinationByPlayer);
 	}
 
 	#affectLevelTimerDependingOnGameState() {
@@ -103,7 +104,9 @@ class GameManager {
 		return this.#gameScene.getField().getFrogLocationFieldArea().getFreeFrogLocations().length === 0;
 	}
 
-	#onPositionChanged(position) {
+	#onPlayerMovedFromInput(position) {
+		FrogGuy.getSoundManager().playSoundOfType(SoundType.PlayerMovement);
+		
 		if(position.y >= this.#closestYToFieldDestinations || this.#gameScene.getField().positionIsWithinAreaOfType(position, FieldAreaType.Walkway)) {
 			return;
 		}

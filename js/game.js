@@ -3,6 +3,7 @@ class Game {
 	#gameInput;
 	#gameData;
 	#sceneManager;
+	#soundManager;
 	#currentTimeStamp = 0;
 	#previousTimeStamp = 0;
 
@@ -11,6 +12,7 @@ class Game {
 		this.#gameInput = new GameInput();
 		this.#gameData = new GameData();
 		this.#sceneManager = new SceneManager();
+		this.#soundManager = new SoundManager();
 
 		this.#gameInput.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
@@ -38,6 +40,10 @@ class Game {
 
 	getSceneManager() {
 		return this.#sceneManager;
+	}
+
+	getSoundManager() {
+		return this.#soundManager;
 	}
 
 	#update(timeStamp) {

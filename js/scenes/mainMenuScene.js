@@ -1,6 +1,7 @@
 class MainMenuScene extends Scene {
 	gameStartedEvent = new GameEvent();
 	
+	#soundManager;
 	#inputIsLocked = true;
 	#gameStartTimer;
 	#panelUI;
@@ -10,7 +11,8 @@ class MainMenuScene extends Scene {
 	}
 
 	init() {
-		this.#gameStartTimer = new Timer(GAME_START_DELAY);
+		this.#soundManager = FrogGuy.getSoundManager();
+		this.#gameStartTimer = new Timer(this.#soundManager.getSoundOfType(SoundType.GameStart).getDuration());
 		this.#panelUI = new MainMenuScenePanelUI();
 
 		this.#addListeners();
@@ -36,6 +38,7 @@ class MainMenuScene extends Scene {
 		this.gameStartedEvent.invoke();
 		this.#gameStartTimer.startTimer();
 		this.#resetGameData();
+		this.#soundManager.playSoundOfType(SoundType.GameStart);
 	}
 
 	#addListeners() {

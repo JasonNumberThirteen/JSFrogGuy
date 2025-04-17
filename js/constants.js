@@ -55,6 +55,16 @@ const TILESET_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/tileset.png";
 const VEHICLES_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/vehicles.png";
 const WOODEN_LOG_SPRITE_SHEET_FILENAME = "assets/sprites/sheets/game/woodenLog.png";
 
+// SOUNDS FILENAMES
+const GAME_START_SOUND_FILENAME = "assets/sounds/gameStart.ogg";
+const GAME_OVER_SOUND_FILENAME = "assets/sounds/gameOver.ogg";
+const PLAYER_MOVEMENT_SOUND_FILENAME = "assets/sounds/playerMovement.ogg";
+const PLAYER_HIT_BY_VEHICLE_SOUND_FILENAME = "assets/sounds/playerHitByVehicle.ogg";
+const FALLING_INTO_WATER_BY_PLAYER_SOUND_FILENAME = "assets/sounds/fallingIntoWaterByPlayer.ogg";
+const REACHING_FIELD_DESTINATION_BY_PLAYER_SOUND_FILENAME = "assets/sounds/reachingFieldDestinationByPlayer.ogg";
+const LEVEL_COMPLETION_SOUND_FILENAME = "assets/sounds/levelCompletion.ogg";
+const EATING_FLY_BY_PLAYER_SOUND_FILENAME = "assets/sounds/eatingFlyByPlayer.ogg";
+
 // DURATIONS
 const FADE_SCREEN_FADE_DURATION = 1;
 const MAIN_MENU_CURSOR_MOVEMENT_TIME = 1;
@@ -62,8 +72,6 @@ const START_GAME_TEXT_UI_BLINK_DELAY = 1;
 const START_GAME_TEXT_UI_BLINK_DELAY_ON_GAME_START = 0.03125;
 const CURRENT_LEVEL_TEXT_UI_FADE_START_DELAY = 1;
 const CURRENT_LEVEL_TEXT_UI_FADE_DURATION = 0.5;
-const GAME_START_DELAY = 1;
-const NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY = 1;
 const FLY_APPEARANCE_DURATION = 10;
 const FLY_DISAPPEARANCE_DURATION = 15;
 const LEVEL_TIME = 60;

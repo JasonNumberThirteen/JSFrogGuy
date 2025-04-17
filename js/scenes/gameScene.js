@@ -1,8 +1,9 @@
 class GameScene extends Scene {
 	#gameManager;
 	#scoreManager;
+	#soundManager;
 	#nextSceneLoadTimer;
-	#nextSceneKey = GAME_SCENE_NAME_KEY;
+	#nextSceneKey;
 	#field;
 	#fieldObjectsContainer;
 	#panelUI;
@@ -14,7 +15,8 @@ class GameScene extends Scene {
 	init() {
 		this.#gameManager = new GameManager();
 		this.#scoreManager = new ScoreManager();
-		this.#nextSceneLoadTimer = new Timer(NEXT_SCENE_LOAD_IN_GAME_SCENE_DELAY);
+		this.#soundManager = FrogGuy.getSoundManager();
+		this.#nextSceneLoadTimer = new Timer(0);
 		this.#field = new Field();
 		this.#fieldObjectsContainer = new FieldObjectsContainer();
 		this.#panelUI = new GameScenePanelUI();
@@ -26,8 +28,8 @@ class GameScene extends Scene {
 		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
 		this.#gameManager.init();
 		this.#gameManager.frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
-		this.#gameManager.gameWonEvent.addListener(this.#nextSceneLoadTimer.startTimer.bind(this));
-		this.#gameManager.gameLostEvent.addListener(this.#onGameLost.bind(this));
+		this.#gameManager.gameWonEvent.addListener(() => this.#onGameStateChanged(false));
+		this.#gameManager.gameLostEvent.addListener(() => this.#onGameStateChanged(true));
 		this.#gameManager.closestPositionToFieldDestinationsUpdatedEvent.addListener(this.#onClosestPositionToFieldDestinationsUpdated.bind(this));
 	}
 
@@ -77,10 +79,13 @@ class GameScene extends Scene {
 		this.#scoreManager.increasePlayerScoreBy(points);
 	}
 
-	#onGameLost() {
-		this.#nextSceneKey = MAIN_MENU_SCENE_NAME_KEY;
+	#onGameStateChanged(gameIsOver) {
+		const soundType = gameIsOver ? SoundType.GameOver : SoundType.LevelCompletion;
+		
+		this.#nextSceneKey = gameIsOver ? MAIN_MENU_SCENE_NAME_KEY : GAME_SCENE_NAME_KEY;
 
-		this.#nextSceneLoadTimer.startTimer();
+		this.#soundManager.playSoundOfType(soundType);
+		this.#nextSceneLoadTimer.startTimerWithSetDuration(this.#soundManager.getSoundOfType(soundType).getDuration());
 	}
 
 	#onClosestPositionToFieldDestinationsUpdated() {

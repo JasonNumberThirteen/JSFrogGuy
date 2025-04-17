@@ -1,6 +1,6 @@
 class PlayerSlicedSprite extends SlicedSprite {
 	destinationReachedEvent = new GameEvent();
-	positionChangedEvent = new GameEvent();
+	playerMovedFromInputEvent = new GameEvent();
 	
 	#initialPosition;
 	#gameScene;
@@ -49,7 +49,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 	#onTimerFinished() {
 		if(this.#player.isStandingOnHazardousPosition()) {
-			this.#lives.reduceLivesBy(1);
+			this.#onIntersectingWithHazardousObject(this.getPosition());
 		}
 
 		if(this.isActive()) {
@@ -68,7 +68,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		if(this.#gameScene.getField().reachedAnyOfAvailableDestinations(nextPosition)) {
 			this.#onDestinationReached(nextPosition);
 		} else if(this.#player.positionIsHazardous(this.#getPositionCollisionRectangle(nextPosition))) {
-			this.#lives.reduceLivesBy(1);
+			this.#onIntersectingWithHazardousObject(nextPosition);
 		} else {
 			this.#moveToPosition(nextPosition);
 		}
@@ -93,6 +93,11 @@ class PlayerSlicedSprite extends SlicedSprite {
 		return RectangleMethods.getSumOf(rectangle, this.getCollisionRectangleOffset());
 	}
 
+	#onIntersectingWithHazardousObject(position) {
+		FrogGuy.getSoundManager().playSoundDependingOnHazardousObjectType(this.#player.getHazardousObjectType(this.#getPositionCollisionRectangle(position)));
+		this.#lives.reduceLivesBy(1);
+	}
+
 	#moveToPosition(position) {
 		this.#setPositionWithinField(position);
 
@@ -106,8 +111,15 @@ class PlayerSlicedSprite extends SlicedSprite {
 		const frogLocationFieldAreaHeight = this.#field.getFrogLocationFieldArea().getHeight();
 		const minPosition = new Point(fieldPosition.x, fieldPosition.y + frogLocationFieldAreaHeight);
 		const maxPosition = new Point(fieldPosition.x + fieldSize.x - spriteSize.x, fieldPosition.y + fieldSize.y - spriteSize.y - frogLocationFieldAreaHeight);
+		const previousPosition = this.getPosition();
 		
 		this.setPosition(PositionMethods.clamp(position, minPosition, maxPosition));
+
+		const currentPosition = this.getPosition();
+
+		if(!previousPosition.equals(currentPosition)) {
+			this.playerMovedFromInputEvent.invoke(currentPosition);
+		}
 	}
 
 	#onLivesChanged(lives) {
