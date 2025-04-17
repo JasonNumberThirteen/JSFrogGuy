@@ -1,4 +1,4 @@
-SoundType = {
+const SoundType = {
 	GameStart: 0,
 	GameOver: 1,
 	PlayerMovement: 2,
@@ -7,4 +7,4 @@ SoundType = {
 	ReachingFieldDestinationByPlayer: 5,
 	EatingFlyByPlayer: 6,
 	LevelCompletion: 7
-}
+};
