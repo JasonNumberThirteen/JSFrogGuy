@@ -1,5 +1,5 @@
 # Frog Guy
-<p align = "center"><img src="./assets/sprites/single/mainMenu/gameLogo.png?raw=true" alt = "Frog Guy"/></p>
+<p align = "center"><img src="./assets/sprites/single/mainMenu/gameLogo.png?raw=true" alt = "Frog Guy" width = "300%" style="image-rendering: pixelated; image-rendering: crisp-edges;"/></p>
 
 > An arcade game project inspired by "Frogger" (1981) written in pure JS using HTML canvas & CSS.
 
