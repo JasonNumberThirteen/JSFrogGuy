@@ -32,6 +32,7 @@
 - 8 sound effects,
 - 5 types of vehicles,
 - 2 types of entities on water,
+- Saveable the player & high scores,
 - Resizable game window by the given scale,
 - A fly spawning in one of available destination positions,
 - Adjustable size of the field which was split into areas (frog locations, water, walkways & street),
