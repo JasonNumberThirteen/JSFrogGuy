@@ -65,6 +65,7 @@ const FALLING_INTO_WATER_BY_PLAYER_SOUND_FILENAME = "assets/sounds/fallingIntoWa
 const REACHING_FIELD_DESTINATION_BY_PLAYER_SOUND_FILENAME = "assets/sounds/reachingFieldDestinationByPlayer.ogg";
 const LEVEL_COMPLETION_SOUND_FILENAME = "assets/sounds/levelCompletion.ogg";
 const EATING_FLY_BY_PLAYER_SOUND_FILENAME = "assets/sounds/eatingFlyByPlayer.ogg";
+const GAINING_ADDITIONAL_LIFE_BY_PLAYER_SOUND_FILENAME = "assets/sounds/gainingAdditionalLifeByPlayer.ogg";
 
 // DURATIONS
 const FADE_SCREEN_FADE_DURATION = 1;

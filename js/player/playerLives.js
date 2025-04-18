@@ -3,9 +3,11 @@ class PlayerLives {
 	
 	#lives;
 	#additionalLifePointsThreshold;
+	#soundManager;
 
 	constructor(lives) {
 		this.#additionalLifePointsThreshold = this.#getAdditionalLifePointsThreshold();
+		this.#soundManager = FrogGuy.getSoundManager();
 
 		this.setLives(lives);
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getScoreManager().playerScoreChangedEvent.addListener(this.#onPlayerScoreChanged.bind(this));
@@ -55,5 +57,6 @@ class PlayerLives {
 
 		this.addLivesBy(1);
 		this.#onPlayerScoreChanged(score);
+		this.#soundManager.playSoundOfType(SoundType.GainingAdditionalLifeByPlayer);
 	}
 }

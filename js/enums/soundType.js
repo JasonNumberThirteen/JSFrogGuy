@@ -6,5 +6,6 @@ const SoundType = {
 	FallingIntoWaterByPlayer: 4,
 	ReachingFieldDestinationByPlayer: 5,
 	EatingFlyByPlayer: 6,
-	LevelCompletion: 7
+	LevelCompletion: 7,
+	GainingAdditionalLifeByPlayer: 8
 };

@@ -7,6 +7,7 @@ class SoundManager {
 	#reachingFieldDestinationByPlayerSound;
 	#levelCompletionSound;
 	#eatingFlyByPlayerSound;
+	#gainingAdditionalLifeByPlayer;
 
 	constructor() {
 		this.#gameStartSound = new Sound(GAME_START_SOUND_FILENAME, 1.4);
@@ -17,6 +18,7 @@ class SoundManager {
 		this.#reachingFieldDestinationByPlayerSound = new Sound(REACHING_FIELD_DESTINATION_BY_PLAYER_SOUND_FILENAME, 0.5);
 		this.#levelCompletionSound = new Sound(LEVEL_COMPLETION_SOUND_FILENAME, 4.2);
 		this.#eatingFlyByPlayerSound = new Sound(EATING_FLY_BY_PLAYER_SOUND_FILENAME, 0.5);
+		this.#gainingAdditionalLifeByPlayer = new Sound(GAINING_ADDITIONAL_LIFE_BY_PLAYER_SOUND_FILENAME, 1.2);
 	}
 
 	playSoundDependingOnHazardousObjectType(hazardousObjectType) {
@@ -61,6 +63,8 @@ class SoundManager {
 				return this.#eatingFlyByPlayerSound;
 			case SoundType.LevelCompletion:
 				return this.#levelCompletionSound;
+			case SoundType.GainingAdditionalLifeByPlayer:
+				return this.#gainingAdditionalLifeByPlayer;
 		}
 
 		return undefined;
