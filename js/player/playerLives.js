@@ -53,10 +53,14 @@ class PlayerLives {
 			return;
 		}
 
-		this.#additionalLifePointsThreshold += PLAYER_ADDITIONAL_LIFE_POINTS_THRESHOLD;
+		let lives = 0;
 
-		this.addLivesBy(1);
-		this.#onPlayerScoreChanged(score);
+		while (this.#additionalLifePointsThreshold <= score) {
+			this.#additionalLifePointsThreshold += PLAYER_ADDITIONAL_LIFE_POINTS_THRESHOLD;
+			++lives;
+		}
+		
+		this.addLivesBy(lives);
 		this.#soundManager.playSoundOfType(SoundType.GainingAdditionalLifeByPlayer);
 	}
 }

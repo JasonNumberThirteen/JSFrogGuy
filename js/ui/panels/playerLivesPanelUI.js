@@ -2,9 +2,7 @@ class PlayerLivesPanelUI {
 	#group = [];
 	
 	constructor(numberOfSprites) {
-		for (let i = numberOfSprites; i >= 1; --i) {
-			this.#addSpriteToGroup(i);
-		}
+		this.#addSprites(numberOfSprites);
 	}
 
 	draw() {
@@ -17,11 +15,14 @@ class PlayerLivesPanelUI {
 		if(difference > 0) {
 			this.#group.splice(difference - 1, difference);
 		} else if(difference < 0) {
-			this.#group.forEach(sprite => sprite.setX(sprite.getX() + 12));
+			this.#group.forEach(sprite => sprite.setX(sprite.getX() + Math.abs(difference)*12));
+			this.#addSprites(numberOfSprites - this.#group.length);
+		}
+	}
 
-			for (let i = numberOfSprites - this.#group.length; i >= 1; --i) {
-				this.#addSpriteToGroup(i);
-			}
+	#addSprites(numberOfSprites) {
+		for (let i = numberOfSprites; i >= 1; --i) {
+			this.#addSpriteToGroup(i);
 		}
 	}
 
