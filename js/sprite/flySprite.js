@@ -6,7 +6,7 @@ class FlySprite extends Sprite {
 		super(FLY_SPRITE_FILENAME);
 		this.setActive(false);
 
-		this.#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION, true);
+		this.#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION);
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 
 		this.#gameScene.getGameManager().gameWonEvent.addListener(this.#onGameWon.bind(this));

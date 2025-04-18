@@ -12,7 +12,7 @@ class MainMenuScene extends Scene {
 
 	init() {
 		this.#soundManager = FrogGuy.getSoundManager();
-		this.#gameStartTimer = new Timer(this.#soundManager.getSoundOfType(SoundType.GameStart).getDuration());
+		this.#gameStartTimer = new Timer(this.#soundManager.getSoundOfType(SoundType.GameStart).getDuration(), false);
 		this.#panelUI = new MainMenuScenePanelUI();
 
 		this.#addListeners();

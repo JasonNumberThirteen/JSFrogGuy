@@ -2,7 +2,7 @@ class LevelTimer extends Timer {
 	#gameScene;
 
 	constructor() {
-		super(LEVEL_TIME, true);
+		super(LEVEL_TIME);
 		
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 	}

@@ -8,7 +8,7 @@ class TurtleMovingSlicedSprite extends MovingSlicedSprite {
 		this.setCollisionRectangleOffset(new Rectangle(new Point(1, 1), new Point(-2, -2)));
 
 		if(isHiding) {
-			this.#animationTimer = new Timer(TURTLE_HIDING_ANIMATION_STEP_DELAY, true);
+			this.#animationTimer = new Timer(TURTLE_HIDING_ANIMATION_STEP_DELAY);
 
 			this.#animationTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		}

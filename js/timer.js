@@ -9,7 +9,7 @@ class Timer {
 
 	constructor(duration, startImmediately) {
 		duration = duration || 0;
-		startImmediately = startImmediately || false;
+		startImmediately = VariableMethods.variableIsDefined(startImmediately) ? startImmediately : true;
 		
 		if(startImmediately) {
 			this.startTimerWithSetDuration(duration);

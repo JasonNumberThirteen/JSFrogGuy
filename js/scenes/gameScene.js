@@ -16,7 +16,7 @@ class GameScene extends Scene {
 		this.#gameManager = new GameManager();
 		this.#scoreManager = new ScoreManager();
 		this.#soundManager = FrogGuy.getSoundManager();
-		this.#nextSceneLoadTimer = new Timer();
+		this.#nextSceneLoadTimer = new Timer(undefined, false);
 		this.#field = new Field();
 		this.#fieldObjectsContainer = new FieldObjectsContainer();
 		this.#panelUI = new GameScenePanelUI();

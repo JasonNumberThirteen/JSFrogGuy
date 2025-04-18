@@ -8,7 +8,7 @@ class StartGameTextUI extends TextUI {
 
 		this.#initialColor = this.getFillStyle();
 		this.#colorToBlink = ORANGE_COLOR;
-		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY, true);
+		this.#blinkTimer = new Timer(START_GAME_TEXT_UI_BLINK_DELAY);
 
 		this.#blinkTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		FrogGuy.getSceneManager().getSceneByKey(MAIN_MENU_SCENE_NAME_KEY).gameStartedEvent.addListener(this.#onGameStarted.bind(this));
