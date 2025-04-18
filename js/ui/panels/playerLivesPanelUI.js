@@ -16,6 +16,12 @@ class PlayerLivesPanelUI {
 
 		if(difference > 0) {
 			this.#group.splice(difference - 1, difference);
+		} else if(difference < 0) {
+			this.#group.forEach(sprite => sprite.setX(sprite.getX() + 12));
+
+			for (let i = numberOfSprites - this.#group.length; i >= 1; --i) {
+				this.#addSpriteToGroup(i);
+			}
 		}
 	}
 

@@ -25,7 +25,7 @@ class GameScene extends Scene {
 		this.#fieldObjectsContainer.init(this.#field);
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
 		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
-		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
+		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(parameters => this.#onLivesChanged(parameters));
 		this.#gameManager.init();
 		this.#gameManager.frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
 		this.#gameManager.gameWonEvent.addListener(() => this.#onGameStateChanged(false));
@@ -71,8 +71,8 @@ class GameScene extends Scene {
 		return this.#panelUI;
 	}
 
-	#onLivesChanged(lives) {
-		this.#panelUI.getPlayerLivesPanelUI().setNumberOfSprites(lives);
+	#onLivesChanged(parameters) {
+		this.#panelUI.getPlayerLivesPanelUI().setNumberOfSprites(parameters.lives);
 	}
 
 	#onFrogSaved(points) {

@@ -122,8 +122,12 @@ class PlayerSlicedSprite extends SlicedSprite {
 		}
 	}
 
-	#onLivesChanged(lives) {
-		if(lives > 0) {
+	#onLivesChanged(parameters) {
+		if(parameters.numberOfLivesWasIncreased) {
+			return;
+		}
+		
+		if(parameters.lives > 0) {
 			this.#respawn();
 		} else {
 			this.#deactivate();

@@ -1,4 +1,6 @@
 class ScoreManager {
+	playerScoreChangedEvent = new GameEvent();
+	
 	#gameScenePanelUI;
 	
 	increasePlayerScoreBy(points) {
@@ -6,6 +8,7 @@ class ScoreManager {
 		
 		panelUI.getPlayerScoreIntCounterGroupUI().increaseCounterValue(points);
 		panelUI.updateHighScoreIfNeeded();
+		this.playerScoreChangedEvent.invoke(panelUI.getPlayerScoreIntCounterGroupUI().getCounterValue());
 	}
 
 	#getGameScenePanelUI() {

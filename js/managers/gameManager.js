@@ -6,12 +6,14 @@ class GameManager {
 
 	#levelTimer;
 	#closestYToFieldDestinations;
+	#player;
 	#gameIsOver = false;
 	#gameScene;
 
 	init() {
 		this.#levelTimer = new LevelTimer();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+		this.#player = this.#gameScene.getFieldObjectsContainer().getPlayer();
 
 		this.#levelTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
 		this.#resetClosestYToFieldDestinations();
@@ -39,16 +41,15 @@ class GameManager {
 	}
 
 	#addListenersToPlayer() {
-		const player = this.#gameScene.getFieldObjectsContainer().getPlayer();
-		const playerSprite = player.getSprite();
+		const playerSprite = this.#player.getSprite();
 		
 		playerSprite.destinationReachedEvent.addListener(position => this.#onFieldDestinationReached(position));
-		player.getLives().livesChangedEvent.addListener(lives => this.#onLivesChanged(lives));
+		this.#player.getLives().livesChangedEvent.addListener(parameters => this.#onLivesChanged(parameters));
 		playerSprite.playerMovedFromInputEvent.addListener(position => this.#onPlayerMovedFromInput(position));
 	}
 
-	#onLivesChanged(lives) {
-		if(lives <= 0) {
+	#onLivesChanged(parameters) {
+		if(parameters.lives <= 0) {
 			this.#setGameAsOverIfNeeded();
 		}
 	}
