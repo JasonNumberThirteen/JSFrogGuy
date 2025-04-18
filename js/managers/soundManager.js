@@ -13,7 +13,7 @@ class SoundManager {
 		this.#gameOverSound = new Sound(GAME_OVER_SOUND_FILENAME, 1.5);
 		this.#playerMovementSound = new Sound(PLAYER_MOVEMENT_SOUND_FILENAME, 0.2, true);
 		this.#playerHitByVehicleSound = new Sound(PLAYER_HIT_BY_VEHICLE_SOUND_FILENAME, 0.8, true);
-		this.#fallingIntoWaterByPlayerSound = new Sound(FALLING_INTO_WATER_BY_PLAYER_SOUND_FILENAME, 1.7);
+		this.#fallingIntoWaterByPlayerSound = new Sound(FALLING_INTO_WATER_BY_PLAYER_SOUND_FILENAME, 1.5);
 		this.#reachingFieldDestinationByPlayerSound = new Sound(REACHING_FIELD_DESTINATION_BY_PLAYER_SOUND_FILENAME, 0.5);
 		this.#levelCompletionSound = new Sound(LEVEL_COMPLETION_SOUND_FILENAME, 4.2);
 		this.#eatingFlyByPlayerSound = new Sound(EATING_FLY_BY_PLAYER_SOUND_FILENAME, 0.5);
