@@ -5,9 +5,9 @@ class FadeScreenUI {
 	#fadeTimer;
 	#canvasContext;
 
-	constructor(fadeOut, startFadingImmediately) {
-		this.#fadeOut = fadeOut || false;
-		this.#fadeTimer = new Timer(FADE_SCREEN_FADE_DURATION, startFadingImmediately);
+	constructor() {
+		this.#fadeOut = true;
+		this.#fadeTimer = new Timer(FADE_SCREEN_FADE_DURATION);
 
 		this.#fadeTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
