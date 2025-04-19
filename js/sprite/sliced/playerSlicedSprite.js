@@ -4,6 +4,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	
 	#initialPosition;
 	#gameScene;
+	#soundManager;
 	#parentObject;
 	#hazardousPositionCheckTimer;
 	#field;
@@ -16,6 +17,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 
 		this.#initialPosition = this.getPosition();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+		this.#soundManager = FrogGuy.getSoundManager();
 		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY);
 		this.#field = field;
 		this.#player = player;
@@ -94,7 +96,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 	}
 
 	#onIntersectingWithHazardousObject(position) {
-		FrogGuy.getSoundManager().playSoundDependingOnHazardousObjectType(this.#player.getHazardousObjectType(this.#getPositionCollisionRectangle(position)));
+		this.#soundManager.playSoundDependingOnHazardousObjectType(this.#player.getHazardousObjectType(this.#getPositionCollisionRectangle(position)));
 		this.#lives.reduceLivesBy(1);
 	}
 

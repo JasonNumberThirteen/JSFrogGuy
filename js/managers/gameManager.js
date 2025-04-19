@@ -9,10 +9,12 @@ class GameManager {
 	#player;
 	#gameIsOver = false;
 	#gameScene;
+	#soundManager;
 
 	init() {
 		this.#levelTimer = new LevelTimer();
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+		this.#soundManager = FrogGuy.getSoundManager();
 		this.#player = this.#gameScene.getFieldObjectsContainer().getPlayer();
 
 		this.#levelTimer.timerFinishedEvent.addListener(this.#setGameAsOverIfNeeded.bind(this));
@@ -81,7 +83,7 @@ class GameManager {
 		this.#resetClosestYToFieldDestinations();
 		this.#affectLevelTimerDependingOnGameState();
 		this.#checkIfWonGame();
-		FrogGuy.getSoundManager().playSoundOfType(playerIntersectsWithFly ? SoundType.EatingFlyByPlayer : SoundType.ReachingFieldDestinationByPlayer);
+		this.#soundManager.playSoundOfType(playerIntersectsWithFly ? SoundType.EatingFlyByPlayer : SoundType.ReachingFieldDestinationByPlayer);
 	}
 
 	#affectLevelTimerDependingOnGameState() {
@@ -106,7 +108,7 @@ class GameManager {
 	}
 
 	#onPlayerMovedFromInput(position) {
-		FrogGuy.getSoundManager().playSoundOfType(SoundType.PlayerMovement);
+		this.#soundManager.playSoundOfType(SoundType.PlayerMovement);
 		
 		if(position.y >= this.#closestYToFieldDestinations || this.#gameScene.getField().positionIsWithinAreaOfType(position, FieldAreaType.Walkway)) {
 			return;
