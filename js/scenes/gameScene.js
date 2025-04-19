@@ -1,5 +1,6 @@
 class GameScene extends Scene {
 	#gameManager;
+	#levelStateManager;
 	#scoreManager;
 	#soundManager;
 	#nextSceneLoadTimer;
@@ -14,6 +15,7 @@ class GameScene extends Scene {
 
 	init() {
 		this.#gameManager = new GameManager();
+		this.#levelStateManager = this.#gameManager.getLevelStateManager();
 		this.#scoreManager = new ScoreManager();
 		this.#soundManager = FrogGuy.getSoundManager();
 		this.#nextSceneLoadTimer = new Timer(undefined, false);
@@ -28,8 +30,7 @@ class GameScene extends Scene {
 		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(parameters => this.#onLivesChanged(parameters));
 		this.#gameManager.init();
 		this.#gameManager.frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
-		this.#gameManager.gameWonEvent.addListener(() => this.#onGameStateChanged(false));
-		this.#gameManager.gameLostEvent.addListener(() => this.#onGameStateChanged(true));
+		this.#levelStateManager.levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
 		this.#gameManager.closestPositionToFieldDestinationsUpdatedEvent.addListener(this.#onClosestPositionToFieldDestinationsUpdated.bind(this));
 	}
 
@@ -79,7 +80,8 @@ class GameScene extends Scene {
 		this.#scoreManager.increasePlayerScoreBy(points);
 	}
 
-	#onGameStateChanged(gameIsOver) {
+	#onLevelStateChanged(levelState) {
+		const gameIsOver = levelState === LevelState.Over;
 		const soundType = gameIsOver ? SoundType.GameOver : SoundType.LevelCompletion;
 		
 		this.#nextSceneKey = gameIsOver ? MAIN_MENU_SCENE_NAME_KEY : GAME_SCENE_NAME_KEY;

@@ -1,15 +1,17 @@
 class GameManager {
 	frogSavedEvent = new GameEvent();
-	gameWonEvent = new GameEvent();
-	gameLostEvent = new GameEvent();
 	closestPositionToFieldDestinationsUpdatedEvent = new GameEvent();
 
 	#levelTimer;
 	#closestYToFieldDestinations;
 	#player;
-	#gameIsOver = false;
 	#gameScene;
 	#soundManager;
+	#levelStateManager;
+
+	constructor() {
+		this.#levelStateManager = new LevelStateManager();
+	}
 
 	init() {
 		this.#levelTimer = new LevelTimer();
@@ -22,12 +24,16 @@ class GameManager {
 		this.#addListenersToPlayer();
 	}
 
+	getLevelStateManager() {
+		return this.#levelStateManager;
+	}
+
 	getLevelTimer() {
 		return this.#levelTimer;
 	}
 
 	gameIsOver() {
-		return this.#gameIsOver;
+		return this.#levelStateManager.stateIsSetTo(LevelState.Over);
 	}
 	
 	update(deltaTime) {
@@ -99,7 +105,8 @@ class GameManager {
 			return;
 		}
 
-		this.gameWonEvent.invoke();
+		//this.gameWonEvent.invoke();
+		this.#levelStateManager.setStateTo(LevelState.Won);
 		FrogGuy.getData().increaseCurrentLevelNumberBy(1);
 	}
 
@@ -120,13 +127,7 @@ class GameManager {
 	}
 
 	#setGameAsOverIfNeeded() {
-		if(this.#gameIsOver) {
-			return;
-		}
-		
-		this.#gameIsOver = true;
-
-		this.gameLostEvent.invoke();
+		this.#levelStateManager.setStateTo(LevelState.Over);
 	}
 
 	#resetClosestYToFieldDestinations() {

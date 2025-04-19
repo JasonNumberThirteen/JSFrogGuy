@@ -8,15 +8,15 @@ class PlayerInput {
 		new PlayerInputKeyData(PLAYER_RIGHT_MOVEMENT_KEY, new Point(1, 0), 3)
 	];
 	#player;
-	#gameManager;
+	#levelStateManager;
 
 	constructor(player) {
 		this.#player = player;
-		this.#gameManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager();
+		this.#levelStateManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().getLevelStateManager();
 	}
 	
 	processInput(key) {
-		if(!this.#player.isActive() || this.#gameManager.gameIsOver()) {
+		if(!this.#player.isActive() || this.#levelStateManager.stateIsSetTo(LevelState.Over)) {
 			return;
 		}
 

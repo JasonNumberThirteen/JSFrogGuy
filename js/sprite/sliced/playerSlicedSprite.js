@@ -24,7 +24,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#input = this.#player.getInput();
 		this.#lives = this.#player.getLives();
 
-		this.#gameScene.getGameManager().gameWonEvent.addListener(this.#deactivate.bind(this));
+		this.#gameScene.getGameManager().getLevelStateManager().levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#lives.livesChangedEvent.addListener(this.#onLivesChanged.bind(this));
@@ -47,6 +47,12 @@ class PlayerSlicedSprite extends SlicedSprite {
 		const maxX = fieldPosition.x + fieldSize.x - PLAYER_SPRITE_DIMENSIONS.y;
 		
 		this.setX(MathMethods.clamp(this.getX() + speed, fieldPosition.x, maxX));
+	}
+
+	#onLevelStateChanged(levelState) {
+		if(levelState === LevelState.Won) {
+			this.#deactivate();
+		}
 	}
 
 	#onTimerFinished() {
