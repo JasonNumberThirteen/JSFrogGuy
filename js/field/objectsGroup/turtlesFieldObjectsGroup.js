@@ -3,7 +3,7 @@ class TurtlesFieldObjectsGroup extends FieldObjectsGroup {
 		super(FieldObjectsGroupType.Turtles);
 	}
 	
-	rectangleIntersectsWithAnyElement(rectangle) {
+	collisionRectangleIntersectsWithAnyElement(rectangle) {
 		return this.getElements().some(element => !element.isHidden() && rectangle.intersectsWith(element.getCollisionRectangle()));
 	}
 }

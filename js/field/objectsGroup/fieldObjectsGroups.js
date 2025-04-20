@@ -16,7 +16,7 @@ class FieldObjectsGroups {
 	rectangleIntersectsWithGroupOfType(groupType, rectangle) {
 		const group = this.getGroupOfType(groupType);
 
-		return VariableMethods.variableIsDefined(group) && group.rectangleIntersectsWithAnyElement(rectangle);
+		return VariableMethods.variableIsDefined(group) && group.collisionRectangleIntersectsWithAnyElement(rectangle);
 	}
 
 	update(deltaTime) {

@@ -26,7 +26,7 @@ class FieldObjectsGroup {
 		this.#elements.forEach(element => element.draw());
 	}
 
-	rectangleIntersectsWithAnyElement(rectangle) {
+	collisionRectangleIntersectsWithAnyElement(rectangle) {
 		return this.#elements.some(element => rectangle.intersectsWith(element.getCollisionRectangle()));
 	}
 }
