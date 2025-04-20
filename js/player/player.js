@@ -47,9 +47,9 @@ class Player {
 
 	positionIsHazardous(rectangle) {
 		const fieldObjectsGroups = this.#gameScene.getFieldObjectsContainer().getFieldObjectsGroups();
-		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.Water) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
+		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.Water) && !fieldObjectsGroups.collisionRectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.collisionRectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
 		
-		return fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Vehicles, rectangle) || playerIsStandingOnWater;
+		return fieldObjectsGroups.collisionRectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Vehicles, rectangle) || playerIsStandingOnWater;
 	}
 
 	getObjectOnRiverOnPlayerPositionIfPossible() {
@@ -64,8 +64,8 @@ class Player {
 
 	getHazardousObjectType(rectangle) {
 		const fieldObjectsGroups = this.#gameScene.getFieldObjectsContainer().getFieldObjectsGroups();
-		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.Water) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
-		const playerIntersectsWithAnyVehicle = fieldObjectsGroups.rectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Vehicles, rectangle);
+		const playerIsStandingOnWater = this.#field.positionIsWithinAreaOfType(rectangle.getPosition(), FieldAreaType.Water) && !fieldObjectsGroups.collisionRectangleIntersectsWithGroupOfType(FieldObjectsGroupType.WoodenLogs, rectangle) && !fieldObjectsGroups.collisionRectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Turtles, rectangle);
+		const playerIntersectsWithAnyVehicle = fieldObjectsGroups.collisionRectangleIntersectsWithGroupOfType(FieldObjectsGroupType.Vehicles, rectangle);
 
 		if(playerIsStandingOnWater) {
 			return HazardousObjectType.Water;

@@ -13,7 +13,7 @@ class FieldObjectsGroups {
 		return this.#groups.find(group => group.getGroupType() === groupType);
 	}
 
-	rectangleIntersectsWithGroupOfType(groupType, rectangle) {
+	collisionRectangleIntersectsWithGroupOfType(groupType, rectangle) {
 		const group = this.getGroupOfType(groupType);
 
 		return VariableMethods.variableIsDefined(group) && group.collisionRectangleIntersectsWithAnyElement(rectangle);
