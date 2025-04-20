@@ -22,31 +22,25 @@ class FieldArea {
 	}
 
 	getX(offsetInTiles) {
-		const tileWidth = this.getTileWidth();
-		
-		offsetInTiles = offsetInTiles || 0;
-		
-		if(offsetInTiles >= tileWidth) {
-			return undefined;
-		}
-		
-		return this.getPosition().x + offsetInTiles*tileWidth;
+		return this.getPosition(new Point(offsetInTiles, 0)).x;
 	}
 
 	getY(offsetInTiles) {
-		const tileHeight = this.getTileHeight();
-		
-		offsetInTiles = offsetInTiles || 0;
-		
-		if(offsetInTiles >= tileHeight) {
-			return undefined;
-		}
-		
-		return this.getPosition().y + offsetInTiles*tileHeight;
+		return this.getPosition(new Point(0, offsetInTiles)).y;
 	}
 
-	getPosition() {
-		return this.#sprites[0].getPosition();
+	getPosition(offsetInTiles) {
+		const tileSize = this.getTileSize();
+
+		offsetInTiles = offsetInTiles || new Point();
+
+		if(offsetInTiles.x >= tileSize.x || offsetInTiles.y >= tileSize.y) {
+			return undefined;
+		}
+
+		const offsetInPixels = PositionMethods.getMultiplicationOf(offsetInTiles, tileSize);
+		
+		return PositionMethods.getSumOf(this.#sprites[0].getPosition(), offsetInPixels);
 	}
 
 	getWidth() {
