@@ -7,13 +7,15 @@ class Field {
 	#frogLocationFieldArea;
 
 	init() {
+		const widthInTiles = NUMBER_OF_FROG_LOCATIONS*(FROG_LOCATION_SPRITE_DIMENSIONS.x / SINGLE_TILE_DIMENSIONS.x);
+		
 		this.#frogLocationFieldArea = new FrogLocationFieldArea(this, 0, NUMBER_OF_FROG_LOCATIONS);
 		
 		this.#addArea(this.#frogLocationFieldArea);
-		this.#addArea(new WaterFieldArea(this, 1, new Point(NUMBER_OF_FROG_LOCATIONS*3, 5)));
-		this.#addArea(new WalkwayFieldArea(this, 2, new Point(NUMBER_OF_FROG_LOCATIONS*3, 1)));
-		this.#addArea(new StreetFieldArea(this, 3, new Point(NUMBER_OF_FROG_LOCATIONS*3, 5)));
-		this.#addArea(new WalkwayFieldArea(this, 4, new Point(NUMBER_OF_FROG_LOCATIONS*3, 1)));
+		this.#addArea(new TiledFieldArea(this, 1, FieldAreaType.Water, WATER_SPRITE_DIMENSIONS, new Point(widthInTiles, WATER_HEIGHT_IN_TILES)));
+		this.#addArea(new TiledFieldArea(this, 2, FieldAreaType.Walkway, WALKWAY_SPRITE_DIMENSIONS, new Point(widthInTiles, WALKWAY_HEIGHT_IN_TILES)));
+		this.#addArea(new TiledFieldArea(this, 3, FieldAreaType.Street, STREET_SPRITE_DIMENSIONS, new Point(widthInTiles, STREET_HEIGHT_IN_TILES)));
+		this.#addArea(new TiledFieldArea(this, 4, FieldAreaType.Walkway, WALKWAY_SPRITE_DIMENSIONS, new Point(widthInTiles, WALKWAY_HEIGHT_IN_TILES)));
 		this.setPosition(new Point(HALF_OF_GAME_WINDOW_WIDTH - this.#frogLocationFieldArea.getWidth()*0.5, HALF_OF_GAME_WINDOW_HEIGHT - this.getHeight()*0.5));
 	}
 
