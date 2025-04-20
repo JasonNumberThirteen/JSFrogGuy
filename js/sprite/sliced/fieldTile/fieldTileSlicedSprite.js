@@ -9,6 +9,14 @@ class FieldTileSlicedSprite extends SlicedSprite {
 		return this.#offset;
 	}
 
+	setOffsetX(x) {
+		this.#offset.x = x;
+	}
+
+	setOffsetY(y) {
+		this.#offset.y = y;
+	}
+
 	setOffset(offset) {
 		this.#offset = offset;
 	}

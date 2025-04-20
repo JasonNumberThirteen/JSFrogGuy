@@ -90,7 +90,7 @@ class FieldArea {
 	#onAreaAdded(areasList) {
 		const spritesOffsetY = this.#getOffsetY(areasList);
 		
-		this.#sprites.forEach(sprite => sprite.getOffset().y = spritesOffsetY);
+		this.#sprites.forEach(sprite => sprite.setOffsetY(spritesOffsetY));
 	}
 
 	#onPositionChanged(parameters) {
