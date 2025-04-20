@@ -83,8 +83,11 @@ class Player {
 			return new Point();
 		}
 
-		const x = walkwayFieldArea.getX(7);
+		const offsetFromLeftEdgeInTiles = (walkwayFieldArea.getWidthInTiles() - 1)*0.5;
+		const x = walkwayFieldArea.getX(offsetFromLeftEdgeInTiles);
 		const y = walkwayFieldArea.getY();
+
+		console.log(offsetFromLeftEdgeInTiles);
 
 		return new Point(x, y);
 	}
