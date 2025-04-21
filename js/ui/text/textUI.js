@@ -18,17 +18,9 @@ class TextUI {
 	}
 
 	draw() {
-		if(!this.isActive()) {
-			return;
+		if(this.isActive()) {
+			CanvasMethods.fillText(this.#getCanvasContext(), this.#text, this.#position, this.#fillStyle, this.#alignment);
 		}
-		
-		var canvasContext = this.#getCanvasContext();
-		var position = this.#position;
-		
-		canvasContext.fillStyle = this.#fillStyle;
-		canvasContext.textAlign = this.#alignment;
-
-		canvasContext.fillText(this.#text, position.x, position.y);
 	}
 
 	getTextWidth() {
