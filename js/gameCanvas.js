@@ -22,9 +22,8 @@ class GameCanvas {
 	}
 
 	clearScreen(color) {
-		const position = new Point();
 		const size = new Point(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
-		const rectangle = new Rectangle(position, size);
+		const rectangle = new Rectangle(new Point(), size);
 
 		CanvasMethods.fillRect(this.#context, color, rectangle);
 	}
