@@ -3,7 +3,7 @@ class LevelTimerPanelUI {
 	#headerText;
 
 	constructor() {
-		const progressBarUIPosition = new Point(HALF_OF_GAME_WINDOW_WIDTH + 8, GAME_WINDOW_HEIGHT - LEVEL_TIMER_PANEL_UI_HEIGHT - 4);
+		const progressBarUIPosition = new Point(HALF_OF_GAME_WINDOW_WIDTH + 8, GAME_WINDOW_HEIGHT - LEVEL_TIMER_PANEL_UI_HEIGHT - LEVEL_TIMER_PANEL_UI_OFFSET_FROM_BOTTON_SCREEN_EDGE);
 		const progressBarUISize = new Point(LEVEL_TIMER_PANEL_UI_WIDTH, LEVEL_TIMER_PANEL_UI_HEIGHT);
 		const headerTextPosition = new Point(progressBarUIPosition.x + progressBarUISize.x + 4, progressBarUIPosition.y + GAME_FONT_SIZE);
 		
