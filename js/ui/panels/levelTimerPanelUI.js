@@ -7,7 +7,7 @@ class LevelTimerPanelUI {
 		const progressBarUISize = new Point(LEVEL_TIMER_PANEL_UI_WIDTH, LEVEL_TIMER_PANEL_UI_HEIGHT);
 		const headerTextPosition = new Point(progressBarUIPosition.x + progressBarUISize.x + 4, progressBarUIPosition.y + GAME_FONT_SIZE);
 		
-		this.#progressBarUI = new ProgressBarUI(progressBarUIPosition, progressBarUISize, YELLOW_COLOR, REMAINING_TIME_PROGRESS_BAR_UI_BORDER_THICKNESS, LEVEL_TIME, LEVEL_TIME);
+		this.#progressBarUI = new ProgressBarUI(progressBarUIPosition, progressBarUISize, YELLOW_COLOR, LEVEL_TIMER_PANEL_UI_PROGRESS_BAR_BORDER_THICKNESS, LEVEL_TIME, LEVEL_TIME);
 		this.#headerText = new TextUI(TIME_TEXT, headerTextPosition, YELLOW_COLOR, TEXT_ALIGNED_TO_LEFT_KEY);
 	}
 
