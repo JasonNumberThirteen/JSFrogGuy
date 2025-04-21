@@ -1,22 +1,22 @@
 class FieldDestination {
-	#field;
-	#localPosition;
 	#isTaken = false;
+	#localPosition;
 	#savedFrogSprite;
+	#field;
 
 	constructor(localPosition) {
 		this.#localPosition = localPosition;
 		this.#savedFrogSprite = new SavedFrogSprite(this.getPosition());
 	}
 
+	setAsTaken(taken) {
+		this.#isTaken = taken;
+	}
+
 	setLocalPosition(localPosition) {
 		this.#localPosition = localPosition;
 
 		this.#updateSavedFrogPosition();
-	}
-
-	setAsTaken(taken) {
-		this.#isTaken = taken;
 	}
 
 	isTaken() {
@@ -28,7 +28,7 @@ class FieldDestination {
 	}
 
 	getRectangle() {
-		return new Rectangle(this.getPosition(), new Point(8, 8));
+		return new Rectangle(this.getPosition(), SINGLE_TILE_DIMENSIONS);
 	}
 
 	draw() {
@@ -42,7 +42,7 @@ class FieldDestination {
 		
 		this.#field = this.#field || FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getField();
 
-		if(fieldWasUndefined && this.#field) {
+		if(fieldWasUndefined && VariableMethods.variableIsDefined(this.#field)) {
 			this.#field.positionChangedEvent.addListener(this.#onPositionChanged.bind(this));
 		}
 
