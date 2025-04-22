@@ -31,6 +31,8 @@ class FrogLocationFieldTileSlicedSprite extends FieldTileSlicedSprite {
 	}
 
 	#onPositionChanged(position) {
-		this.#destination.setLocalPosition(new Point(position.x + 8, position.y + 8));
+		const localPosition = PositionMethods.getSumOf(position, this.#destination.getLocalPosition());
+		
+		this.#destination.setLocalPosition(localPosition);
 	}
 }

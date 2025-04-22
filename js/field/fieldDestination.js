@@ -24,7 +24,11 @@ class FieldDestination {
 	}
 
 	getPosition() {
-		return PositionMethods.getSumOf(this.#getField().getPosition(), this.#localPosition);
+		return PositionMethods.getSumOf(this.#getField().getPosition(), this.getLocalPosition());
+	}
+
+	getLocalPosition() {
+		return this.#localPosition;
 	}
 
 	getRectangle() {
