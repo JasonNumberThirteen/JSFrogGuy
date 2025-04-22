@@ -27,6 +27,6 @@ class MovingSlicedSprite extends SlicedSprite {
 	}
 
 	update(deltaTime) {
-		this.setX(this.getX() + this.#movementSpeed*this.getMovementDirection()*deltaTime);
+		this.addX(this.#movementSpeed*this.getMovementDirection()*deltaTime);
 	}
 }

@@ -31,6 +31,14 @@ class Sprite {
 	getImage() {
 		return this.#image;
 	}
+	
+	addX(x) {
+		this.#position.x += x;
+	}
+
+	addY(y) {
+		this.#position.y += y;
+	}
 
 	getX() {
 		return this.#position.x;
