@@ -4,7 +4,7 @@ class GameScenePanelUI extends ScenePanelUI {
 	#levelTimerPanelUI;
 	#gameOverTextUI;
 	#bonusPointsTextUI;
-	#gameScene;
+	#gameManager;
 
 	constructor() {
 		super();
@@ -14,23 +14,19 @@ class GameScenePanelUI extends ScenePanelUI {
 		this.#levelTimerPanelUI = new LevelTimerPanelUI();
 		this.#gameOverTextUI = new GameOverTextUI();
 		this.#bonusPointsTextUI = new BonusPointsTextUI();
-		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+		this.#gameManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager();
 	}
 
 	update(deltaTime) {
 		this.#currentLevelTextUI.update(deltaTime);
-		this.#levelTimerPanelUI.setCurrentValue(this.#gameScene.getGameManager().getLevelTimer().getLeftTime());
+		this.#levelTimerPanelUI.setCurrentValue(this.#gameManager.getLevelTimer().getLeftTime());
 		this.#bonusPointsTextUI.update(deltaTime);
 		super.update(deltaTime);
 	}
 
 	draw() {
-		if(this.#gameScene.getGameManager().gameIsOver()) {
-			this.#gameOverTextUI.draw();
-		} else {
-			this.#currentLevelTextUI.draw();
-		}
-		
+		this.#gameOverTextUI.draw();
+		this.#currentLevelTextUI.draw();
 		this.#playerLivesPanelUI.draw();
 		this.#levelTimerPanelUI.draw();
 		this.#bonusPointsTextUI.draw();
