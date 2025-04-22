@@ -30,15 +30,19 @@ class FlySprite extends Sprite {
 
 	#onActiveStateChanged(isActive) {
 		if(isActive) {
-			const availableFrogLocation = ListMethods.getRandomElement(this.#gameScene.getField().getFrogLocationFieldArea().getFreeFrogLocations());
-
-			if(VariableMethods.variableIsDefined(availableFrogLocation)) {
-				const destinationPosition = availableFrogLocation.getDestination().getPosition();
-			
-				this.setPosition(destinationPosition);
-			}
+			this.#setPositionInRandomFreeDestination();
 		}
-
+		
 		this.#appearanceSwitchTimer.startTimerWithSetDuration(isActive ? FLY_APPEARANCE_DURATION : FLY_DISAPPEARANCE_DURATION);
+	}
+
+	#setPositionInRandomFreeDestination() {
+		const field = this.#gameScene.getField();
+		const frogLocationFieldArea = field.getFrogLocationFieldArea();
+		const randomFreeDestination = ListMethods.getRandomElement(frogLocationFieldArea.getFreeFrogLocations());
+
+		if(VariableMethods.variableIsDefined(randomFreeDestination)) {
+			this.setPosition(randomFreeDestination.getDestination().getPosition());
+		}
 	}
 }
