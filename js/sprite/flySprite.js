@@ -1,20 +1,14 @@
 class FlySprite extends Sprite {
 	flyWasEatenByPlayer = new GameEvent();
 	
-	#appearanceSwitchTimer;
-	#gameScene;
-	#gameManager;
-	#levelStateManager;
+	#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION);
+	#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+	#gameManager = this.#gameScene.getGameManager();
+	#levelStateManager = this.#gameScene.getLevelStateManager();
 	
 	constructor() {
 		super(FLY_SPRITE_FILENAME);
 		this.setActive(false);
-
-		this.#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION);
-		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
-		this.#gameManager = this.#gameScene.getGameManager();
-		this.#levelStateManager = this.#gameScene.getLevelStateManager();
-
 		this.#gameManager.fieldDestinationTaken.addListener(this.#onFieldDestinationTaken.bind(this));
 		this.#levelStateManager.levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
 		this.#appearanceSwitchTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));

@@ -1,12 +1,9 @@
 class GameCanvas {
-	#canvas;
-	#context;
+	#canvas = this.#createCanvas();
+	#context = this.#createCanvasContext();
 	#sceneManager;
 
 	constructor() {
-		this.#canvas = this.#createCanvas();
-		this.#context = this.#createCanvasContext();
-
 		document.body.appendChild(this.#canvas);
 	}
 

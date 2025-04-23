@@ -1,13 +1,10 @@
 class BonusPointsTextUI extends TextUI {
-	#displayTimer;
+	#displayTimer = new Timer(BONUS_POINTS_TEXT_UI_DISPLAY_DURATION, false);
 	#flySprite;
 	
 	constructor() {
 		super(EMPTY_STRING, undefined, YELLOW_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
 		this.setActive(false);
-
-		this.#displayTimer = new Timer(BONUS_POINTS_TEXT_UI_DISPLAY_DURATION, false);
-		
 		this.#displayTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
 

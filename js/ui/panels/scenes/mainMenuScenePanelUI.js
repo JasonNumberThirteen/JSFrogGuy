@@ -1,19 +1,9 @@
 class MainMenuScenePanelUI extends ScenePanelUI {
-	#gameLogoSprite;
-	#mainMenuCursorSprite;
-	#startGameTextUI;
-	#creditsTextUI;
-	#gameVersionTextUI;
-
-	constructor() {
-		super();
-		
-		this.#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, undefined, this.#onGameLogoSpriteLoad.bind(this));
-		this.#mainMenuCursorSprite = new MainMenuCursorSprite();
-		this.#startGameTextUI = new StartGameTextUI();
-		this.#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(HALF_OF_GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
-		this.#gameVersionTextUI = new TextUI(GAME_VERSION_TEXT, new Point(GAME_WINDOW_WIDTH - 8, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_RIGHT_KEY);
-	}
+	#gameLogoSprite = new Sprite(GAME_LOGO_SPRITE_FILENAME, undefined, this.#onGameLogoSpriteLoad.bind(this));
+	#mainMenuCursorSprite = new MainMenuCursorSprite();
+	#startGameTextUI = new StartGameTextUI();
+	#creditsTextUI = new TextUI(CREDITS_TEXT, new Point(HALF_OF_GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_CENTER_KEY);
+	#gameVersionTextUI = new TextUI(GAME_VERSION_TEXT, new Point(GAME_WINDOW_WIDTH - 8, GAME_WINDOW_HEIGHT - 8), BLACK_COLOR, TEXT_ALIGNED_TO_RIGHT_KEY);
 
 	update(deltaTime) {
 		this.#mainMenuCursorSprite.update(deltaTime);

@@ -1,19 +1,13 @@
 class Game {
-	#gameCanvas;
-	#gameInput;
-	#gameData;
-	#sceneManager;
-	#soundManager;
+	#gameCanvas = new GameCanvas();
+	#gameInput = new GameInput();
+	#gameData = new GameData();
+	#sceneManager = new SceneManager();
+	#soundManager = new SoundManager();
 	#currentTimeStamp = 0;
 	#previousTimeStamp = 0;
 
 	constructor() {
-		this.#gameCanvas = new GameCanvas();
-		this.#gameInput = new GameInput();
-		this.#gameData = new GameData();
-		this.#sceneManager = new SceneManager();
-		this.#soundManager = new SoundManager();
-
 		this.#gameInput.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#refresh();
 	}

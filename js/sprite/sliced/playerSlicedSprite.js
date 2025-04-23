@@ -1,12 +1,12 @@
 class PlayerSlicedSprite extends SlicedSprite {
 	destinationReachedEvent = new GameEvent();
 	playerMovedFromInputEvent = new GameEvent();
-	
+
+	#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY);
+	#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+	#soundManager = FrogGuy.getSoundManager();
 	#initialPosition;
-	#gameScene;
-	#soundManager;
 	#parentObject;
-	#hazardousPositionCheckTimer;
 	#field;
 	#player;
 	#input;
@@ -16,9 +16,6 @@ class PlayerSlicedSprite extends SlicedSprite {
 		super(PLAYER_SPRITE_SHEET_FILENAME, position, PLAYER_SPRITE_DIMENSIONS);
 
 		this.#initialPosition = this.getPosition();
-		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
-		this.#soundManager = FrogGuy.getSoundManager();
-		this.#hazardousPositionCheckTimer = new Timer(PLAYER_HAZARDOUS_POSITION_CHECK_FREQUENCY);
 		this.#field = field;
 		this.#player = player;
 		this.#input = this.#player.getInput();

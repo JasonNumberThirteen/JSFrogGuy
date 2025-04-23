@@ -1,11 +1,7 @@
 class LevelStateManager {
 	levelStateChangedEvent = new GameEvent();
 	
-	#state;
-
-	constructor() {
-		this.#state = LevelState.Active;
-	}
+	#state = LevelState.Active;
 
 	setStateTo(levelState) {
 		if(this.stateIsSetTo(levelState)) {

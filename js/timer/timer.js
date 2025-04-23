@@ -1,7 +1,7 @@
 class Timer {
 	timerFinishedEvent = new GameEvent();
 	
-	#duration;
+	#duration = 0;
 	#currentTime = 0;
 	#timerWasStarted = false;
 	#timerWasFinished = false;

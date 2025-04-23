@@ -1,5 +1,5 @@
 class MainMenuCursorSprite extends Sprite {
-	#initialX;
+	#initialX = 0;
 	
 	constructor() {
 		super(MAIN_MENU_CURSOR_SPRITE_FILENAME);

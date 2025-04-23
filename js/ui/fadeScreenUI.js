@@ -1,14 +1,11 @@
 class FadeScreenUI {
 	fadeFinishedEvent = new GameEvent();
 	
-	#fadeOut;
-	#fadeTimer;
+	#fadeOut = true;
+	#fadeTimer = new Timer(FADE_SCREEN_FADE_DURATION);
 	#canvasContext;
 
 	constructor() {
-		this.#fadeOut = true;
-		this.#fadeTimer = new Timer(FADE_SCREEN_FADE_DURATION);
-
 		this.#fadeTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 	}
 

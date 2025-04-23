@@ -4,7 +4,7 @@ class MovingSlicedSpritesGroup {
 	#movementSpeed;
 	#moveToRight;
 	#field;
-	#collisionRectangleOffset;
+	#collisionRectangleOffset = new Rectangle();
 
 	constructor(position, movementSpeed, moveToRight) {
 		this.#initialMovementSpeed = movementSpeed;
@@ -13,7 +13,6 @@ class MovingSlicedSpritesGroup {
 
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().fieldDestinationTaken.addListener(this.#onFieldDestinationTaken.bind(this));
-		this.setCollisionRectangleOffset(new Rectangle());
 	}
 
 	getSprites() {

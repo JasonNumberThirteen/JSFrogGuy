@@ -3,15 +3,13 @@ class GameManager {
 	closestPositionToFieldDestinationsUpdatedEvent = new GameEvent();
 
 	#closestYToFieldDestinations;
-	#levelTimer;
-	#gameScene;
+	#levelTimer = new LevelTimer();
+	#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 	#field;
 	#player;
 	#levelStateManager;
 
 	init() {
-		this.#levelTimer = new LevelTimer();
-		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 		this.#field = this.#gameScene.getField();
 		this.#player = this.#gameScene.getFieldObjectsContainer().getPlayer();
 		this.#levelStateManager = this.#gameScene.getLevelStateManager();

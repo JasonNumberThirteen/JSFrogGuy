@@ -1,21 +1,10 @@
 class GameScenePanelUI extends ScenePanelUI {
-	#currentLevelTextUI;
-	#playerLivesPanelUI;
-	#levelTimerPanelUI;
-	#gameOverTextUI;
-	#bonusPointsTextUI;
-	#gameManager;
-
-	constructor() {
-		super();
-		
-		this.#currentLevelTextUI = new CurrentLevelTextUI();
-		this.#playerLivesPanelUI = new PlayerLivesPanelUI(PLAYER_INITIAL_LIVES);
-		this.#levelTimerPanelUI = new LevelTimerPanelUI();
-		this.#gameOverTextUI = new GameOverTextUI();
-		this.#bonusPointsTextUI = new BonusPointsTextUI();
-		this.#gameManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager();
-	}
+	#currentLevelTextUI = new CurrentLevelTextUI();
+	#playerLivesPanelUI = new PlayerLivesPanelUI(PLAYER_INITIAL_LIVES);
+	#levelTimerPanelUI = new LevelTimerPanelUI();
+	#gameOverTextUI = new GameOverTextUI();
+	#bonusPointsTextUI = new BonusPointsTextUI();
+	#gameManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager();
 
 	init() {
 		this.#bonusPointsTextUI.init();

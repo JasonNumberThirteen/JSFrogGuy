@@ -1,14 +1,12 @@
 class Player {
-	#input;
-	#lives;
-	#sprite;
+	#input = new PlayerInput(this);
+	#lives = new PlayerLives(PLAYER_INITIAL_LIVES);
 	#field;
+	#sprite;
 	#gameScene;
 
 	constructor(field) {
 		this.#field = field;
-		this.#input = new PlayerInput(this);
-		this.#lives = new PlayerLives(PLAYER_INITIAL_LIVES);
 		this.#sprite = new PlayerSlicedSprite(this.getInitialPosition(), this, this.#field);
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
 	}

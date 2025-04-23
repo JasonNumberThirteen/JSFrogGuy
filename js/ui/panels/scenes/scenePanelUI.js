@@ -1,13 +1,9 @@
 class ScenePanelUI {
-	#playerScoreIntCounterGroupUI;
-	#highScoreIntCounterGroupUI;
-	#fadeScreenUI;
+	#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
+	#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
+	#fadeScreenUI = new FadeScreenUI();
 
 	constructor() {
-		this.#playerScoreIntCounterGroupUI = new PlayerScoreIntCounterGroupUI();
-		this.#highScoreIntCounterGroupUI = new HighScoreIntCounterGroupUI();
-		this.#fadeScreenUI = new FadeScreenUI();
-
 		this.#setCounterValues();
 	}
 

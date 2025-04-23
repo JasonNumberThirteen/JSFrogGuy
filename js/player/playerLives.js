@@ -1,14 +1,11 @@
 class PlayerLives {
 	livesChangedEvent = new GameEvent();
 	
+	#additionalLifePointsThreshold = this.#getAdditionalLifePointsThreshold();
+	#soundManager = FrogGuy.getSoundManager();
 	#lives;
-	#additionalLifePointsThreshold;
-	#soundManager;
 
 	constructor(lives) {
-		this.#additionalLifePointsThreshold = this.#getAdditionalLifePointsThreshold();
-		this.#soundManager = FrogGuy.getSoundManager();
-
 		this.setLives(lives);
 		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getScoreManager().playerScoreChangedEvent.addListener(this.#onPlayerScoreChanged.bind(this));
 	}
