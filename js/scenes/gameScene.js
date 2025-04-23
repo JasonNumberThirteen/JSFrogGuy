@@ -8,6 +8,8 @@ class GameScene extends Scene {
 	#field;
 	#fieldObjectsContainer;
 	#panelUI;
+	#player;
+	#flySprite;
 
 	constructor() {
 		super(DARK_BLUE_COLOR);
@@ -15,7 +17,7 @@ class GameScene extends Scene {
 
 	init() {
 		this.#gameManager = new GameManager();
-		this.#levelStateManager = this.#gameManager.getLevelStateManager();
+		this.#levelStateManager = new LevelStateManager();
 		this.#scoreManager = new ScoreManager();
 		this.#soundManager = FrogGuy.getSoundManager();
 		this.#nextSceneLoadTimer = new Timer(undefined, false);
@@ -25,13 +27,20 @@ class GameScene extends Scene {
 		
 		this.#field.init();
 		this.#fieldObjectsContainer.init(this.#field);
+
+		this.#player = this.#fieldObjectsContainer.getPlayer();
+		this.#flySprite = this.#fieldObjectsContainer.getFlySprite();
+
 		this.#nextSceneLoadTimer.timerFinishedEvent.addListener(this.#onNextSceneLoadTimerFinished.bind(this));
+		this.#panelUI.init();
 		this.#panelUI.getFadeScreenUI().fadeFinishedEvent.addListener(fadeOut => this.#onFadeFinished(fadeOut));
-		this.#fieldObjectsContainer.getPlayer().getLives().livesChangedEvent.addListener(parameters => this.#onLivesChanged(parameters));
+		this.#player.getLives().livesChangedEvent.addListener(parameters => this.#onLivesChanged(parameters));
+		this.#player.getSprite().playerMovedFromInputEvent.addListener(position => this.#onPlayerMovedFromInput(position));
 		this.#gameManager.init();
-		this.#gameManager.frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
+		this.#gameManager.fieldDestinationTaken.addListener(this.#onFieldDestinationTaken.bind(this));
 		this.#levelStateManager.levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
 		this.#gameManager.closestPositionToFieldDestinationsUpdatedEvent.addListener(this.#onClosestPositionToFieldDestinationsUpdated.bind(this));
+		this.#flySprite.flyWasEatenByPlayer.addListener(this.#onFlyWasEatenByPlayer.bind(this));
 	}
 
 	update(deltaTime) {
@@ -56,6 +65,10 @@ class GameScene extends Scene {
 		return this.#gameManager;
 	}
 
+	getLevelStateManager() {
+		return this.#levelStateManager;
+	}
+
 	getScoreManager() {
 		return this.#scoreManager;
 	}
@@ -76,8 +89,14 @@ class GameScene extends Scene {
 		this.#panelUI.getPlayerLivesPanelUI().setNumberOfSprites(parameters.lives);
 	}
 
-	#onFrogSaved(points) {
-		this.#scoreManager.increasePlayerScoreBy(points);
+	#onFieldDestinationTaken(fieldDestination) {
+		this.#scoreManager.increasePlayerScoreBy(POINTS_FOR_REACHING_FIELD_DESTINATION);
+		this.#soundManager.playSoundOfType(SoundType.ReachingFieldDestinationByPlayer);
+	}
+
+	#onFlyWasEatenByPlayer() {
+		this.#scoreManager.increasePlayerScoreBy(POINTS_FOR_EATING_FLY);
+		this.#soundManager.playSoundOfType(SoundType.EatingFlyByPlayer);
 	}
 
 	#onLevelStateChanged(levelState) {
@@ -95,7 +114,7 @@ class GameScene extends Scene {
 	}
 
 	#onNextSceneLoadTimerFinished() {
-		this.#gameManager.updateGameData(this.#panelUI.getPlayerScoreIntCounterGroupUI().getCounterValue(), this.#panelUI.getHighScoreIntCounterGroupUI().getCounterValue());
+		this.#gameManager.saveScoreData(this.#panelUI.getPlayerScoreIntCounterGroupUI().getCounterValue(), this.#panelUI.getHighScoreIntCounterGroupUI().getCounterValue());
 		this.#startFading();
 	}
 
@@ -110,5 +129,9 @@ class GameScene extends Scene {
 		if(!fadeOut) {
 			FrogGuy.getSceneManager().switchScene(this.#nextSceneKey);
 		}
+	}
+
+	#onPlayerMovedFromInput(position) {
+		this.#soundManager.playSoundOfType(SoundType.PlayerMovement);
 	}
 }

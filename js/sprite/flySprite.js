@@ -1,6 +1,10 @@
 class FlySprite extends Sprite {
+	flyWasEatenByPlayer = new GameEvent();
+	
 	#appearanceSwitchTimer;
 	#gameScene;
+	#gameManager;
+	#levelStateManager;
 	
 	constructor() {
 		super(FLY_SPRITE_FILENAME);
@@ -8,14 +12,29 @@ class FlySprite extends Sprite {
 
 		this.#appearanceSwitchTimer = new Timer(FLY_DISAPPEARANCE_DURATION);
 		this.#gameScene = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY);
+		this.#gameManager = this.#gameScene.getGameManager();
+		this.#levelStateManager = this.#gameScene.getLevelStateManager();
 
-		this.#gameScene.getGameManager().getLevelStateManager().levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
+		this.#gameManager.fieldDestinationTaken.addListener(this.#onFieldDestinationTaken.bind(this));
+		this.#levelStateManager.levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
 		this.#appearanceSwitchTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.activeStateChangedEvent.addListener(isActive => this.#onActiveStateChanged(isActive));
 	}
 
 	update(deltaTime) {
 		this.#appearanceSwitchTimer.update(deltaTime);
+	}
+
+	#onFieldDestinationTaken(fieldDestination) {
+		const fieldDestinationRectangle = fieldDestination.getRectangle();
+		const flyIsStandingOnTheSameFieldDestination = this.isActive() && fieldDestinationRectangle.intersectsWith(this.getRectangle());
+
+		if(!flyIsStandingOnTheSameFieldDestination) {
+			return;
+		}
+
+		this.setActive(false);
+		this.flyWasEatenByPlayer.invoke();
 	}
 
 	#onLevelStateChanged(levelState) {

@@ -24,7 +24,7 @@ class PlayerSlicedSprite extends SlicedSprite {
 		this.#input = this.#player.getInput();
 		this.#lives = this.#player.getLives();
 
-		this.#gameScene.getGameManager().getLevelStateManager().levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
+		this.#gameScene.getLevelStateManager().levelStateChangedEvent.addListener(this.#onLevelStateChanged.bind(this));
 		this.#hazardousPositionCheckTimer.timerFinishedEvent.addListener(this.#onTimerFinished.bind(this));
 		this.#input.keyPressedEvent.addListener(this.#onKeyPressed.bind(this));
 		this.#lives.livesChangedEvent.addListener(this.#onLivesChanged.bind(this));

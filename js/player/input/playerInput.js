@@ -12,7 +12,7 @@ class PlayerInput {
 
 	constructor(player) {
 		this.#player = player;
-		this.#levelStateManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().getLevelStateManager();
+		this.#levelStateManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getLevelStateManager();
 	}
 	
 	processInput(key) {

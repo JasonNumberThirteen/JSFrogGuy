@@ -12,7 +12,7 @@ class MovingSlicedSpritesGroup {
 		this.#moveToRight = moveToRight;
 
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_LEVEL*(FrogGuy.getData().getCurrentLevelNumber() - 1));
-		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().frogSavedEvent.addListener(this.#onFrogSaved.bind(this));
+		FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager().fieldDestinationTaken.addListener(this.#onFieldDestinationTaken.bind(this));
 		this.setCollisionRectangleOffset(new Rectangle());
 	}
 
@@ -87,7 +87,7 @@ class MovingSlicedSpritesGroup {
 		this.#collisionRectangleOffset = offset;
 	}
 
-	#onFrogSaved() {
+	#onFieldDestinationTaken(fieldDestination) {
 		this.#increaseMovementSpeedIfPossibleBy(this.#initialMovementSpeed*OBJECTS_MOVEMENT_SPEED_GROWTH_MULTIPLIER_PER_SAVED_FROG);
 	}
 

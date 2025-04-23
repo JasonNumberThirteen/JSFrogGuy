@@ -17,6 +17,10 @@ class GameScenePanelUI extends ScenePanelUI {
 		this.#gameManager = FrogGuy.getSceneManager().getSceneByKey(GAME_SCENE_NAME_KEY).getGameManager();
 	}
 
+	init() {
+		this.#bonusPointsTextUI.init();
+	}
+
 	update(deltaTime) {
 		this.#currentLevelTextUI.update(deltaTime);
 		this.#levelTimerPanelUI.setCurrentValue(this.#gameManager.getLevelTimer().getLeftTime());
